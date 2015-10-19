@@ -9,6 +9,7 @@ set shiftwidth=2      " number of spaces to use for each step of (auto)indent
 set softtabstop=2     " spaces feel like tabs
 set smartindent       " auto tabs when going to next line
 set modeline
+"set hlsearch          " Highlight search results
 set incsearch
 set autoindent        " always set auto-indenting on
 set copyindent        " copy the previous indentation on auto-indenting
@@ -20,9 +21,17 @@ set scrolloff=3       " keep 3 lines when scrolling
 set sidescrolloff=2   " keep 2 characters when scrolling
 set showmatch         " jumps to next bracket
 set history=1000
-set mouse=            " disable evil mouse
+
+set nobackup          " No swaps or backups
+set noswapfile
+
+" set mouse=            " disable evil mouse
+set mousemodel=popup
+" Disable mouse selection entering the Visual mode
+" But I need mouse=a for scolling to work in tmux
+set mouse=a
 "set number
-"set relativenumber
+set relativenumber
 syntax on
 filetype off
 
@@ -52,6 +61,7 @@ NeoBundle 'ctrlpvim/ctrlp.vim'
 NeoBundle 'postmodern/vim-yard'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'tpope/vim-cucumber'
+NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-git'
 NeoBundle 'tpope/vim-haml'
@@ -59,7 +69,14 @@ NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-rake'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-bundler'
-NeoBundle 'Valloric/YouCompleteMe'
+NeoBundle 'Valloric/YouCompleteMe', {
+     \ 'build'      : {
+        \ 'mac'     : './install.sh --clang-completer --system-libclang --omnisharp-completer',
+        \ 'unix'    : './install.sh --clang-completer --system-libclang --omnisharp-completer',
+        \ 'windows' : './install.sh --clang-completer --system-libclang --omnisharp-completer',
+        \ 'cygwin'  : './install.sh --clang-completer --system-libclang --omnisharp-completer'
+        \ }
+     \ }
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'vim-scripts/AutoTag'
 NeoBundle 'danchoi/ruby_bashrockets.vim'
@@ -88,6 +105,7 @@ set t_vb=
 
 set wildmode=list:longest
 set wildignore+=.hg,.git,.svn                    " Version control
+set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
 set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
 set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
@@ -132,10 +150,7 @@ inoremap <silent> <A-k> <Esc>:m-2<CR>==gi
 vnoremap <silent> <A-j> :m'>+<CR>gv=gv
 vnoremap <silent> <A-k> :m-2<CR>gv=gv
 
-" ; key repeats last search. bind it to ;; so we can use ; as a leader key
-nmap ;; ;<cr>
-
-let mapleader = ";"
+let mapleader = "\<space>"
 let &winwidth = 90
 
 let ruby_operators = 1 " hightlight ruby operators
@@ -144,10 +159,17 @@ let g:rubycomplete_classes_in_global = 1
 
 " Use ag instead of grep
 "   brew install the_silver_searcher
-let g:agprg = 'ag --nogroup'
+set grepprg=ag\ --nogroup\ --nocolor
 let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+let g:ctrlp_root_markers = ['start', 'package.json']
+
+" ag is fast enough that CtrlP doesn't need to cache
 let g:ctrlp_use_caching = 0
-set grepprg=ag\ --vimgrep
+"" Ag
+nnoremap <leader>f :Ag! <C-R><C-W>
+" yank the current visual selection and insert it as the search term
+vnoremap <leader>f y:<C-u>Ag! "<C-r>0"<space>
+nnoremap <C-f> :Ag!<SPACE>
 
 " Show trailing whitespace, but don't highlight the extra whitespace while
 " typing, only after leaving insert
@@ -176,9 +198,29 @@ autocmd BufEnter *.slim set filetype=slim
 " For all text files set 'textwidth' to 78 characters.
 autocmd FileType text setlocal textwidth=78
 
+"*****************************************************************************
+"" Abbreviations
+"*****************************************************************************
+"" no one is really happy until you have this shortcuts
+cnoreabbrev W! w!
+cnoreabbrev Q! q!
+cnoreabbrev Qall! qall!
+cnoreabbrev Wq wq
+cnoreabbrev Wa wa
+cnoreabbrev wQ wq
+cnoreabbrev WQ wq
+cnoreabbrev W w
+cnoreabbrev Q q
+cnoreabbrev Qall qall
+
 " CtrlP
-let g:ctrlp_map = "<leader>t"
+let g:ctrlp_map = "<leader>p"
 let g:ctrlp_root_markers = ['start', 'package.json']
+
+"" Ag
+nnoremap <leader>f :Ag! <C-R><C-W>
+" yank the current visual selection and insert it as the search term
+vnoremap <leader>f y:<C-u>Ag! "<C-r>0"<space>
 
 " Regenerate tags
 "map <leader>rt :!find . -iname *.rb \| xargs ctags --extra=+f
@@ -195,14 +237,42 @@ map <leader>v :vnew <C-R>=expand("%:p:h") . '/'<CR><C-M>
 map <leader>y "+y
 map <leader>p "+p
 
+"*****************************************************************************
+"" Mappings
+"*****************************************************************************
+"" Split
+noremap <Leader>o :<C-u>split<CR>
+noremap <Leader>i :<C-u>vsplit<CR>
+
+"make splits open below and to the right
+set splitbelow
+set splitright
+
 " splitjoin
-nmap <leader>J :SplitjoinJoin<cr>
-nmap <leader>S :SplitjoinSplit<cr>
+" nmap <leader>J :SplitjoinJoin<cr>
+" nmap <leader>S :SplitjoinSplit<cr>
 
 " move over screen lines not buffer lines
 "  helps with long wrapped lines (normal mode only)
 noremap k gk
 noremap j gj
+
+"" Git
+noremap <Leader>ga :Gwrite<CR>
+" Make the default commit binding be verbose
+noremap <Leader>gc :Gcommit -v<CR>
+noremap <Leader>gsh :Gpush<CR>
+noremap <Leader>gll :Gpull<CR>
+noremap <Leader>gs :Gstatus<CR>
+noremap <Leader>gb :Gblame<CR>
+noremap <Leader>gd :Gvdiff<CR>
+noremap <Leader>gr :Gremove<CR>
+" Remap hunk staging etc to not clash with split navigation's <leader>h
+nmap <leader>cs <Plug>GitGutterStageHunk
+nmap <leader>cp <Plug>GitGutterPreviewHunk
+nmap <leader>cr <Plug>GitGutterRevertHunk
+
+noremap ,o :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs open<CR><CR>
 
 " Fix cursor position when using page up and down
 map <PageUp> <C-U>
@@ -212,6 +282,8 @@ imap <PageDown> <C-O><C-D>
 set nostartofline
 
 nmap <silent> <leader>z :set spell!<cr>
+
+nnoremap <silent> <leader><space> :noh<cr>
 
 " => to :, " to ' and add spaces
 function! PrettyHash()
@@ -249,14 +321,14 @@ tnoremap <C-k> <C-\><C-n><C-w>k
 tnoremap <C-l> <C-\><C-n><C-w>l
 
 " move between tabs (alt-h, alt-l)
-nmap è :tabp<CR>
-nmap ì :tabn<CR>
-nmap <M-h> :tabp<CR>
-nmap <M-l> :tabn<CR>
-tnoremap è <C-\><C-n>:tabp<CR>
-tnoremap ì <C-\><C-n>:tabn<CR>
-tnoremap <M-h> <C-\><C-n>:tabp<CR>
-tnoremap <M-l> <C-\><C-n>:tabn<CR>
+" nmap è :tabp<CR>
+" nmap ì :tabn<CR>
+" nmap <M-h> :tabp<CR>
+" nmap <M-l> :tabn<CR>
+" tnoremap è <C-\><C-n>:tabp<CR>
+" tnoremap ì <C-\><C-n>:tabn<CR>
+" tnoremap <M-h> <C-\><C-n>:tabp<CR>
+" tnoremap <M-l> <C-\><C-n>:tabn<CR>
 
 " terminal shortcuts
 tnoremap <Esc> <C-\><C-n>
@@ -267,22 +339,6 @@ tnoremap <C-d> <C-\><C-n><C-d>
 " grep for the word under the cursor
 nnoremap <Leader>w :split <CR> :grep <cword> . <CR>
 
-" set/unset folds with ctrl-space
-nmap <Nul> za
-
-" strip trailing whitespace with F5
-function! <SID>StripTrailingWhitespaces()
-  " Preparation: save last search, and cursor position.
-  let _s=@/
-  let l = line(".")
-  let c = col(".")
-  " Do the business:
-  %s/\s\+$//e
-  " Clean up: restore previous search history, and cursor position
-  let @/=_s
-  call cursor(l, c)
-endfunction
-nnoremap <silent> <F5> :call <SID>StripTrailingWhitespaces()<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Running tests
@@ -295,6 +351,7 @@ function! RunTests(filename)
   :call termopen([&sh, &shcf, "rspec " . a:filename], {'name':'running-tests'})
   :startinsert
 endfunction
+
 
 " Set the spec file that tests will be run for.
 function! SetTestFile()

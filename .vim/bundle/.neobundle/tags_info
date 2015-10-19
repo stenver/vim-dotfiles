@@ -17,6 +17,7 @@ vim-cucumber
 vim-fireplace
 vim-fugitive
 vim-git
+vim-gitgutter
 vim-go
 vim-haml
 vim-javascript
