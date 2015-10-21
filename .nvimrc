@@ -21,7 +21,6 @@ set scrolloff=3       " keep 3 lines when scrolling
 set sidescrolloff=2   " keep 2 characters when scrolling
 set showmatch         " jumps to next bracket
 set history=1000
-
 set nobackup          " No swaps or backups
 set noswapfile
 
@@ -30,15 +29,15 @@ set mousemodel=popup
 " Disable mouse selection entering the Visual mode
 " But I need mouse=a for scolling to work in tmux
 set mouse=a
-"set number
-set relativenumber
+set number
+"set relativenumber
 syntax on
 filetype off
 
 "NeoBundle Scripts-----------------------------
 if has('vim_starting')
-  set runtimepath+=/Users/stenver/.vim/bundle/neobundle.vim/
-  set runtimepath+=/Users/stenver/.vim/
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
+  set runtimepath+=~/.vim/
 endif
 
 " Required:
@@ -48,27 +47,53 @@ call neobundle#begin(expand('/Users/stenver/.vim/bundle'))
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-" Add or remove your Bundles here:
-NeoBundle 'flazz/vim-colorschemes'
-NeoBundle 'slim-template/vim-slim'
-NeoBundle 'clones/vim-l9'
-NeoBundle 'depuracao/vim-rdoc'
-NeoBundle 'ecomba/vim-ruby-refactoring'
-NeoBundle 'godlygeek/tabular'
-NeoBundle 'jgdavey/vim-blockle'
-NeoBundle 'kchmck/vim-coffee-script'
-NeoBundle 'ctrlpvim/ctrlp.vim'
-NeoBundle 'postmodern/vim-yard'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'tpope/vim-cucumber'
-NeoBundle 'airblade/vim-gitgutter'
+" List and open files
+NeoBundle 'jeetsukumaran/vim-filebeagle'
+let g:filebeagle_suppress_keymaps = 1
+map <silent> - <Plug>FileBeagleOpenCurrentBufferDir
+
+" Gstatus, Gmove and other git commands
 NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'tpope/vim-git'
-NeoBundle 'tpope/vim-haml'
+
+" Comment out lines
+NeoBundle 'tpope/vim-commentary'
+
+" Be cool and highlight text
+NeoBundle 'junegunn/limelight.vim'
+
+" Search for files
+NeoBundle 'ctrlpvim/ctrlp.vim'
+
+" Color schemes
+" NeoBundle 'flazz/vim-colorschemes'
+NeoBundle 'tomasr/molokai'
+NeoBundle 'gosukiwi/vim-atom-dark'
+" Enable ansi escape seq colors
+NeoBundle 'vim-scripts/AnsiEsc.vim'
+
+" Bling and stuff. Different status bar things like file path, line number,
+" visible mode status, buffers etc
+NeoBundle 'bling/vim-airline'
+
+" Shows git diff left of the line numbers
+NeoBundle 'airblade/vim-gitgutter'
+
+" Different language packs
+NeoBundle 'sheerun/vim-polyglot'
+NeoBundle 'scrooloose/syntastic'
+NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-rake'
-NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-bundler'
+
+" Use leader-b to make ruby do-end to {} and one liner if possible
+NeoBundle 'jgdavey/vim-blockle'
+
+" use cs'" to change surrounding ' to ". Can take any other combinations as
+" well like cs'<q>, etc
+NeoBundle 'tpope/vim-surround'
+
+" Autocomplete!
 NeoBundle 'Valloric/YouCompleteMe', {
      \ 'build'      : {
         \ 'mac'     : './install.sh --clang-completer --system-libclang --omnisharp-completer',
@@ -77,18 +102,21 @@ NeoBundle 'Valloric/YouCompleteMe', {
         \ 'cygwin'  : './install.sh --clang-completer --system-libclang --omnisharp-completer'
         \ }
      \ }
-NeoBundle 'vim-ruby/vim-ruby'
-NeoBundle 'vim-scripts/AutoTag'
-NeoBundle 'danchoi/ruby_bashrockets.vim'
+
+" gS to split condition statements, gJ to join them 
 NeoBundle 'AndrewRadev/splitjoin.vim'
+
+" Sublime select file. ctrl+n to select, ctrl+x to skip, ctrl+p to go back
 NeoBundle 'terryma/vim-multiple-cursors'
+
+" Use AG
 NeoBundle 'rking/ag.vim'
-NeoBundle 'fatih/vim-go'
-NeoBundle 'tpope/vim-fireplace'
-NeoBundle 'guns/vim-clojure-static'
-NeoBundle 'solars/github-vim'
-NeoBundle 'mxw/vim-jsx'
-NeoBundle 'pangloss/vim-javascript'
+
+" Camelcase for moving in camelcase code
+NeoBundle 'bkad/CamelCaseMotion'
+
+" Test plugin
+NeoBundle 'janko-m/vim-test'
 
 " Required:
 call neobundle#end()
@@ -98,6 +126,80 @@ filetype plugin indent on
 " this will conveniently prompt you to install them.
 NeoBundleCheck
 "End NeoBundle Scripts-------------------------
+
+"*****************************************************************************
+"" CONFIGURATIONS
+"*****************************************************************************
+
+" Some color scheme stuff
+if !exists('g:not_finsh_neobundle')
+  colorscheme molokai
+endif
+
+set t_Co=256
+set nocursorline
+set guioptions=egmrti
+set gfn=Monospace\ 10
+
+if has("gui_running")
+  if has("gui_mac") || has("gui_macvim")
+    set guifont=Menlo:h12
+    set transparency=7
+  endif
+else
+  let g:CSApprox_loaded = 1
+
+  if $COLORTERM == 'gnome-terminal'
+    set term=gnome-256color
+  else
+    if $TERM == 'xterm'
+      set term=xterm-256color
+    endif
+  endif
+endif
+
+if &term =~ '256color'
+  set t_ut=
+endif
+" let g:molokai_original = 1
+
+" vim-airline
+let g:airline_theme = 'powerlineish'
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+if !exists('g:airline_powerline_fonts')
+  let g:airline#extensions#tabline#left_sep = ' '
+  let g:airline#extensions#tabline#left_alt_sep = '|'
+else
+  let g:airline#extensions#tabline#left_sep = ''
+  let g:airline#extensions#tabline#left_alt_sep = ''
+
+  " powerline symbols
+  let g:airline_left_sep = ''
+  let g:airline_left_alt_sep = ''
+  let g:airline_right_sep = ''
+  let g:airline_right_alt_sep = ''
+  let g:airline_symbols.branch = ''
+  let g:airline_symbols.readonly = ''
+  let g:airline_symbols.linenr = ''
+endif
+
+
+" syntastic
+let g:syntastic_always_populate_loc_list=1
+let g:syntastic_error_symbol='✗'
+let g:syntastic_warning_symbol='⚠'
+let g:syntastic_style_error_symbol = '✗'
+let g:syntastic_style_warning_symbol = '⚠'
+let g:syntastic_auto_loc_list=1
+let g:syntastic_aggregate_errors = 1
+let g:syntastic_html_tidy_ignore_errors=["proprietary attribute"]
 
 " Disable sounds in mac
 set visualbell
@@ -125,6 +227,7 @@ set wildignore+=node_modules
 set foldlevel=100
 set foldmethod=indent
 set foldlevelstart=99
+set ignorecase
 set smartcase         " case sensitive
 set pastetoggle=<F11>
 set winminheight=0    " minimal window height
@@ -141,16 +244,6 @@ set statusline+=0x%-8B          " character value
 set statusline+=%-14(%l,%c%V%)  " line, character
 set statusline+=%<%P            " file position
 
-" Move line(s) of text using Alt+j/k
-"set termencoding=latin1
-nnoremap <silent> <A-j> :m+<CR>==
-nnoremap <silent> <A-k> :m-2<CR>==
-inoremap <silent> <A-j> <Esc>:m+<CR>==gi
-inoremap <silent> <A-k> <Esc>:m-2<CR>==gi
-vnoremap <silent> <A-j> :m'>+<CR>gv=gv
-vnoremap <silent> <A-k> :m-2<CR>gv=gv
-
-let mapleader = "\<space>"
 let &winwidth = 90
 
 let ruby_operators = 1 " hightlight ruby operators
@@ -165,11 +258,45 @@ let g:ctrlp_root_markers = ['start', 'package.json']
 
 " ag is fast enough that CtrlP doesn't need to cache
 let g:ctrlp_use_caching = 0
-"" Ag
-nnoremap <leader>f :Ag! <C-R><C-W>
-" yank the current visual selection and insert it as the search term
-vnoremap <leader>f y:<C-u>Ag! "<C-r>0"<space>
-nnoremap <C-f> :Ag!<SPACE>
+
+"*****************************************************************************
+"" Autocmd Rules
+"*****************************************************************************
+" TODO what is this shit here
+"" The PC is fast enough, do syntax highlight syncing from start
+augroup vimrc-sync-fromstart
+  autocmd!
+  autocmd BufEnter * :syntax sync fromstart
+augroup END
+
+"" Remember cursor position
+augroup vimrc-remember-cursor-position
+  autocmd!
+  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+augroup END
+
+"" txt
+augroup vimrc-wrapping
+  autocmd!
+  autocmd BufRead,BufNewFile *.txt call s:setupWrapping()
+augroup END
+
+"" make/cmake
+augroup vimrc-make-cmake
+  autocmd!
+  autocmd FileType make setlocal noexpandtab
+  autocmd BufNewFile,BufRead CMakeLists.txt setlocal filetype=cmake
+augroup END
+
+"" js/coffee/html
+augroup vimrc-js
+  autocmd!
+  autocmd FileType coffee setlocal tabstop=4 softtabstop=2 shiftwidth=2 expandtab
+  autocmd FileType javascript setlocal tabstop=4 softtabstop=2 shiftwidth=2 expandtab
+  autocmd FileType html setlocal tabstop=4 softtabstop=2 shiftwidth=2 expandtab
+augroup END
+
+set autoread
 
 " Show trailing whitespace, but don't highlight the extra whitespace while
 " typing, only after leaving insert
@@ -178,9 +305,6 @@ autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
 autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd InsertLeave * match ExtraWhitespace /\s\+$/
-
-" Don't make a # force column zero.
-inoremap # X<BS>#
 
 " FILE TYPES / SYNTAX
 source $VIMRUNTIME/filetype.vim
@@ -213,33 +337,58 @@ cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev Qall qall
 
-" CtrlP
-let g:ctrlp_map = "<leader>p"
-let g:ctrlp_root_markers = ['start', 'package.json']
+"*****************************************************************************
+"" Mappings
+"*****************************************************************************
+let mapleader = "\<space>"
 
 "" Ag
 nnoremap <leader>f :Ag! <C-R><C-W>
 " yank the current visual selection and insert it as the search term
 vnoremap <leader>f y:<C-u>Ag! "<C-r>0"<space>
+nnoremap <C-f> :Ag!<SPACE>
+
+" CtrlP
+let g:ctrlp_map = "<leader>p"
+let g:ctrlp_root_markers = ['start', 'package.json']
+
+" Don't make a # force column zero.
+inoremap # X<BS>#
 
 " Regenerate tags
+" TODO what is this shit here
 "map <leader>rt :!find . -iname *.rb \| xargs ctags --extra=+f
-"map <leader>rt :!ctags --extra=+f --languages=-javascript --exclude=.git --exclude=log -R * `rvm gemdir`/gems/*<CR><C-M>
-map <leader>rt :!ctags --extra=+f --languages=-javascript --exclude=.git --exclude=log,tmp -R *<CR><C-M>
+"tap <leader>rt :!ctags --extra=+f --languages=-javascript --exclude=.git --exclude=log -R * `rvm gemdir`/gems/*<CR><C-M>
+" map <leader>rt :!ctags --extra=+f --languages=-javascript --exclude=.git --exclude=log,tmp -R *<CR><C-M>
 
 " Edit another file in the same directory as the current file
+" TODO what is this shit here
 " uses expression to extract path from current file's path
-map <leader>e :e <C-R>=expand("%:p:h") . '/'<CR><C-M>
-map <leader>s :split <C-R>=expand("%:p:h") . '/'<CR><C-M>
-map <leader>v :vnew <C-R>=expand("%:p:h") . '/'<CR><C-M>
+" map <leader>e :e <C-R>=expand("%:p:h") . '/'<CR><C-M>
+" map <leader>s :split <C-R>=expand("%:p:h") . '/'<CR><C-M>
+" map <leader>v :vnew <C-R>=expand("%:p:h") . '/'<CR><C-M>
 
 " Copy/paste from system clipboard
 map <leader>y "+y
 map <leader>p "+p
 
-"*****************************************************************************
-"" Mappings
-"*****************************************************************************
+" Move line(s) of text using Alt+j/k
+"set termencoding=latin1
+nnoremap <silent> <A-j> :m+<CR>==
+nnoremap <silent> <A-k> :m-2<CR>==
+inoremap <silent> <A-j> <Esc>:m+<CR>==gi
+inoremap <silent> <A-k> <Esc>:m-2<CR>==gi
+vnoremap <silent> <A-j> :m'>+<CR>gv=gv
+vnoremap <silent> <A-k> :m-2<CR>gv=gv
+
+"" Limelight
+nmap <silent> <leader>m :Limelight!!<CR>
+vmap <silent> <leader>m :Limelight!!<CR>
+
+"" Vmap for maintain Visual Mode after shifting > and <
+vmap < <gv
+vmap > >gv
+
 "" Split
 noremap <Leader>o :<C-u>split<CR>
 noremap <Leader>i :<C-u>vsplit<CR>
@@ -247,10 +396,6 @@ noremap <Leader>i :<C-u>vsplit<CR>
 "make splits open below and to the right
 set splitbelow
 set splitright
-
-" splitjoin
-" nmap <leader>J :SplitjoinJoin<cr>
-" nmap <leader>S :SplitjoinSplit<cr>
 
 " move over screen lines not buffer lines
 "  helps with long wrapped lines (normal mode only)
@@ -273,6 +418,14 @@ nmap <leader>cp <Plug>GitGutterPreviewHunk
 nmap <leader>cr <Plug>GitGutterRevertHunk
 
 noremap ,o :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs open<CR><CR>
+
+
+" " session management
+" TODO learn this shit
+" nnoremap <leader>so :OpenSession
+" nnoremap <leader>ss :SaveSession
+" nnoremap <leader>sd :DeleteSession<CR>
+" nnoremap <leader>sc :CloseSession<CR>
 
 " Fix cursor position when using page up and down
 map <PageUp> <C-U>
@@ -311,7 +464,9 @@ vnoremap <silent> <A-j> :m'>+<CR>gv=gv
 vnoremap <silent> <A-k> :m-2<CR>gv=gv
 
 " move between several split windows
-nmap <C-H> <C-W>h
+" johaiidiii. Make backspace act like ctrl+h https://github.com/neovim/neovim/issues/2048#issuecomment-77010340
+" nmap <C-H> <C-W>h
+nmap <bs> <C-W>h
 nmap <C-J> <C-W>j
 nmap <C-K> <C-W>k
 nmap <C-L> <C-W>l
@@ -353,31 +508,50 @@ function! RunTests(filename)
 endfunction
 
 
-" Set the spec file that tests will be run for.
-function! SetTestFile()
-  let t:grb_test_file=@%
-endfunction
+" " Set the spec file that tests will be run for.
+" function! SetTestFile()
+"   let t:grb_test_file=@%
+" endfunction
 
-function! RunTestFile(...)
-  if a:0
-    let command_suffix = a:1
-  else
-    let command_suffix = ""
-  endif
+" function! RunTestFile(...)
+"   if a:0
+"     let command_suffix = a:1
+"   else
+"     let command_suffix = ""
+"   endif
 
-  " Run the tests for the previously-marked file.
-  let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\)$') != -1
-  if in_test_file
-    call SetTestFile()
-  elseif !exists("t:grb_test_file")
-    return
-  end
-  call RunTests(t:grb_test_file . command_suffix)
-endfunction
+  " " Run the tests for the previously-marked file.
+  " let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\)$') != -1
+  " if in_test_file
+  "   call SetTestFile()
+  " elseif !exists("t:grb_test_file")
+  "   return
+  " end
+  " call RunTests(t:grb_test_file . command_suffix)
+" endfunction
 
-map <leader>c :call RunTestFile()<cr>
-map <leader>x :bd! running-tests<cr>
+" map <leader>c :call RunTestFile()<cr>
+" map <leader>x :bd! running-tests<cr>
 
-" nice colorscheme
-set background=dark
-colorscheme my
+"" Run tests in a neovim or tmux split
+nmap <silent> <leader>r :TestNearest<CR>
+nmap <silent> <leader>R :TestFile<CR>
+nmap <silent> <leader>ta :TestSuite<CR>
+nmap <silent> <leader>tl :TestLast<CR>
+nmap <silent> <leader>tg :TestVisit<CR>
+if has('nvim')
+  function! NeovimSplit(cmd)
+  :w
+  :split
+  :enew
+  :call termopen([&sh, &shcf, a:cmd])
+  :startinsert
+  endfunction
+
+  let g:test#custom_strategies = {'neovim_split': function('NeovimSplit')}
+  let g:test#strategy = 'neovim_split'
+  " Use <esc> to get to normal mode in the terminal split
+  tnoremap <esc> <C-\><C-n>
+else
+  let g:test#strategy = 'vimux'
+endif
