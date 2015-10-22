@@ -40,6 +40,29 @@ if has('vim_starting')
   set runtimepath+=~/.vim/
 endif
 
+
+let neobundle_readme=expand('~/.nvim/bundle/neobundle.vim/README.md')
+
+if !filereadable(neobundle_readme)
+  echo "Installing NeoBundle..."
+  echo ""
+  silent !mkdir -p ~/.nvim/bundle
+  silent !git clone https://github.com/Shougo/neobundle.vim ~/.nvim/bundle/neobundle.vim/
+  let g:not_finsh_neobundle = "yes"
+
+  " Run shell script if exist on custom select language
+
+  silent !\curl -sSL https://raw.githubusercontent.com/avelino/vim-bootstrap/master/vim_template/langs/go/go.sh | bash -s stable
+
+  silent !\curl -sSL https://raw.githubusercontent.com/avelino/vim-bootstrap/master/vim_template/langs/javascript/javascript.sh | bash -s stable
+
+  silent !\curl -sSL https://raw.githubusercontent.com/avelino/vim-bootstrap/master/vim_template/langs/ruby/ruby.sh | bash -s stable
+
+  silent !\curl -sSL https://raw.githubusercontent.com/avelino/vim-bootstrap/master/vim_template/langs/html/html.sh | bash -s stable
+
+endif
+
+
 " Required:
 call neobundle#begin(expand('/Users/stenver/.vim/bundle'))
 
@@ -67,9 +90,16 @@ NeoBundle 'ctrlpvim/ctrlp.vim'
 " Color schemes
 " NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'tomasr/molokai'
-NeoBundle 'gosukiwi/vim-atom-dark'
+" NeoBundle 'gosukiwi/vim-atom-dark'
 " Enable ansi escape seq colors
 NeoBundle 'vim-scripts/AnsiEsc.vim'
+NeoBundle 'vim-scripts/CSApprox' " Needed by git blame
+
+"" Vim-Bootstrap Updater
+NeoBundle 'sherzberg/vim-bootstrap-updater'
+
+let g:vim_bootstrap_langs = "javascript,ruby,html,go"
+let g:vim_bootstrap_editor = "nvim"       " nvim or vim
 
 " Bling and stuff. Different status bar things like file path, line number,
 " visible mode status, buffers etc
