@@ -148,6 +148,9 @@ NeoBundle 'bkad/CamelCaseMotion'
 " Test plugin
 NeoBundle 'janko-m/vim-test'
 
+" c-tags
+NeoBundle 'ludovicchabant/vim-gutentags'
+
 " Required:
 call neobundle#end()
 filetype plugin indent on
@@ -170,6 +173,10 @@ set t_Co=256
 set nocursorline
 set guioptions=egmrti
 set gfn=Monospace\ 10
+
+if exists("*gutentags#statusline")
+  set statusline+=%{gutentags#statusline()}
+endif
 
 if has("gui_running")
   if has("gui_mac") || has("gui_macvim")
@@ -501,6 +508,13 @@ tnoremap <C-d> <C-\><C-n><C-d>
 " grep for the word under the cursor
 nnoremap <Leader>w :split <CR> :grep <cword> . <CR>
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Tags
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:gutentags_project_root = ['package.json', 'Brocfile.js', 'Capfile', 'Rakefile', 'bower.json', '.ruby-version', 'Gemfile']
+
+noremap <leader>t :CtrlPTag<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Running tests

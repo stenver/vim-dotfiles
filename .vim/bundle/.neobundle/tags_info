@@ -1,4 +1,5 @@
 AnsiEsc.vim
+CSApprox
 CamelCaseMotion
 YouCompleteMe
 ag.vim
@@ -9,14 +10,15 @@ neobundle.vim
 splitjoin.vim
 syntastic
 vim-airline
-vim-atom-dark
 vim-blockle
+vim-bootstrap-updater
 vim-bundler
 vim-coffee-script
 vim-commentary
 vim-filebeagle
 vim-fugitive
 vim-gitgutter
+vim-gutentags
 vim-multiple-cursors
 vim-polyglot
 vim-rails

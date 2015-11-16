@@ -6,11 +6,12 @@ Contents ~
  1. Introduction                                   |youcompleteme-introduction|
  2. Intro                                                 |youcompleteme-intro|
  3. Installation                                   |youcompleteme-installation|
-  1. Mac OS X super-quick installation |youcompleteme-mac-os-x-super-quick-installation|
-  2. Ubuntu Linux x64 super-quick installation |youcompleteme-ubuntu-linux-x64-super-quick-installation|
-  3. Windows Installation                  |youcompleteme-windows-installation|
-  4. FreeBSD/OpenBSD Installation  |youcompleteme-freebsd-openbsd-installation|
-  5. Full Installation Guide            |youcompleteme-full-installation-guide|
+  1. Mac OS X Installation                |youcompleteme-mac-os-x-installation|
+  2. Ubuntu Linux x64 Installation |youcompleteme-ubuntu-linux-x64-installation|
+  3. Fedora Linux x64 Installation |youcompleteme-fedora-linux-x64-installation|
+  4. Windows Installation                  |youcompleteme-windows-installation|
+  5. FreeBSD/OpenBSD Installation  |youcompleteme-freebsd-openbsd-installation|
+  6. Full Installation Guide            |youcompleteme-full-installation-guide|
  4. Quick Feature Summary                 |youcompleteme-quick-feature-summary|
   1. General (all languages)                            |youcompleteme-general|
   2. C-family languages (C, C++, Objective C, Objective C++) |youcompleteme-c-family-languages|
@@ -37,21 +38,22 @@ Contents ~
   5. The |:YcmDebugInfo| command
   6. The |:YcmCompleter| command
  7. YcmCompleter subcommands           |youcompleteme-ycmcompleter-subcommands|
-  1. The |GoToDeclaration| subcommand
-  2. The |GoToDefinition| subcommand
-  3. The |GoTo| subcommand
-  4. The |GoToImprecise| subcommand
-  5. The |ClearCompilationFlagCache| subcommand
-  6. The |GetType| subcommand
-  7. The |GetParent| subcommand
-  8. The |FixIt| subcommand
-  9. The |GetDoc| subcommand
-  10. The |StartServer| subcommand
-  11. The |StopServer| subcommand
-  12. The |RestartServer| subcommand
-  13. The |ReloadSolution| subcommand
-  14. The |GoToImplementation| subcommand
-  15. The |GoToImplementationElseDeclaration| subcommand
+  1. The |GoToInclude| subcommand
+  2. The |GoToDeclaration| subcommand
+  3. The |GoToDefinition| subcommand
+  4. The |GoTo| subcommand
+  5. The |GoToImprecise| subcommand
+  6. The |ClearCompilationFlagCache| subcommand
+  7. The |GetType| subcommand
+  8. The |GetParent| subcommand
+  9. The |FixIt| subcommand
+  10. The |GetDoc| subcommand
+  11. The |StartServer| subcommand
+  12. The |StopServer| subcommand
+  13. The |RestartServer| subcommand
+  14. The |ReloadSolution| subcommand
+  15. The |GoToImplementation| subcommand
+  16. The |GoToImplementationElseDeclaration| subcommand
  8. Options                                             |youcompleteme-options|
   1. The |g:ycm_min_num_of_chars_for_completion| option
   2. The |g:ycm_min_num_identifier_candidate_chars| option
@@ -75,30 +77,29 @@ Contents ~
   20. The |g:ycm_seed_identifiers_with_syntax| option
   21. The |g:ycm_extra_conf_vim_data| option
   22. The |g:ycm_path_to_python_interpreter| option
-  23. The |g:ycm_server_use_vim_stdout| option
-  24. The |g:ycm_server_keep_logfiles| option
-  25. The |g:ycm_server_log_level| option
-  26. The |g:ycm_auto_start_csharp_server| option
-  27. The |g:ycm_auto_stop_csharp_server| option
-  28. The |g:ycm_csharp_server_port| option
-  29. The |g:ycm_csharp_insert_namespace_expr| option
-  30. The |g:ycm_add_preview_to_completeopt| option
-  31. The |g:ycm_autoclose_preview_window_after_completion| option
-  32. The |g:ycm_autoclose_preview_window_after_insertion| option
-  33. The |g:ycm_max_diagnostics_to_display| option
-  34. The |g:ycm_key_list_select_completion| option
-  35. The |g:ycm_key_list_previous_completion| option
-  36. The |g:ycm_key_invoke_completion| option
-  37. The |g:ycm_key_detailed_diagnostics| option
-  38. The |g:ycm_global_ycm_extra_conf| option
-  39. The |g:ycm_confirm_extra_conf| option
-  40. The |g:ycm_extra_conf_globlist| option
-  41. The |g:ycm_filepath_completion_use_working_dir| option
-  42. The |g:ycm_semantic_triggers| option
-  43. The |g:ycm_cache_omnifunc| option
-  44. The |g:ycm_use_ultisnips_completer| option
-  45. The |g:ycm_goto_buffer_command| option
-  46. The |g:ycm_disable_for_files_larger_than_kb| option
+  23. The |g:ycm_server_keep_logfiles| option
+  24. The |g:ycm_server_log_level| option
+  25. The |g:ycm_auto_start_csharp_server| option
+  26. The |g:ycm_auto_stop_csharp_server| option
+  27. The |g:ycm_csharp_server_port| option
+  28. The |g:ycm_csharp_insert_namespace_expr| option
+  29. The |g:ycm_add_preview_to_completeopt| option
+  30. The |g:ycm_autoclose_preview_window_after_completion| option
+  31. The |g:ycm_autoclose_preview_window_after_insertion| option
+  32. The |g:ycm_max_diagnostics_to_display| option
+  33. The |g:ycm_key_list_select_completion| option
+  34. The |g:ycm_key_list_previous_completion| option
+  35. The |g:ycm_key_invoke_completion| option
+  36. The |g:ycm_key_detailed_diagnostics| option
+  37. The |g:ycm_global_ycm_extra_conf| option
+  38. The |g:ycm_confirm_extra_conf| option
+  39. The |g:ycm_extra_conf_globlist| option
+  40. The |g:ycm_filepath_completion_use_working_dir| option
+  41. The |g:ycm_semantic_triggers| option
+  42. The |g:ycm_cache_omnifunc| option
+  43. The |g:ycm_use_ultisnips_completer| option
+  44. The |g:ycm_goto_buffer_command| option
+  45. The |g:ycm_disable_for_files_larger_than_kb| option
  9. FAQ                                                     |youcompleteme-faq|
   1. I used to be able to 'import vim' in '.ycm_extra_conf.py', but now can't |import-vim|
   2. On very rare occasions Vim crashes when I tab through the completion menu |youcompleteme-on-very-rare-occasions-vim-crashes-when-i-tab-through-completion-menu|
@@ -143,6 +144,7 @@ Image: Build Status [1] Image: Build status [3]
 
   - Mac OS X
   - Ubuntu
+  - Fedora
   - Windows
   - FreeBSD/OpenBSD
   - Full Installation Guide
@@ -258,8 +260,8 @@ and a completer that integrates with UltiSnips [13].
 Installation ~
 
 -------------------------------------------------------------------------------
-                              *youcompleteme-mac-os-x-super-quick-installation*
-Mac OS X super-quick installation ~
+                                          *youcompleteme-mac-os-x-installation*
+Mac OS X Installation ~
 
 Please refer to the full Installation Guide below; the following commands are
 provided on a best-effort basis and may not work for you.
@@ -315,8 +317,8 @@ look at what's available for configuration. There are a few interesting options
 that are conservatively turned off by default that you may want to turn on.
 
 -------------------------------------------------------------------------------
-                      *youcompleteme-ubuntu-linux-x64-super-quick-installation*
-Ubuntu Linux x64 super-quick installation ~
+                                  *youcompleteme-ubuntu-linux-x64-installation*
+Ubuntu Linux x64 Installation ~
 
 Please refer to the full Installation Guide below; the following commands are
 provided on a best-effort basis and may not work for you.
@@ -337,6 +339,54 @@ Install development tools and CMake: 'sudo apt-get install build-essential
 cmake'
 
 Make sure you have Python headers installed: 'sudo apt-get install python-dev'.
+
+Compiling YCM **with** semantic support for C-family languages:
+>
+  cd ~/.vim/bundle/YouCompleteMe
+  ./install.py --clang-completer
+<
+Compiling YCM **without** semantic support for C-family languages:
+>
+  cd ~/.vim/bundle/YouCompleteMe
+  ./install.py
+<
+If you want semantic C# support, you should add '--omnisharp-completer' to the
+install script as well. If you want Go support, you should add '--gocode-
+completer'. If you want semantic TypeScript support, install the TypeScript SDK
+with 'npm install -g typescript' (you'll need to install nodejs and npm [18]).
+
+That's it. You're done. Refer to the _User Guide_ section on how to use YCM.
+Don't forget that if you want the C-family semantic completion engine to work,
+you will need to provide the compilation flags for your project to YCM. It's
+all in the User Guide.
+
+YCM comes with sane defaults for its options, but you still may want to take a
+look at what's available for configuration. There are a few interesting options
+that are conservatively turned off by default that you may want to turn on.
+
+-------------------------------------------------------------------------------
+                                  *youcompleteme-fedora-linux-x64-installation*
+Fedora Linux x64 Installation ~
+
+Please refer to the full Installation Guide below; the following commands are
+provided on a best-effort basis and may not work for you.
+
+Make sure you have Vim 7.3.598 with python2 support. Fedora 21 and later have a
+Vim that's recent enough. You can see the version of Vim installed by running
+'vim --version'. If the version is too old, you may need to compile Vim from
+source [19] (don't worry, it's easy).
+
+Install YouCompleteMe with Vundle [15].
+
+**Remember:** YCM is a plugin with a compiled component. If you **update** YCM
+using Vundle and the ycm_support_libs library APIs have changed (happens
+rarely), YCM will notify you to recompile it. You should then rerun the install
+process.
+
+Install development tools and CMake: 'sudo dnf install automake gcc gcc-c++
+kernel-devel cmake'
+
+Make sure you have Python headers installed: 'sudo dnf install python-devel'.
 
 Compiling YCM **with** semantic support for C-family languages:
 >
@@ -671,7 +721,7 @@ C-family languages (C, C++, Objective C, Objective C++) ~
 
 - Semantic auto-completion
 - Real-time diagnostic display
-- Go to declaration/definition (|GoTo|, etc.)
+- Go to include/declaration/definition (|GoTo|, etc.)
 - Semantic type information for identifiers (|GetType|)
 - Automatically fix certain errors (|FixIt|)
 - View documentation comments for identifiers (|GetDoc|)
@@ -1064,6 +1114,13 @@ The various 'GoTo*' subcommands add entries to Vim's 'jumplist' so you can use
 'CTRL-I' to jump forward; see ':h jumplist' for details).
 
 -------------------------------------------------------------------------------
+The *GoToInclude* subcommand
+
+Looks up the current line for a header and jumps to it.
+
+Supported in filetypes: 'c, cpp, objc, objcpp'
+
+-------------------------------------------------------------------------------
 The *GoToDeclaration* subcommand
 
 Looks up the symbol under the cursor and jumps to its declaration.
@@ -1088,8 +1145,9 @@ The *GoTo* subcommand
 This command tries to perform the "most sensible" GoTo operation it can.
 Currently, this means that it tries to look up the symbol under the cursor and
 jumps to its definition if possible; if the definition is not accessible from
-the current translation unit, jumps to the symbol's declaration. For C#,
-implementations are also considered and preferred.
+the current translation unit, jumps to the symbol's declaration. For
+C/C++/Objective-C, it first tries to look up the current line for a header and
+jump to it. For C#, implementations are also considered and preferred.
 
 Supported in filetypes: 'c, cpp, objc, objcpp, python, cs'
 
@@ -1684,17 +1742,6 @@ Default: "''"
   let g:ycm_path_to_python_interpreter = ''
 <
 -------------------------------------------------------------------------------
-The *g:ycm_server_use_vim_stdout* option
-
-By default, the 'ycmd' completion server writes logs to logfiles. When this
-option is set to '1', the server writes logs to Vim's stdout (so you'll see
-them in the console).
-
-Default: '0'
->
-  let g:ycm_server_use_vim_stdout = 0
-<
--------------------------------------------------------------------------------
 The *g:ycm_server_keep_logfiles* option
 
 When this option is set to '1', the 'ycmd' completion server will keep the
@@ -2272,6 +2319,10 @@ list "Exuberant Ctags".
 
 Ctags needs to be called with the '--fields=+l' (that's a lowercase 'L', not a
 one) option because YCM needs the 'language:<lang>' field in the tags output.
+
+NOTE: Exuberant Ctags [38] by default sets language tag for '*.h' files as
+'C++'. If you have C (not C++) project, consider giving parameter '--
+langmap=c:.c.h' to ctags to see tags from '*.h' files.
 
 NOTE: Mac OS X comes with "plain" ctags installed by default. 'brew install
 ctags' will get you the Exuberant Ctags version.
