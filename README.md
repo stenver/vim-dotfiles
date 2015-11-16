@@ -11,19 +11,19 @@ brew tap neovim/neovim
 brew install --HEAD neovim
 ```
 
-### Install neobundle
+## Install neobundle
 ```
 curl https://raw.githubusercontent.com/Shougo/neobundle.vim/master/bin/install.sh > install.sh
 sh ./install.sh
 ```
 
-### Install pip
+## Install pip
 `sudo easy_install pip`
 
-### Install neovim with python
+## Install neovim with python
 `sudo pip2 install neovim`
 
-### Install the silver searcher
+## Install the silver searcher
 `brew install the_silver_searcher`
 
 ## You complete me
@@ -32,3 +32,7 @@ run `./install.sh`
 
 ## To run tests with shortcut
 `sudo chmod ugo-x /usr/libexec/path_helper`
+
+## Install universal-tags
+`https://github.com/universal-ctags`
+
