@@ -290,11 +290,21 @@ let g:rubycomplete_classes_in_global = 1
 " Use ag instead of grep
 "   brew install the_silver_searcher
 set grepprg=ag\ --nogroup\ --nocolor
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-let g:ctrlp_root_markers = ['start', 'package.json']
+" let g:ctrlp_custom_ignore = {
+"   \ 'dir':  'node_modules',
+"   \ }
 
-" ag is fast enough that CtrlP doesn't need to cache
-let g:ctrlp_use_caching = 0
+if executable('ag')
+  let g:ctrlp_root_markers = ['start', 'package.json']
+  let g:ctrlp_user_command = ['ag %s --files-with-matches -g "" --ignore tmp/*']
+  let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](doc|tmp|node_modules)',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ }
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
 
 "*****************************************************************************
 "" Autocmd Rules
