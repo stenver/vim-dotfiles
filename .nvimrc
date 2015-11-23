@@ -71,9 +71,18 @@ call neobundle#begin(expand('/Users/stenver/.vim/bundle'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 " List and open files
-NeoBundle 'jeetsukumaran/vim-filebeagle'
-let g:filebeagle_suppress_keymaps = 1
-map <silent> - <Plug>FileBeagleOpenCurrentBufferDir
+NeoBundle 'scrooloose/nerdtree'
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+map - :NERDTreeToggle<CR>
+" Start NERDTree
+autocmd VimEnter * NERDTree
+" Go to previous (last accessed) window.
+autocmd VimEnter * wincmd p
+autocmd BufNew * wincmd l
+nmap ,n :NERDTreeFind<CR>
+" NeoBundle 'jeetsukumaran/vim-filebeagle'
+" let g:filebeagle_suppress_keymaps = 1
+" map <silent> - <Plug>FileBeagleOpenCurrentBufferDir
 
 " Gstatus, Gmove and other git commands
 NeoBundle 'tpope/vim-fugitive'
@@ -115,6 +124,7 @@ NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-rake'
 NeoBundle 'tpope/vim-bundler'
+NeoBundle 'gaogao1030/vim-skim', { 'autoload' : { 'filename_patterns' :[ "\.skim$"], }, }
 
 " Use leader-b to make ruby do-end to {} and one liner if possible
 NeoBundle 'jgdavey/vim-blockle'

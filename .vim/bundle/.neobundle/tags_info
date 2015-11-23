@@ -7,6 +7,7 @@ ctrlp.vim
 limelight.vim
 molokai
 neobundle.vim
+nerdtree
 splitjoin.vim
 syntastic
 vim-airline
@@ -15,7 +16,6 @@ vim-bootstrap-updater
 vim-bundler
 vim-coffee-script
 vim-commentary
-vim-filebeagle
 vim-fugitive
 vim-gitgutter
 vim-gutentags
@@ -23,5 +23,6 @@ vim-multiple-cursors
 vim-polyglot
 vim-rails
 vim-rake
+vim-skim
 vim-surround
 vim-test
