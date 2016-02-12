@@ -21,7 +21,7 @@ sh ./install.sh
 `sudo easy_install pip`
 
 ## Install neovim with python
-`sudo pip2 install neovim`
+`pip install neovim`
 
 ## Install the silver searcher
 `brew install the_silver_searcher`
