@@ -36,18 +36,18 @@ filetype off
 
 "NeoBundle Scripts-----------------------------
 if has('vim_starting')
-  set runtimepath+=~/.config/nvim/vim/bundle/neobundle.vim/
-  set runtimepath+=~/.config/nvim/vim/
+  set runtimepath+=~/.config/nvim/bundle/neobundle.vim/
+  set runtimepath+=~/.config/nvim/
 endif
 
 
-let neobundle_readme=expand('~/.config/nvim/vim/bundle/neobundle.vim/README.md')
+let neobundle_readme=expand('~/.config/nvim/bundle/neobundle.vim/README.md')
 
 if !filereadable(neobundle_readme)
   echo "Installing NeoBundle..."
   echo ""
-  silent !mkdir -p ~/.config/nvim/vim/bundle
-  silent !git clone https://github.com/Shougo/neobundle.vim ~/.config/nvim/vim/bundle/neobundle.vim/
+  silent !mkdir -p ~/.config/nvim/bundle
+  silent !git clone https://github.com/Shougo/neobundle.vim ~/.config/nvim/bundle/neobundle.vim/
   let g:not_finsh_neobundle = "yes"
 
   " Run shell script if exist on custom select language
@@ -64,7 +64,7 @@ endif
 
 
 " Required:
-call neobundle#begin(expand('/Users/stenver/.config/nvim/vim/bundle'))
+call neobundle#begin(expand('/Users/stenver/.config/nvim/bundle'))
 
 " Let NeoBundle manage NeoBundle
 " Required:
