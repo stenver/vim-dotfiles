@@ -90,14 +90,14 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-commentary'
 
 " Be cool and highlight text
-NeoBundle 'junegunn/limelight.vim'
+" NeoBundle 'junegunn/limelight.vim'
 
 " Search for files
 NeoBundle 'ctrlpvim/ctrlp.vim'
 
 " Color schemes
 " NeoBundle 'flazz/vim-colorschemes'
-NeoBundle 'tomasr/molokai'
+" NeoBundle 'tomasr/molokai'
 " NeoBundle 'gosukiwi/vim-atom-dark'
 " Enable ansi escape seq colors
 NeoBundle 'vim-scripts/AnsiEsc.vim'
@@ -174,9 +174,9 @@ NeoBundleCheck
 "*****************************************************************************
 
 " Some color scheme stuff
-if !exists('g:not_finsh_neobundle')
-  colorscheme molokai
-endif
+" if !exists('g:not_finsh_neobundle')
+"   colorscheme molokai
+" endif
 
 set t_Co=256
 set nocursorline
