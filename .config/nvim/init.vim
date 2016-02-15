@@ -111,7 +111,7 @@ let g:vim_bootstrap_editor = "nvim"       " nvim or vim
 
 " Bling and stuff. Different status bar things like file path, line number,
 " visible mode status, buffers etc
-NeoBundle 'bling/vim-airline'
+NeoBundle 'vim-airline/vim-airline-themes'
 
 " Shows git diff left of the line numbers
 NeoBundle 'airblade/vim-gitgutter'
