@@ -64,7 +64,7 @@ endif
 
 
 " Required:
-call neobundle#begin(expand('/Users/stenver/.config/nvim/bundle'))
+call neobundle#begin(expand('$HOME/.config/nvim/bundle'))
 
 " Let NeoBundle manage NeoBundle
 " Required:
