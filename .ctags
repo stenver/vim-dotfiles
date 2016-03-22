@@ -1,3 +1,6 @@
-  --exclude=bower_components
-  --exclude=tmp
-  --exclude=vendor
+--exclude=.git
+--exclude=node_modules
+--exclude=bower_components
+--exclude=tmp
+--exclude=vendor
+
