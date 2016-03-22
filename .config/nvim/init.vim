@@ -425,10 +425,6 @@ inoremap <silent> <A-k> <Esc>:m-2<CR>==gi
 vnoremap <silent> <A-j> :m'>+<CR>gv=gv
 vnoremap <silent> <A-k> :m-2<CR>gv=gv
 
-"" Limelight
-nmap <silent> <leader>m :Limelight!!<CR>
-vmap <silent> <leader>m :Limelight!!<CR>
-
 "" Vmap for maintain Visual Mode after shifting > and <
 vmap < <gv
 vmap > >gv
