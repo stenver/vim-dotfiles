@@ -96,7 +96,8 @@ NeoBundle 'tpope/vim-commentary'
 NeoBundle 'ctrlpvim/ctrlp.vim'
 
 " Color schemes
-" NeoBundle 'flazz/vim-colorschemes'
+NeoBundle 'flazz/vim-colorschemes'
+NeoBundle 'vim-scripts/ScrollColors'
 " NeoBundle 'tomasr/molokai'
 " NeoBundle 'gosukiwi/vim-atom-dark'
 " Enable ansi escape seq colors
@@ -111,7 +112,7 @@ let g:vim_bootstrap_editor = "nvim"       " nvim or vim
 
 " Bling and stuff. Different status bar things like file path, line number,
 " visible mode status, buffers etc
-NeoBundle 'vim-airline/vim-airline-themes'
+" NeoBundle 'vim-airline/vim-airline-themes'
 
 " Shows git diff left of the line numbers
 NeoBundle 'airblade/vim-gitgutter'
@@ -142,7 +143,7 @@ NeoBundle 'Valloric/YouCompleteMe', {
         \ }
      \ }
 
-" gS to split condition statements, gJ to join them 
+" gS to split condition statements, gJ to join them
 NeoBundle 'AndrewRadev/splitjoin.vim'
 
 " Sublime select file. ctrl+n to select, ctrl+x to skip, ctrl+p to go back
@@ -174,10 +175,9 @@ NeoBundleCheck
 "*****************************************************************************
 
 " Some color scheme stuff
-" if !exists('g:not_finsh_neobundle')
-"   colorscheme molokai
-" endif
-
+if !exists('g:not_finsh_neobundle')
+  colorscheme holokai
+endif
 set t_Co=256
 set nocursorline
 set guioptions=egmrti
