@@ -60,17 +60,8 @@ call neobundle#begin(expand('$HOME/.config/nvim/bundle'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 " List and open files
-NeoBundle 'scrooloose/nerdtree'
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-" Start NERDTree
-autocmd VimEnter * NERDTree
-" Go to previous (last accessed) window.
-nmap ,m :NERDTreeFind<CR>
-nmap ,n :NERDTreeToggle<CR>
-
-NeoBundle 'jeetsukumaran/vim-filebeagle'
-let g:filebeagle_suppress_keymaps = 1
-map <silent> - <Plug>FileBeagleOpenCurrentBufferDir
+" NeoBundle 'scrooloose/nerdtree'
+" NeoBundle 'jeetsukumaran/vim-filebeagle'
 
 " Gstatus, Gmove and other git commands
 NeoBundle 'tpope/vim-fugitive'
@@ -156,6 +147,17 @@ NeoBundleCheck
 "*****************************************************************************
 "" CONFIGURATIONS
 "*****************************************************************************
+"# Nerdtree
+" autocmd StdinReadPre * let s:std_in=1
+" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" nmap ,m :NERDTreeFind<CR>
+" nmap ,n :NERDTreeToggle<CR>
+
+" Filebeagle
+" let g:filebeagle_suppress_keymaps = 1
+" map <silent> - <Plug>FileBeagleOpenCurrentBufferDir
+
 
 " Some color scheme stuff
 if !exists('g:not_finsh_neobundle')
