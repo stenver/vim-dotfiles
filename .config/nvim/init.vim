@@ -529,23 +529,36 @@ nnoremap <Leader>w :split <CR> :grep <cword> . <CR>
 " => Tags
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:gutentags_project_root = ['package.json', 'Brocfile.js', 'Capfile', 'Rakefile', 'bower.json', '.ruby-version', 'Gemfile']
-nmap <silent> <C-t> :TagbarToggle<CR>
-let g:tagbar_autofocus = 1
 
-noremap <leader>t :CtrlPTag<CR>
+augroup vimrc-go
+  autocmd!
+  " Fix vim-go leaving scratch buffers open
+  au CompleteDone * pclose
+  "" vim-go bindings
+  au FileType go nmap <Leader>gd <Plug>(go-doc)
+  au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+  au FileType go nmap <Leader>gs <Plug>(go-implements)
+  au FileType go nmap <Leader>gi <Plug>(go-info)
+  au FileType go nmap <Leader>ge <Plug>(go-rename)
 
-let g:tagbar_type_go = {
-    \ 'ctagstype' : 'go',
-    \ 'kinds'     : [  'p:package', 'i:imports:1', 'c:constants', 'v:variables',
-        \ 't:types',  'n:interfaces', 'w:fields', 'e:embedded', 'm:methods',
-        \ 'r:constructor', 'f:functions' ],
-    \ 'sro' : '.',
-    \ 'kind2scope' : { 't' : 'ctype', 'n' : 'ntype' },
-    \ 'scope2kind' : { 'ctype' : 't', 'ntype' : 'n' },
-    \ 'ctagsbin'  : 'gotags',
-    \ 'ctagsargs' : '-sort -silent'
-    \ }
+  au FileType go setlocal tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+augroup END
 
+
+let g:javascript_enable_domhtmlcss = 1
+
+let g:rubycomplete_buffer_loading = 1
+let g:rubycomplete_classes_in_global = 1
+let g:rubycomplete_rails = 1
+
+augroup vimrc-ruby
+  autocmd!
+  autocmd BufNewFile,BufRead *.rb,*.rbw,*.gemspec setlocal filetype=ruby
+  autocmd FileType ruby setlocal tabstop=4 softtabstop=2 shiftwidth=2 expandtab
+augroup END
+
+"" Enable automatic word wrapping
+set formatoptions+=t
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Running tests
