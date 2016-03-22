@@ -341,24 +341,31 @@ set autoread
 
 " Show trailing whitespace, but don't highlight the extra whitespace while
 " typing, only after leaving insert
-highlight ExtraWhitespace ctermbg=red guibg=red
-autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
-match ExtraWhitespace /\s\+$/
-autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+augroup trailing-whitepsace
+  autocmd!
+  highlight ExtraWhitespace ctermbg=red guibg=red
+  autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+  match ExtraWhitespace /\s\+$/
+  autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+  autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+augroup END
 
-" FILE TYPES / SYNTAX
 source $VIMRUNTIME/filetype.vim
 
-autocmd BufEnter *.html set filetype=xhtml
-autocmd BufEnter */nginx/*.conf* set filetype=nginx
-autocmd BufEnter *.html.erb source $HOME/.vim/syntax/html5.vim
-autocmd BufEnter *.es6 set filetype=javascript
+augroup file-types
+  autocmd!
+  " FILE TYPES / SYNTAX
 
-autocmd BufEnter *.prawn set filetype=ruby
-autocmd BufEnter Guardfile set filetype=ruby
-autocmd BufEnter Gemfile set filetype=ruby
-autocmd BufEnter *.slim set filetype=slim
+  autocmd BufEnter *.html set filetype=xhtml
+  autocmd BufEnter */nginx/*.conf* set filetype=nginx
+  autocmd BufEnter *.html.erb source $HOME/.vim/syntax/html5.vim
+  autocmd BufEnter *.es6 set filetype=javascript
+
+  autocmd BufEnter *.prawn set filetype=ruby
+  autocmd BufEnter Guardfile set filetype=ruby
+  autocmd BufEnter Gemfile set filetype=ruby
+  autocmd BufEnter *.slim set filetype=slim
+augroup END
 
 " For all text files set 'textwidth' to 78 characters.
 " autocmd FileType text setlocal textwidth=78
@@ -441,8 +448,6 @@ noremap <Leader>gr :Gremove<CR>
 nmap <leader>cs <Plug>GitGutterStageHunk
 nmap <leader>cp <Plug>GitGutterPreviewHunk
 nmap <leader>cr <Plug>GitGutterRevertHunk
-
-noremap ,o :!echo `git url`/blob/`git rev-parse --abbrev-ref HEAD`/%\#L<C-R>=line('.')<CR> \| xargs open<CR><CR>
 
 
 " " session management
