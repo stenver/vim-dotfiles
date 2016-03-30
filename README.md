@@ -29,12 +29,17 @@ sh ./install.sh
 ## Install neovim with python
 `pip install neovim`
 
+## Initialize nvim plugins
+Simply open `nvim` for the first time - plugins declared in this projects configuration file will be downloaded and installed.
+
 ## Install the silver searcher
 `brew install the_silver_searcher`
 
-## You complete me
-go to `.vim/bundle/YouCompleteMe`
-run `./install.sh`
+## Install YouCompleteMe
+```sh
+cd ~/.config/nvim/bundle/YouCompleteMe
+./install.sh
+```
 
 ## To run tests with shortcut
 `sudo chmod ugo-x /usr/libexec/path_helper`
