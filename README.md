@@ -2,6 +2,12 @@
 ## For dotfile management:
 https://github.com/RichiH/vcsh
 
+Initialize:
+```sh
+vcsh init vim
+vcsh vim remote add origin <remote>
+vcsh vim pull origin master
+```
 # Neovim mac guide
 
 ## Install neovim with brew
