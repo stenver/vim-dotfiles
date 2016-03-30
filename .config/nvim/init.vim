@@ -60,7 +60,7 @@ call neobundle#begin(expand('$HOME/.config/nvim/bundle'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 " List and open files
-" NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'scrooloose/nerdtree'
 " NeoBundle 'jeetsukumaran/vim-filebeagle'
 
 " Gstatus, Gmove and other git commands
@@ -148,11 +148,11 @@ NeoBundleCheck
 "" CONFIGURATIONS
 "*****************************************************************************
 "# Nerdtree
-" autocmd StdinReadPre * let s:std_in=1
-" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-" nmap ,m :NERDTreeFind<CR>
-" nmap ,n :NERDTreeToggle<CR>
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+nmap ,m :NERDTreeFind<CR>
+nmap ,n :NERDTreeToggle<CR>
 
 " Filebeagle
 " let g:filebeagle_suppress_keymaps = 1
