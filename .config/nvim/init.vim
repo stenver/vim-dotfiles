@@ -161,7 +161,10 @@ nmap ,n :NERDTreeToggle<CR>
 
 " Some color scheme stuff
 if !exists('g:not_finsh_neobundle')
-  colorscheme holokai
+  " Presentation
+  " colorscheme khaki
+  " Usual
+  colorscheme lazarus
 endif
 set t_Co=256
 set nocursorline
