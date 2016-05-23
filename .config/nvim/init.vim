@@ -319,6 +319,32 @@ augroup vimrc-remember-cursor-position
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 augroup END
 
+" Open a previously edited buffer and then close the buffer we just moved away
+" from. This avoids closing the split due to closing the buffer.
+noremap <leader>q :b#\|bd #<CR>
+"" Closing bufs that aren't open in any window or tabs
+" from http://stackoverflow.com/a/7321131/1456578
+function! DeleteInactiveBufs()
+  "From tabpagebuflist() help, get a list of all buffers in all tabs
+  let tablist = []
+  for i in range(tabpagenr('$'))
+	call extend(tablist, tabpagebuflist(i + 1))
+  endfor
+
+  "Below originally inspired by Hara Krishna Dara and Keith Roberts
+  "http://tech.groups.yahoo.com/group/vim/message/56425
+  let nWipeouts = 0
+  for i in range(1, bufnr('$'))
+	if bufexists(i) && !getbufvar(i,"&mod") && index(tablist, i) == -1
+	  "bufno exists AND isn't modified AND isn't in the list of buffers open in windows and tabs
+	  silent exec 'bwipeout' i
+	  let nWipeouts = nWipeouts + 1
+	endif
+  endfor
+  echomsg nWipeouts . ' buffer(s) wiped out'
+endfunction
+noremap <leader>Q :call DeleteInactiveBufs()<CR>
+
 "" txt
 " augroup vimrc-wrapping
 "   autocmd!
