@@ -617,3 +617,28 @@ endif
 " Highlight 121st column if text flows over it
 highlight ColorColumn ctermbg=red guibg=#ed2939
 call matchadd('ColorColumn', '\%121v', 100)
+
+augroup vim-prose
+  autocmd!
+  au BufNewFile,BufRead *.md,*.txt,*.prose,*.tmp setlocal filetype=prose
+  au FileType prose set textwidth=79
+  au FileType prose setlocal formatoptions=aw2tq
+  au FileType prose setlocal nonumber
+  au FileType prose setlocal spell spelllang=en_us
+  " Suggest spelling fixes
+  au FileType prose nnoremap \s ea<C-X><C-S>
+
+  " Create left margin and un-higlight it
+  au FileType prose setlocal foldcolumn=12
+  au FileType prose highlight! link FoldColumn Normal
+
+  " Turn GitGutter to always have the column (to avoid the text jumping back
+  " and forth when the column is created/deleted) and change the background of
+  " the column to the normal (black background).
+  " au FileType prose let g:gitgutter_sign_column_always=1
+  " au FileType prose highlight! link SignColumn Normal
+  " au FileType prose highlight GitGutterAdd ctermbg=bg guibg=bg
+  " au FileType prose highlight GitGutterChange ctermbg=bg guibg=bg
+  " au FileType prose highlight GitGutterDelete ctermbg=bg guibg=bg
+  " au FileType prose highlight GitGutterChangeDelete ctermbg=bg guibg=bg
+augroup END
