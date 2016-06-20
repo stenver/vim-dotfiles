@@ -164,7 +164,7 @@ if !exists('g:not_finsh_neobundle')
   " Presentation
   " colorscheme khaki
   " Usual
-  colorscheme lazarus
+  colorscheme liquidcarbon
 endif
 set t_Co=256
 set nocursorline
