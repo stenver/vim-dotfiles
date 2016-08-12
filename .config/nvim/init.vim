@@ -93,8 +93,15 @@ NeoBundle 'airblade/vim-gitgutter'
 
 " Different language packs
 NeoBundle 'sheerun/vim-polyglot'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'neomake/neomake'
+"" Javascript Bundle
+NeoBundle 'kchmck/vim-coffee-script', {
+    \ 'autoload' : {
+       \ 'filename_patterns' : [ "\.coffee$", "\.cjsx$" ]
+    \ }
+  \ }
+
+
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-rake'
 NeoBundle 'tpope/vim-bundler'
@@ -199,7 +206,7 @@ endif
 
 " vim-airline
 let g:airline_theme = 'powerlineish'
-let g:airline#extensions#syntastic#enabled = 1
+" let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 
@@ -225,15 +232,16 @@ else
 endif
 
 
-" syntastic
-let g:syntastic_always_populate_loc_list=0
-let g:syntastic_error_symbol='✗'
-let g:syntastic_warning_symbol='⚠'
-let g:syntastic_style_error_symbol = '✗'
-let g:syntastic_style_warning_symbol = '⚠'
-let g:syntastic_auto_loc_list=0
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_html_tidy_ignore_errors=["proprietary attribute"]
+" " Configure neomake to run on every save
+augroup neomake-autosave
+  autocmd!
+  au BufWritePost * Neomake
+augroup END
+
+let g:neomake_javascript_enabled_makers = ['jshint']
+let g:neomake_ruby_enabled_makers = ['rubocop']
+let g:neomake_java_enabled_makers = ['javac']
+let g:neomake_jsx_enabled_makers = ['jsxhint']
 
 " Disable sounds in mac
 set visualbell
