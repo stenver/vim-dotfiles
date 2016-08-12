@@ -239,6 +239,7 @@ augroup neomake-autosave
 augroup END
 
 let g:neomake_javascript_enabled_makers = ['jshint']
+let g:neomake_coffeescript_enabled_makers = ['coffeelint']
 let g:neomake_ruby_enabled_makers = ['rubocop']
 let g:neomake_java_enabled_makers = ['javac']
 let g:neomake_jsx_enabled_makers = ['jsxhint']
