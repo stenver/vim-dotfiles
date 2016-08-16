@@ -114,15 +114,11 @@ NeoBundle 'jgdavey/vim-blockle'
 " well like cs'<q>, etc
 NeoBundle 'tpope/vim-surround'
 
-" Autocomplete!
-NeoBundle 'Valloric/YouCompleteMe', {
-     \ 'build'      : {
-        \ 'mac'     : './install.sh --clang-completer --system-libclang --omnisharp-completer',
-        \ 'unix'    : './install.sh --clang-completer --system-libclang --omnisharp-completer',
-        \ 'windows' : './install.sh --clang-completer --system-libclang --omnisharp-completer',
-        \ 'cygwin'  : './install.sh --clang-completer --system-libclang --omnisharp-completer'
-        \ }
-     \ }
+NeoBundle 'Shougo/deoplete.nvim'
+let s:hooks = neobundle#get_hooks("deoplete.nvim")
+function! s:hooks.on_source(bundle)
+    let g:deoplete#enable_at_startup = 1
+endfunction
 
 " gS to split condition statements, gJ to join them
 NeoBundle 'AndrewRadev/splitjoin.vim'
