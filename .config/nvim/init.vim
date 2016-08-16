@@ -233,7 +233,14 @@ augroup neomake-autosave
   au BufWritePost * Neomake
 augroup END
 
-let g:neomake_javascript_enabled_makers = ['jshint']
+" let g:neomake_javascript_jshint_maker = {
+"     \ 'args': ['--verbose'],
+"     \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
+"     \ }
+let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_coffeescript_coffeelint_maker = {
+    \ 'max_line_length': 120,
+    \ }
 let g:neomake_coffeescript_enabled_makers = ['coffeelint']
 let g:neomake_ruby_enabled_makers = ['rubocop']
 let g:neomake_java_enabled_makers = ['javac']
