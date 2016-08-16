@@ -34,118 +34,106 @@ set number
 syntax on
 filetype off
 
-"NeoBundle Scripts-----------------------------
-if has('vim_starting')
-  set runtimepath+=~/.config/nvim/bundle/neobundle.vim/
-  set runtimepath+=~/.config/nvim/
+"dein Scripts-----------------------------
+if &compatible
+  set nocompatible               " Be iMproved
 endif
 
-
-let neobundle_readme=expand('~/.config/nvim/bundle/neobundle.vim/README.md')
-
-if !filereadable(neobundle_readme)
-  echo "Installing NeoBundle..."
-  echo ""
-  silent !mkdir -p ~/.config/nvim/bundle
-  silent !git clone https://github.com/Shougo/neobundle.vim ~/.config/nvim/bundle/neobundle.vim/
-  let g:not_finsh_neobundle = "yes"
-endif
-
+" Required:
+set runtimepath^=~/.config/nvim/repos/github.com/Shougo/dein.vim
 
 " Required:
-call neobundle#begin(expand('$HOME/.config/nvim/bundle'))
+call dein#begin('~/.config/nvim/repos')
 
-" Let NeoBundle manage NeoBundle
+" Let dein manage dein
 " Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
+call dein#add('~/.config/nvim/repos/github.com/Shougo/dein.vim')
+call dein#add('Shougo/dein.vim')
 
-" List and open files
-NeoBundle 'scrooloose/nerdtree'
-" NeoBundle 'jeetsukumaran/vim-filebeagle'
+" Add or remove your plugins here:
+call dein#add('Shougo/neosnippet.vim')
+call dein#add('Shougo/neosnippet-snippets')
 
-" Gstatus, Gmove and other git commands
-NeoBundle 'tpope/vim-fugitive'
+"" List and open files
+call dein#add('scrooloose/nerdtree')
 
-" Comment out lines
-NeoBundle 'tpope/vim-commentary'
+"" Gstatus, Gmove and other git commands
+call dein#add('tpope/vim-fugitive')
 
-" Be cool and highlight text
-" NeoBundle 'junegunn/limelight.vim'
+"" Comment out lines
+call dein#add('tpope/vim-commentary')
 
-" Search for files
-NeoBundle 'ctrlpvim/ctrlp.vim'
+"" Search for files
+call dein#add('ctrlpvim/ctrlp.vim')
 
-" Color schemes
-NeoBundle 'flazz/vim-colorschemes'
-NeoBundle 'vim-scripts/ScrollColors'
-" NeoBundle 'tomasr/molokai'
-" NeoBundle 'gosukiwi/vim-atom-dark'
-" Enable ansi escape seq colors
-NeoBundle 'vim-scripts/AnsiEsc.vim'
-NeoBundle 'vim-scripts/CSApprox' " Needed by git blame
+"" Color schemes
+call dein#add('flazz/vim-colorschemes')
+call dein#add('vim-scripts/ScrollColors')
+"" NeoBundle 'tomasr/molokai'
+"" NeoBundle 'gosukiwi/vim-atom-dark'
+"" Enable ansi escape seq colors
+call dein#add('vim-scripts/AnsiEsc.vim')
+call dein#add('vim-scripts/CSApprox') " Needed by git blame
 
-" Bling and stuff. Different status bar things like file path, line number,
-" visible mode status, buffers etc
-" NeoBundle 'vim-airline/vim-airline-themes'
+"" Bling and stuff. Different status bar things like file path, line number,
+"" visible mode status, buffers etc
+call dein#add('vim-airline/vim-airline-themes')
 
-" Shows git diff left of the line numbers
-NeoBundle 'airblade/vim-gitgutter'
+"" Shows git diff left of the line numbers
+call dein#add('airblade/vim-gitgutter')
 
-" Different language packs
-NeoBundle 'sheerun/vim-polyglot'
-NeoBundle 'neomake/neomake'
-"" Javascript Bundle
-NeoBundle 'kchmck/vim-coffee-script', {
-    \ 'autoload' : {
-       \ 'filename_patterns' : [ "\.coffee$", "\.cjsx$" ]
-    \ }
-  \ }
+"" Different language packs
+call dein#add('sheerun/vim-polyglot')
+call dein#add('neomake/neomake')
 
+call dein#add('tpope/vim-rails')
+call dein#add('tpope/vim-rake')
+call dein#add('tpope/vim-bundler')
+call dein#add('gaogao1030/vim-skim')
 
-NeoBundle 'tpope/vim-rails'
-NeoBundle 'tpope/vim-rake'
-NeoBundle 'tpope/vim-bundler'
-NeoBundle 'gaogao1030/vim-skim', { 'autoload' : { 'filename_patterns' :[ "\.skim$"], }, }
+"" Use leader-b to make ruby do-end to {} and one liner if possible
+call dein#add('jgdavey/vim-blockle')
 
-" Use leader-b to make ruby do-end to {} and one liner if possible
-NeoBundle 'jgdavey/vim-blockle'
+"" use cs'" to change surrounding ' to ". Can take any other combinations as
+"" well like cs'<q>, etc
+call dein#add('tpope/vim-surround')
 
-" use cs'" to change surrounding ' to ". Can take any other combinations as
-" well like cs'<q>, etc
-NeoBundle 'tpope/vim-surround'
+call dein#add('Shougo/deoplete.nvim')
+let g:deoplete#enable_at_startup = 1
 
-NeoBundle 'Shougo/deoplete.nvim'
-let s:hooks = neobundle#get_hooks("deoplete.nvim")
-function! s:hooks.on_source(bundle)
-    let g:deoplete#enable_at_startup = 1
-endfunction
+"" gS to split condition statements, gJ to join them
+call dein#add('AndrewRadev/splitjoin.vim')
 
-" gS to split condition statements, gJ to join them
-NeoBundle 'AndrewRadev/splitjoin.vim'
+"" Sublime select file. ctrl+n to select, ctrl+x to skip, ctrl+p to go back
+call dein#add('terryma/vim-multiple-cursors')
 
-" Sublime select file. ctrl+n to select, ctrl+x to skip, ctrl+p to go back
-NeoBundle 'terryma/vim-multiple-cursors'
+"" Use AG
+call dein#add('rking/ag.vim')
 
-" Use AG
-NeoBundle 'rking/ag.vim'
+"" Camelcase for moving in camelcase code
+call dein#add('bkad/CamelCaseMotion')
 
-" Camelcase for moving in camelcase code
-NeoBundle 'bkad/CamelCaseMotion'
+"" Test plugin
+call dein#add('janko-m/vim-test')
 
-" Test plugin
-NeoBundle 'janko-m/vim-test'
+"" c-tags
+call dein#add('ludovicchabant/vim-gutentags')
 
-" c-tags
-NeoBundle 'ludovicchabant/vim-gutentags'
+" You can specify revision/branch/tag.
+call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
 
 " Required:
-call neobundle#end()
+call dein#end()
+
+" Required:
 filetype plugin indent on
 
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
-NeoBundleCheck
-"End NeoBundle Scripts-------------------------
+" If you want to install not installed plugins on startup.
+if dein#check_install()
+  call dein#install()
+endif
+
+"End dein Scripts-------------------------
 
 "*****************************************************************************
 "" CONFIGURATIONS
@@ -163,12 +151,7 @@ nmap ,n :NERDTreeToggle<CR>
 
 
 " Some color scheme stuff
-if !exists('g:not_finsh_neobundle')
-  " Presentation
-  " colorscheme khaki
-  " Usual
-  colorscheme liquidcarbon
-endif
+colorscheme liquidcarbon
 set t_Co=256
 set nocursorline
 set guioptions=egmrti
