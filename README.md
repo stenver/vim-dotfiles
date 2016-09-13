@@ -27,7 +27,7 @@ sh ./install.sh
 `sudo easy_install pip`
 
 ## Install neovim with python
-`pip install neovim`
+`pip install neovim --user`
 
 ## Initialize nvim plugins
 Simply open `nvim` for the first time - plugins declared in this projects configuration file will be downloaded and installed.
