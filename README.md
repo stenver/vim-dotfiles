@@ -29,6 +29,9 @@ sh ./install.sh
 ## Install neovim with python
 `pip install neovim --user`
 
+## Install dein(Package manager)
+`git clone git@github.com:stenver/dein.vim.git ~/.config/nvim/repos/github.com/Shougo/dein.vim`
+
 ## Initialize nvim plugins
 Simply open `nvim` for the first time - plugins declared in this projects configuration file will be downloaded and installed.
 
