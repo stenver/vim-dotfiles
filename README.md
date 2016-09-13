@@ -29,6 +29,13 @@ sh ./install.sh
 ## Install neovim with python
 `pip install neovim --user`
 
+# More python3 NeoVim
+```
+brew install python3
+pip3 install neovim
+
+```
+
 ## Install dein(Package manager)
 `git clone git@github.com:stenver/dein.vim.git ~/.config/nvim/repos/github.com/Shougo/dein.vim`
 
