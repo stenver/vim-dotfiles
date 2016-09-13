@@ -90,6 +90,7 @@ call dein#add('tpope/vim-rails')
 call dein#add('tpope/vim-rake')
 call dein#add('tpope/vim-bundler')
 call dein#add('gaogao1030/vim-skim')
+call dein#add('othree/html5.vim')
 
 "" Use leader-b to make ruby do-end to {} and one liner if possible
 call dein#add('jgdavey/vim-blockle')
@@ -381,7 +382,7 @@ augroup file-types
 
   autocmd BufEnter *.html set filetype=xhtml
   autocmd BufEnter */nginx/*.conf* set filetype=nginx
-  autocmd BufEnter *.html.erb source $HOME/.vim/syntax/html5.vim
+  autocmd BufEnter *.html.erb source $HOME/.config/nvim/repos/repos/github.com/othree/html5.vim/syntax/html.vim
   autocmd BufEnter *.es6 set filetype=javascript
 
   autocmd BufEnter *.prawn set filetype=ruby
