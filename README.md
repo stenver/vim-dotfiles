@@ -45,11 +45,10 @@ Simply open `nvim` for the first time - plugins declared in this projects config
 ## Install the silver searcher
 `brew install the_silver_searcher`
 
-## Install YouCompleteMe
-```sh
-cd ~/.config/nvim/bundle/YouCompleteMe
-./install.sh
-```
+## Install Deoplete
+Autocomplete for NeoVim
+
+Check Deoplete install README at: https://github.com/Shougo/deoplete.nvim
 
 ## To run tests with shortcut
 `sudo chmod ugo-x /usr/libexec/path_helper`
