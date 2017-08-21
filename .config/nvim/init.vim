@@ -212,10 +212,10 @@ endif
 
 
 " " Configure neomake to run on every save
-augroup neomake-autosave
-  autocmd!
-  au BufWritePost * Neomake
-augroup END
+" augroup neomake-autosave
+"   autocmd!
+"   au BufWritePost * Neomake
+" augroup END
 
 " let g:neomake_javascript_jshint_maker = {
 "     \ 'args': ['--verbose'],
