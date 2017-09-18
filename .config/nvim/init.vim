@@ -84,7 +84,7 @@ call dein#add('airblade/vim-gitgutter')
 
 "" Different language packs
 call dein#add('sheerun/vim-polyglot')
-call dein#add('neomake/neomake')
+call dein#add('w0rp/ale')
 
 call dein#add('tpope/vim-rails')
 call dein#add('tpope/vim-rake')
@@ -211,24 +211,9 @@ else
 endif
 
 
-" " Configure neomake to run on every save
-" augroup neomake-autosave
-"   autocmd!
-"   au BufWritePost * Neomake
-" augroup END
-
-" let g:neomake_javascript_jshint_maker = {
-"     \ 'args': ['--verbose'],
-"     \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
-"     \ }
-let g:neomake_javascript_enabled_makers = ['eslint']
-let g:neomake_coffeescript_coffeelint_maker = {
-    \ 'max_line_length': 120,
-    \ }
-let g:neomake_coffeescript_enabled_makers = ['coffeelint']
-let g:neomake_ruby_enabled_makers = ['rubocop']
-let g:neomake_java_enabled_makers = ['javac']
-let g:neomake_jsx_enabled_makers = ['jsxhint']
+let g:ale_fixers = {
+\   'ruby': ['rubocop'],
+\}
 
 " Disable sounds in mac
 set visualbell
