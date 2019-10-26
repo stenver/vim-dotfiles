@@ -40,91 +40,98 @@ if &compatible
 endif
 
 " Required:
-set runtimepath^=~/.config/nvim/repos/github.com/Shougo/dein.vim
+set runtimepath+=/Users/stenver/.config/nvim/repos/github.com/Shougo/dein.vim
 
 " Required:
-call dein#begin('~/.config/nvim/repos')
+if dein#load_state('/Users/stenver/.config/nvim')
+  call dein#begin('/Users/stenver/.config/nvim')
 
-" Let dein manage dein
+  " Let dein manage dein
+  " Required:
+  call dein#add('/Users/stenver/.config/nvim/repos/github.com/Shougo/dein.vim')
+
+  " Add or remove your plugins here like this:
+  call dein#add('Shougo/neosnippet.vim')
+  call dein#add('Shougo/neosnippet-snippets')
+
+  "" List and open files
+  call dein#add('scrooloose/nerdtree')
+  
+  "" Gstatus, Gmove and other git commands
+  call dein#add('tpope/vim-fugitive')
+  
+  "" Comment out lines
+  call dein#add('tpope/vim-commentary')
+  
+  "" Search for files
+  call dein#add('ctrlpvim/ctrlp.vim')
+  
+  "" Color schemes
+  call dein#add('flazz/vim-colorschemes')
+  call dein#add('vim-scripts/ScrollColors')
+  "" NeoBundle 'tomasr/molokai'
+  "" NeoBundle 'gosukiwi/vim-atom-dark'
+  "" Enable ansi escape seq colors
+  call dein#add('vim-scripts/AnsiEsc.vim')
+  call dein#add('vim-scripts/CSApprox') " Needed by git blame
+  
+  "" Bling and stuff. Different status bar things like file path, line number,
+  "" visible mode status, buffers etc
+  call dein#add('vim-airline/vim-airline-themes')
+  
+  "" Shows git diff left of the line numbers
+  call dein#add('airblade/vim-gitgutter')
+  
+  "" Different language packs
+  call dein#add('sheerun/vim-polyglot')
+  call dein#add('w0rp/ale')
+  
+  call dein#add('tpope/vim-rails')
+  call dein#add('tpope/vim-rake')
+  call dein#add('tpope/vim-bundler')
+  call dein#add('gaogao1030/vim-skim')
+  call dein#add('othree/html5.vim')
+  
+  "" Use leader-b to make ruby do-end to {} and one liner if possible
+  call dein#add('jgdavey/vim-blockle')
+  
+  "" use cs'" to change surrounding ' to ". Can take any other combinations as
+  "" well like cs'<q>, etc
+  call dein#add('tpope/vim-surround')
+  
+  call dein#add('Shougo/deoplete.nvim')
+  if !has('nvim')
+    call dein#add('roxma/nvim-yarp')
+    call dein#add('roxma/vim-hug-neovim-rpc')
+  endif
+  let g:deoplete#enable_at_startup = 1
+  
+  "" gS to split condition statements, gJ to join them
+  call dein#add('AndrewRadev/splitjoin.vim')
+  
+  "" Sublime select file. ctrl+n to select, ctrl+x to skip, ctrl+p to go back
+  call dein#add('terryma/vim-multiple-cursors')
+  
+  "" Use AG
+  call dein#add('rking/ag.vim')
+  
+  "" Camelcase for moving in camelcase code
+  call dein#add('bkad/CamelCaseMotion')
+  
+  "" Test plugin
+  call dein#add('janko-m/vim-test')
+  
+  "" c-tags
+  call dein#add('ludovicchabant/vim-gutentags')
+  
+  " You can specify revision/branch/tag.
+  call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
+
 " Required:
-call dein#add('~/.config/nvim/repos/github.com/Shougo/dein.vim')
-call dein#add('Shougo/dein.vim')
+  call dein#end()
+  call dein#save_state()
+endif
 
-" Add or remove your plugins here:
-call dein#add('Shougo/neosnippet.vim')
-call dein#add('Shougo/neosnippet-snippets')
-
-"" List and open files
-call dein#add('scrooloose/nerdtree')
-
-"" Gstatus, Gmove and other git commands
-call dein#add('tpope/vim-fugitive')
-
-"" Comment out lines
-call dein#add('tpope/vim-commentary')
-
-"" Search for files
-call dein#add('ctrlpvim/ctrlp.vim')
-
-"" Color schemes
-call dein#add('flazz/vim-colorschemes')
-call dein#add('vim-scripts/ScrollColors')
-"" NeoBundle 'tomasr/molokai'
-"" NeoBundle 'gosukiwi/vim-atom-dark'
-"" Enable ansi escape seq colors
-call dein#add('vim-scripts/AnsiEsc.vim')
-call dein#add('vim-scripts/CSApprox') " Needed by git blame
-
-"" Bling and stuff. Different status bar things like file path, line number,
-"" visible mode status, buffers etc
-call dein#add('vim-airline/vim-airline-themes')
-
-"" Shows git diff left of the line numbers
-call dein#add('airblade/vim-gitgutter')
-
-"" Different language packs
-call dein#add('sheerun/vim-polyglot')
-call dein#add('w0rp/ale')
-
-call dein#add('tpope/vim-rails')
-call dein#add('tpope/vim-rake')
-call dein#add('tpope/vim-bundler')
-call dein#add('gaogao1030/vim-skim')
-call dein#add('othree/html5.vim')
-
-"" Use leader-b to make ruby do-end to {} and one liner if possible
-call dein#add('jgdavey/vim-blockle')
-
-"" use cs'" to change surrounding ' to ". Can take any other combinations as
-"" well like cs'<q>, etc
-call dein#add('tpope/vim-surround')
-
-call dein#add('Shougo/deoplete.nvim')
-let g:deoplete#enable_at_startup = 1
-
-"" gS to split condition statements, gJ to join them
-call dein#add('AndrewRadev/splitjoin.vim')
-
-"" Sublime select file. ctrl+n to select, ctrl+x to skip, ctrl+p to go back
-call dein#add('terryma/vim-multiple-cursors')
-
-"" Use AG
-call dein#add('rking/ag.vim')
-
-"" Camelcase for moving in camelcase code
-call dein#add('bkad/CamelCaseMotion')
-
-"" Test plugin
-call dein#add('janko-m/vim-test')
-
-"" c-tags
-call dein#add('ludovicchabant/vim-gutentags')
-
-" You can specify revision/branch/tag.
-call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
-
-" Required:
-call dein#end()
 
 " Required:
 filetype plugin indent on
@@ -158,9 +165,7 @@ set nocursorline
 set guioptions=egmrti
 set gfn=Monospace\ 10
 
-if exists("*gutentags#statusline")
-  set statusline+=%{gutentags#statusline()}
-endif
+set statusline+=%{gutentags#statusline()}
 
 if has("gui_running")
   if has("gui_mac") || has("gui_macvim")
