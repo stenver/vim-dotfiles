@@ -1,0 +1,1 @@
+[{"severity":"convention","location":{"begin_pos":1103,"end_pos":1105},"message":"Style/IfUnlessModifier: Favor modifier `if` usage when having a single-line body. Another good alternative is the usage of control flow `&&`/`||`.","cop_name":"Style/IfUnlessModifier","status":"uncorrected"}]

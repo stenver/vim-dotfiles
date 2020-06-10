@@ -1,0 +1,1 @@
+[{"severity":"convention","location":{"begin_pos":2717,"end_pos":2743},"message":"Style/TrailingCommaInHashLiteral: Put a comma after the last item of a multiline hash.","cop_name":"Style/TrailingCommaInHashLiteral","status":"uncorrected"}]

@@ -1,0 +1,1 @@
+[{"severity":"warning","location":{"begin_pos":103,"end_pos":117},"message":"Lint/CircularArgumentReference: Circular argument reference - `company_tag_id`.","cop_name":"Lint/CircularArgumentReference","status":"uncorrected"}]

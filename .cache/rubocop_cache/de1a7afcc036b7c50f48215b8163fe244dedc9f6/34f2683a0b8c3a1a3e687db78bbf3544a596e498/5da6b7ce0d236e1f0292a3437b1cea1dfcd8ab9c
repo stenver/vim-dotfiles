@@ -1,0 +1,1 @@
+[{"severity":"convention","location":{"begin_pos":625,"end_pos":652},"message":"Style/StringLiterals: Prefer single-quoted strings when you don't need string interpolation or special symbols.","cop_name":"Style/StringLiterals","status":"uncorrected"}]

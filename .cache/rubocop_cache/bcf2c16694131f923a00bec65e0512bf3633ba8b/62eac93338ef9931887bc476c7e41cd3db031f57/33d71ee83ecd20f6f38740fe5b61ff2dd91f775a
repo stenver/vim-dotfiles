@@ -1,0 +1,1 @@
+[{"severity":"convention","location":{"begin_pos":1085,"end_pos":1092},"message":"Style/NumericLiterals: Use underscores(_) as thousands separator and separate every 3 digits with them.","cop_name":"Style/NumericLiterals","status":"uncorrected"}]

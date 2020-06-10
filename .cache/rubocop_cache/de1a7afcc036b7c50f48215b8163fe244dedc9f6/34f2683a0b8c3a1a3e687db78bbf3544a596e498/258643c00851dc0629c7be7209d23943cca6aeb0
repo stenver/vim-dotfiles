@@ -1,0 +1,1 @@
+[{"severity":"convention","location":{"begin_pos":244,"end_pos":246},"message":"Style/BlockDelimiters: Prefer `{...}` over `do...end` for functional blocks.","cop_name":"Style/BlockDelimiters","status":"uncorrected"}]

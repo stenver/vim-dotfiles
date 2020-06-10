@@ -1,0 +1,1 @@
+[{"severity":"convention","location":{"begin_pos":375,"end_pos":392},"message":"Style/SymbolArray: Use `%i` or `%I` for an array of symbols.","cop_name":"Style/SymbolArray","status":"uncorrected"}]

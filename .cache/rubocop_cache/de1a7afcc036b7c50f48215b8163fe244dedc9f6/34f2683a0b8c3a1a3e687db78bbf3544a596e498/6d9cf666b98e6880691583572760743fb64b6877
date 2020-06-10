@@ -1,0 +1,1 @@
+[{"severity":"convention","location":{"begin_pos":371,"end_pos":467},"message":"Style/MultilineTernaryOperator: Avoid multi-line ternary operators, use `if` or `unless` instead.","cop_name":"Style/MultilineTernaryOperator","status":"uncorrected"}]

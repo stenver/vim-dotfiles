@@ -34,38 +34,172 @@ set number
 syntax on
 filetype off
 
+"Coc scripts
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+" position. Coc only does snippet and additional edit on confirm.
+" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
+
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
+
+" Use CTRL-S for selections ranges.
+" Requires 'textDocument/selectionRange' support of LS, ex: coc-tsserver
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Mappings using CoCList:
+" Show all diagnostics.
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions.
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands.
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document.
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols.
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list.
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+"Coc scripts end
+
+
 "dein Scripts-----------------------------
 if &compatible
   set nocompatible               " Be iMproved
 endif
 
-" Required:
-set runtimepath+=/Users/stenver/.config/nvim/repos/github.com/Shougo/dein.vim
+set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
-" Required:
-if dein#load_state('/Users/stenver/.config/nvim')
-  call dein#begin('/Users/stenver/.config/nvim')
-
+if dein#load_state('~/.cache/dein')
+  call dein#begin('~/.cache/dein')
   " Let dein manage dein
   " Required:
   call dein#add('/Users/stenver/.config/nvim/repos/github.com/Shougo/dein.vim')
 
-  " Add or remove your plugins here like this:
-  call dein#add('Shougo/neosnippet.vim')
-  call dein#add('Shougo/neosnippet-snippets')
+  " completion framework
+  " call dein#add('Shougo/deoplete.nvim')
+  " if !has('nvim')
+  "   call dein#add('roxma/nvim-yarp')
+  "   call dein#add('roxma/vim-hug-neovim-rpc')
+  " endif
+  " let g:deoplete#enable_at_startup = 1
+  " call dein#add('Shougo/neosnippet.vim')
+  " call dein#add('Shougo/neosnippet-snippets')
+  " "" c-tags
+  call dein#add('ludovicchabant/vim-gutentags')
+
+  " " intellisense
+  call dein#add('neoclide/coc.nvim', {'merged':0, 'rev': 'release'})
 
   "" List and open files
   call dein#add('scrooloose/nerdtree')
-  
+
   "" Gstatus, Gmove and other git commands
   call dein#add('tpope/vim-fugitive')
-  
+
   "" Comment out lines
   call dein#add('tpope/vim-commentary')
-  
+
   "" Search for files
   call dein#add('ctrlpvim/ctrlp.vim')
-  
+
   "" Color schemes
   call dein#add('flazz/vim-colorschemes')
   call dein#add('vim-scripts/ScrollColors')
@@ -74,37 +208,30 @@ if dein#load_state('/Users/stenver/.config/nvim')
   "" Enable ansi escape seq colors
   call dein#add('vim-scripts/AnsiEsc.vim')
   call dein#add('vim-scripts/CSApprox') " Needed by git blame
-  
+
   "" Bling and stuff. Different status bar things like file path, line number,
   "" visible mode status, buffers etc
   call dein#add('vim-airline/vim-airline-themes')
-  
+
   "" Shows git diff left of the line numbers
   call dein#add('airblade/vim-gitgutter')
-  
+
   "" Different language packs
   call dein#add('sheerun/vim-polyglot')
   call dein#add('w0rp/ale')
-  
+
   call dein#add('tpope/vim-rails')
   call dein#add('tpope/vim-rake')
   call dein#add('tpope/vim-bundler')
   call dein#add('gaogao1030/vim-skim')
   call dein#add('othree/html5.vim')
-  
+
   "" Use leader-b to make ruby do-end to {} and one liner if possible
   call dein#add('jgdavey/vim-blockle')
-  
+
   "" use cs'" to change surrounding ' to ". Can take any other combinations as
   "" well like cs'<q>, etc
   call dein#add('tpope/vim-surround')
-  
-  call dein#add('Shougo/deoplete.nvim')
-  if !has('nvim')
-    call dein#add('roxma/nvim-yarp')
-    call dein#add('roxma/vim-hug-neovim-rpc')
-  endif
-  let g:deoplete#enable_at_startup = 1
   
   "" gS to split condition statements, gJ to join them
   call dein#add('AndrewRadev/splitjoin.vim')
@@ -113,16 +240,14 @@ if dein#load_state('/Users/stenver/.config/nvim')
   call dein#add('terryma/vim-multiple-cursors')
   
   "" Use AG
-  call dein#add('rking/ag.vim')
+  " call dein#add('rking/ag.vim')
+  call dein#add('mileszs/ack.vim')
   
   "" Camelcase for moving in camelcase code
   call dein#add('bkad/CamelCaseMotion')
   
   "" Test plugin
   call dein#add('janko-m/vim-test')
-  
-  "" c-tags
-  call dein#add('ludovicchabant/vim-gutentags')
   
   " You can specify revision/branch/tag.
   call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
@@ -152,11 +277,6 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 nmap ,m :NERDTreeFind<CR>
 nmap ,n :NERDTreeToggle<CR>
-
-" Filebeagle
-" let g:filebeagle_suppress_keymaps = 1
-" map <silent> - <Plug>FileBeagleOpenCurrentBufferDir
-
 
 " Some color scheme stuff
 colorscheme liquidcarbon
@@ -269,25 +389,6 @@ let ruby_operators = 1 " hightlight ruby operators
 let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_classes_in_global = 1
 
-" Use ag instead of grep
-"   brew install the_silver_searcher
-set grepprg=ag\ --nogroup\ --nocolor
-" let g:ctrlp_custom_ignore = {
-"   \ 'dir':  'node_modules',
-"   \ }
-
-if executable('ag')
-  let g:ctrlp_root_markers = ['start', 'package.json']
-  let g:ctrlp_user_command = ['ag %s --files-with-matches -g "" --ignore tmp/*']
-  let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](doc|tmp|node_modules)',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ }
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-endif
-
 "*****************************************************************************
 "" Autocmd Rules
 "*****************************************************************************
@@ -372,7 +473,7 @@ augroup file-types
 
   autocmd BufEnter *.html set filetype=xhtml
   autocmd BufEnter */nginx/*.conf* set filetype=nginx
-  autocmd BufEnter *.html.erb source $HOME/.config/nvim/repos/repos/github.com/othree/html5.vim/syntax/html.vim
+  autocmd BufEnter *.html.erb source $HOME/.config/nvim/repos/github.com/othree/html5.vim/syntax/html.vim
   autocmd BufEnter *.es6 set filetype=javascript
 
   autocmd BufEnter *.prawn set filetype=ruby
@@ -405,11 +506,37 @@ cnoreabbrev Qall qall
 let mapleader = "\<space>"
 
 "" Ag
-nnoremap <C-f> :LAg!<SPACE>
-nnoremap <leader>f :LAg! <C-R><C-W>
-vnoremap <leader>f y:<C-u>LAg! "<C-r>0"<space>
+" Use ag instead of grep
+"   brew install the_silver_searcher
+" set grepprg=ag\ --nogroup\ --nocolor
+" let g:ctrlp_custom_ignore = {
+"   \ 'dir':  'node_modules',
+"   \ }
 
-let g:ag_lhandler="lopen"
+if executable('ag')
+  let g:ctrlp_root_markers = ['start', 'package.json']
+  let g:ctrlp_user_command = ['ag %s --files-with-matches -g "" --ignore tmp/*']
+  let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](doc|tmp|node_modules)',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ }
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
+
+nnoremap <C-f> :Ack!<SPACE>
+nnoremap <leader>f :Ack! <C-R><C-W>
+" yank the current visual selection and insert it as the search term
+vnoremap <leader>f y:<C-u>Ack! "<C-r>0"<space>
+let g:ackprg = 'ag --vimgrep --smart-case'
+    " exe g:ack_lhandler
+    " let l:apply_mappings = g:ack_apply_lmappings
+let g:ack_lhandler="copen"
+let g:ackhighlight=1
+
+" grep for the word under the cursor
+nnoremap <Leader>w :split <CR> :grep <cword> . <CR>
 
 " CtrlP
 let g:ctrlp_map = "<leader>p"
@@ -509,7 +636,7 @@ vnoremap <silent> <A-k> :m-2<CR>gv=gv
 
 " move between several split windows
 " johaiidiii. Make backspace act like ctrl+h https://github.com/neovim/neovim/issues/2048#issuecomment-77010340
-" nmap <C-H> <C-W>h
+nmap <C-H> <C-W>h
 nmap <bs> <C-W>h
 nmap <C-J> <C-W>j
 nmap <C-K> <C-W>k
@@ -524,9 +651,6 @@ tnoremap <Esc> <C-\><C-n>
 tnoremap <C-w>_ <C-\><C-n><C-w>_
 tnoremap <C-u> <C-\><C-n><C-u>
 tnoremap <C-d> <C-\><C-n><C-d>
-
-" grep for the word under the cursor
-nnoremap <Leader>w :split <CR> :grep <cword> . <CR>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

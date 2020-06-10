@@ -1,0 +1,1 @@
+[{"severity":"convention","location":{"begin_pos":205,"end_pos":230},"message":"Style/WordArray: Use `%w` or `%W` for an array of words.","cop_name":"Style/WordArray","status":"uncorrected"}]

@@ -1,0 +1,1 @@
+[{"severity":"convention","location":{"begin_pos":716,"end_pos":751},"message":"Style/BracesAroundHashParameters: Redundant curly braces around a hash parameter.","cop_name":"Style/BracesAroundHashParameters","status":"uncorrected"}]

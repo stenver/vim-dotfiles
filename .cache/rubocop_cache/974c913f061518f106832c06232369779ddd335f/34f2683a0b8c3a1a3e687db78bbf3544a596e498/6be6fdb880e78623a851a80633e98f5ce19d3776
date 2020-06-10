@@ -1,0 +1,1 @@
+[{"severity":"convention","location":{"begin_pos":1478,"end_pos":1479},"message":"Style/DoubleNegation: Avoid the use of double negation (`!!`).","cop_name":"Style/DoubleNegation","status":"uncorrected"}]
