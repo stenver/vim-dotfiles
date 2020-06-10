@@ -1,3 +1,4 @@
+/Users/stenver/README.md
 /Users/stenver/eagronom/core/app/javascript/src/aiCropPlanner/CropPlanner.jsx
 /Users/stenver/eagronom/core/app/javascript/src/aiCropPlanner/api.js
 /Users/stenver/eagronom/core/app/ai_crop_planner/ai_crop_planners_controller.rb
@@ -247,4 +248,3 @@
 /Users/stenver/eagronom/core/db/seeds.rb
 /Users/stenver/eagronom/core/app/nutrients/models/crop_npk_demand_for_harvest.rb
 /Users/stenver/eagronom/core/db/structure.sql
-/Users/stenver/eagronom/core/spec/support/features_helper.rb

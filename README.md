@@ -14,9 +14,10 @@ vcsh vim pull origin master
 https://github.com/neovim/neovim
 ```
 brew tap neovim/neovim
-brew install --HEAD neovim
+brew install neovim
 ```
 
+# OLD - MIGHT BE NOT NEEDED
 ## Install neobundle
 ```
 curl https://raw.githubusercontent.com/Shougo/neobundle.vim/master/bin/install.sh > install.sh
@@ -35,8 +36,10 @@ brew install python3
 pip3 install neovim
 
 ```
+# OLD - MIGHT BE NOT NEEDED - END
 
 ## Install dein(Package manager)
+- Might be autoinstalled!
 https://github.com/Shougo/dein.vim
 
 ## Initialize nvim plugins
@@ -56,3 +59,7 @@ Check Deoplete install README at: https://github.com/Shougo/deoplete.nvim
 ## Install universal-tags
 `https://github.com/universal-ctags`
 
+## install coc extensions
+https://github.com/neoclide/coc-prettier
+https://github.com/neoclide/coc-tsserver
+https://github.com/neoclide/coc-eslint
