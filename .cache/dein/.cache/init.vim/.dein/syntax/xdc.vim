@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'xdc') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'xdc', 'syntax/xdc.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:     XDC - Xilinx Design Constraints
@@ -193,5 +195,3 @@ highligh default link xdcFlags                                Special
 let b:current_syntax = "xdc"
 
 " vim: fileformat=unix tabstop=2 shiftwidth=2 expandtab
-
-endif

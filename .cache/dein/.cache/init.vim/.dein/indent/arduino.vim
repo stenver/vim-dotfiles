@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'arduino') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'arduino', 'indent/arduino.vim')
+  finish
+endif
 
 " Vim indent file
 " Language:	Arduino
@@ -15,5 +17,3 @@ let b:did_indent = 1
 setlocal cindent
 
 let b:undo_indent = "setl cin<"
-
-endif

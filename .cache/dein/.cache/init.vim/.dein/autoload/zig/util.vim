@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'zig') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'zig', 'autoload/zig/util.vim')
+  finish
+endif
 
 " Adapted from vim-go: autoload/go/util.vim
 "
@@ -390,5 +392,3 @@ function! zig#util#HasDebug(flag)
 endfunction
 
 " vim: sw=2 ts=2 et
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'puppet') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'puppet', 'indent/puppet.vim')
+  finish
+endif
 
 " Vim indent file
 " Language: Puppet
@@ -139,5 +141,3 @@ function! GetPuppetIndent(...)
 
     return ind
 endfunction
-
-endif

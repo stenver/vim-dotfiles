@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'coffee-script') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'coffee-script', 'indent/coffee.vim')
+  finish
+endif
 
 " Language:    CoffeeScript
 " Maintainer:  Mick Koch <mick@kochm.co>
@@ -428,5 +430,3 @@ function! GetCoffeeIndent(curlnum)
   " No special rules applied, so use the default policy.
   exec 'return' s:GetDefaultPolicy(a:curlnum)
 endfunction
-
-endif

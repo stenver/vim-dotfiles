@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'raku') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'raku', 'indent/raku.vim')
+  finish
+endif
 
 " Vim indent file
 " Language:      Raku
@@ -127,5 +129,3 @@ let &cpo = s:cpo_save
 unlet s:cpo_save
 
 " vim:ts=8:sts=4:sw=4:expandtab:ft=vim
-
-endif

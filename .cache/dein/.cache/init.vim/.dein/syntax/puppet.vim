@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'puppet') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'puppet', 'syntax/puppet.vim')
+  finish
+endif
 
 " Language:     Puppet
 " Maintainer:   Voxpupuli
@@ -436,5 +438,3 @@ HiLink puppetComment              Comment
 delcommand HiLink
 
 let b:current_syntax = "puppet"
-
-endif

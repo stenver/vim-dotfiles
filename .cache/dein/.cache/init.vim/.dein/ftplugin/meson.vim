@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'meson') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'meson', 'ftplugin/meson.vim')
+  finish
+endif
 
 " Vim filetype plugin file
 " Language:	meson
@@ -19,5 +21,3 @@ setlocal softtabstop=2
 
 let &cpo = s:keepcpo
 unlet s:keepcpo
-
-endif

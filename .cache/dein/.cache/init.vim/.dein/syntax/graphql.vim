@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'graphql') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'graphql', 'syntax/graphql.vim')
+  finish
+endif
 
 " Copyright (c) 2016-2020 Jon Parise <jon@indelible.org>
 "
@@ -92,8 +94,8 @@ hi def link graphqlStructure        Structure
 hi def link graphqlType             Type
 hi def link graphqlVariable         Identifier
 
-syn sync minlines=500
+if !get(b:, 'graphql_nested_syntax')
+    syn sync minlines=500
+endif
 
 let b:current_syntax = 'graphql'
-
-endif

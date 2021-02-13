@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'nix') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'nix', 'ftplugin/nix.vim')
+  finish
+endif
 
 " Vim filetype plugin
 " Language:    Nix
@@ -20,6 +22,4 @@ if get(g:, 'nix_recommended_style', 1)
     \ shiftwidth=2
     \ softtabstop=2
     \ expandtab 
-endif
-
 endif

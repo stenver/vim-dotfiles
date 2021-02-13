@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'typescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'typescript', 'syntax/yats/es6-date.vim')
+  finish
+endif
 
 syntax keyword typescriptGlobal containedin=typescriptIdentifierName Date nextgroup=typescriptGlobalDateDot,typescriptFuncCallArg
 syntax match   typescriptGlobalDateDot /\./ contained nextgroup=typescriptDateStaticMethod,typescriptProp
@@ -21,6 +23,4 @@ syntax keyword typescriptDateMethod contained toSource toString toTimeString toU
 syntax keyword typescriptDateMethod contained valueOf nextgroup=typescriptFuncCallArg
 syntax cluster props add=typescriptDateMethod
 if exists("did_typescript_hilink") | HiLink typescriptDateMethod Keyword
-endif
-
 endif

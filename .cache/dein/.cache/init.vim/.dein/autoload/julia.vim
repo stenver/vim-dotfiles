@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'julia') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'julia', 'autoload/julia.vim')
+  finish
+endif
 
 function! julia#set_syntax_version(jvers)
   echo "The julia#set_syntax_version function is deprecated"
@@ -163,7 +165,5 @@ function! julia#gotodefinition()
 
     return
 endfunction
-
-endif
 
 endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'brewfile') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'brewfile', 'syntax/brewfile.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:    Brewfile
@@ -19,5 +21,3 @@ syn keyword brewfileDirective brew cask tap mas cask_args
 hi def link brewfileDirective Keyword
 
 let b:current_syntax = "brewfile"
-
-endif

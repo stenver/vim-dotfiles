@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'typescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'typescript', 'syntax/typescriptreact.vim')
+  finish
+endif
 
 if !exists("main_syntax")
   if exists("b:current_syntax")
@@ -109,13 +111,13 @@ syntax match tsxEqual +=+ display contained
 
 " <tag id="sample">
 "         s~~~~~~e
-syntax region tsxString contained start=+"+ end=+"+ contains=tsxEntity,@Spell display
+syntax region tsxString contained start=+["']+ end=+["']+ contains=tsxEntity,@Spell display
 
 " <tag key={this.props.key}>
 "          s~~~~~~~~~~~~~~e
 syntax region tsxEscJs
     \ contained
-    \ contains=@typescriptValue,@tsxComment
+    \ contains=@typescriptValue,@tsxComment,typescriptObjectSpread
     \ matchgroup=typescriptBraces
     \ start=+{+
     \ end=+}+
@@ -141,5 +143,4 @@ highlight def link tsxCloseString Identifier
 let b:current_syntax = "typescriptreact"
 if main_syntax == 'typescriptreact'
   unlet main_syntax
-endif
 endif

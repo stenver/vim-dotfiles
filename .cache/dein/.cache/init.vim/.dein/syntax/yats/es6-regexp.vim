@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'typescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'typescript', 'syntax/yats/es6-regexp.vim')
+  finish
+endif
 
 syntax keyword typescriptGlobal containedin=typescriptIdentifierName RegExp nextgroup=typescriptGlobalRegExpDot,typescriptFuncCallArg
 syntax match   typescriptGlobalRegExpDot /\./ contained nextgroup=typescriptRegExpStaticProp,typescriptProp
@@ -12,6 +14,4 @@ endif
 syntax keyword typescriptRegExpMethod contained exec test nextgroup=typescriptFuncCallArg
 syntax cluster props add=typescriptRegExpMethod
 if exists("did_typescript_hilink") | HiLink typescriptRegExpMethod Keyword
-endif
-
 endif

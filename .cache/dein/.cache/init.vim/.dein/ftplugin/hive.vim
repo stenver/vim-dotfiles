@@ -1,6 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'hive') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'hive', 'ftplugin/hive.vim')
+  finish
+endif
 
 setlocal comments=:--
 setlocal commentstring=--\ %s
-
-endif

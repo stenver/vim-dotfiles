@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'typescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'typescript', 'compiler/typescript.vim')
+  finish
+endif
 
 if exists('current_compiler')
   finish
@@ -21,5 +23,3 @@ endif
 let &l:makeprg = g:typescript_compiler_binary . ' ' . g:typescript_compiler_options . ' $* %'
 
 CompilerSet errorformat=%+A\ %#%f\ %#(%l\\\,%c):\ %m,%C%m
-
-endif

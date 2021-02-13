@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'vue') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'vue', 'indent/vue.vim')
+  finish
+endif
 
 " Vim indent file
 " Language: Vue.js
@@ -64,5 +66,3 @@ function! GetVueIndent()
 
   return indent
 endfunction
-
-endif

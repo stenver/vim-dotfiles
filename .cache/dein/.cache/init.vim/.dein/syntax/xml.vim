@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'xml') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'xml', 'syntax/xml.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:	XML
@@ -348,5 +350,3 @@ let &cpo = s:xml_cpo_save
 unlet s:xml_cpo_save
 
 " vim: ts=8
-
-endif

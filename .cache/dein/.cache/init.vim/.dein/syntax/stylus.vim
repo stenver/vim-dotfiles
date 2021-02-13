@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'stylus') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'stylus', 'syntax/stylus.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:	CSS3
@@ -376,5 +378,3 @@ hi def link stylusIdChar                Special
 let b:current_syntax = "stylus"
 
 " vim:set sw=2:
-
-endif

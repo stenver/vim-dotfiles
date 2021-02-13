@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'mako') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'mako', 'ftplugin/mako.vim')
+  finish
+endif
 
 " Vim filetype plugin file
 " Language:     Mako
@@ -18,6 +20,4 @@ if exists("loaded_matchit")
   \ "<\@<=[ou]l\>[^>]*\%(>\|$\):<\@<=li\>:<\@<=/[ou]l>," .
   \ "<\@<=dl\>[^>]*\%(>\|$\):<\@<=d[td]\>:<\@<=/dl>," .
   \ "<\@<=\([^/][^ \t>]*\)[^>]*\%(>\|$\):<\@<=/\1>"
-endif
-
 endif

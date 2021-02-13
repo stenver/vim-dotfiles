@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'moonscript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'moonscript', 'indent/moon.vim')
+  finish
+endif
 
 " Language:    MoonScript
 " Maintainer:  leafo <leafot@gmail.com>
@@ -323,5 +325,3 @@ function! GetMoonIndent(curlinenum)
 
   return indent
 endfunction
-
-endif

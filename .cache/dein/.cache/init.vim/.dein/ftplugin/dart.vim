@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'dart') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'dart', 'ftplugin/dart.vim')
+  finish
+endif
 
 if exists('b:did_ftplugin')
   finish
@@ -30,5 +32,3 @@ setlocal isfname+=:
 setlocal iskeyword+=$
 
 let b:undo_ftplugin = 'setl et< fo< sw< sts< com< cms< inex< isf<'
-
-endif

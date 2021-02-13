@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'zinit') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'zinit', 'after/syntax/zsh.vim')
+  finish
+endif
 
 " Copyright (c) 2019 Sebastian Gniazdowski
 "
@@ -122,5 +124,3 @@ highlight def link ZinitSnippetUrl2        Macro
 highlight def link ZinitSnippetUrl3        Macro
 highlight def link ZinitSnippetUrl4        Macro
 highlight def link ZinitTrailingWhiteSpace Error
-
-endif

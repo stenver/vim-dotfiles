@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'zig') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'zig', 'syntax/zir.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language: Zir
@@ -50,5 +52,3 @@ hi def link zirBinNumber Constant
 
 hi def link zirGlobal Identifier
 hi def link zirLocal  Identifier
-
-endif

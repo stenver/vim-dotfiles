@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'llvm') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'llvm', 'ftplugin/llvm.vim')
+  finish
+endif
 
 " Vim filetype plugin file
 " Language: LLVM Assembly
@@ -12,5 +14,3 @@ let b:did_ftplugin = 1
 setlocal softtabstop=2 shiftwidth=2
 setlocal expandtab
 setlocal comments+=:;
-
-endif

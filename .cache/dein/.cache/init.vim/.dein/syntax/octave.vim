@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'octave') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'octave', 'syntax/octave.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:             Octave
@@ -728,5 +730,3 @@ endif
 let b:current_syntax = "octave"
 
 "EOF	vim: ts=2 et tw=80 sw=2 sts=0
-
-endif

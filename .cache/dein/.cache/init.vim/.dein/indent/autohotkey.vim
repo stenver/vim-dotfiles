@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'autohotkey') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'autohotkey', 'indent/autohotkey.vim')
+  finish
+endif
 
 " Vim indent file
 " Language:   AutoHotkey
@@ -219,5 +221,3 @@ function! GetAutoHotkeyIndent()
 endfunction
 
 let b:did_indent = 1
-
-endif

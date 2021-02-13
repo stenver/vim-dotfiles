@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'scala') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'scala', 'syntax/scala.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:             Scala
@@ -231,5 +233,3 @@ if main_syntax ==# 'scala'
 endif
 
 " vim:set sw=2 sts=2 ts=8 et:
-
-endif

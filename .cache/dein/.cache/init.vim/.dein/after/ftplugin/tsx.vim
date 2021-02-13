@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || !(index(g:polyglot_disabled, 'typescript') != -1 || index(g:polyglot_disabled, 'typescript') != -1 || index(g:polyglot_disabled, 'jsx') != -1)
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'jsx', 'after/ftplugin/tsx.vim')
+  finish
+endif
 
 " modified from html.vim
 " For matchit plugin
@@ -28,5 +30,3 @@ augroup jsx_comment
 augroup end
 
 setlocal suffixesadd+=.tsx
-
-endif

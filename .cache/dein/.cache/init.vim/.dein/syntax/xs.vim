@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'perl') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'perl', 'syntax/xs.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:    XS (Perl extension interface language)
@@ -3677,5 +3679,3 @@ hi def link xsMacro      Macro
 let b:current_syntax = "xs"
 
 " vim: ts=8
-
-endif

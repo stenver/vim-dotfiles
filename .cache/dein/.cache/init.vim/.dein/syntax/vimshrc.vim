@@ -1,7 +1,6 @@
 "=============================================================================
 " FILE: syntax/vimshrc.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 18 Apr 2010
 " Usage: Just source this file.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
@@ -31,50 +30,76 @@ elseif exists('b:current_syntax')
   finish
 endif
 
-syn match   VimShellRcCommand               '\%(^\|[;|]\)\s*\zs[[:alnum:]_.][[:alnum:]_.-]\+' contained
-syn match   VimShellRcVariable          '$\h\w*' contained
-syn match   VimShellRcVariable          '$$\h\w*' contained
-syn region   VimShellRcVariable  start=+${+ end=+}+ contained
-syn region   VimShellRcString   start=+'+ end=+'+ oneline contained
-syn region   VimShellRcString   start=+"+ end=+"+ contains=VimShellQuoted oneline contained
-syn region   VimShellRcString   start=+`+ end=+`+ oneline contained
-syn match   VimShellRcString   '[''"`]$' contained
-syn match   VimShellRcComment   '#.*$' contained
-syn match   VimShellRcConstants         '[+-]\=\<\d\+\>' contained
-syn match   VimShellRcConstants         '[+-]\=\<0x\x\+\>' contained
-syn match   VimShellRcConstants         '[+-]\=\<0\o\+\>' contained
-syn match   VimShellRcConstants         '[+-]\=\d\+#[-+]\=\w\+\>' contained
-syn match   VimShellRcConstants         '[+-]\=\d\+\.\d\+\([eE][+-]\?\d\+\)\?\>' contained
-syn match   VimShellRcArguments         '\s-\=-[[:alnum:]-]\+=\=' contained
-syn match   VimShellRcQuoted            '\\.' contained
-syn match   VimShellRcSpecial           '[|<>;&;]' contained
-if vimshell#iswin()
-    syn match   VimShellRcArguments         '\s/[?:,_[:alnum:]]\+\ze\%(\s\|$\)' contained
-    syn match   VimShellRcDirectory         '\%(\f\s\?\)\+[/\\]\ze\%(\s\|$\)'
+syntax match   vimshrcCommand
+      \ '\%(^\|[;|]\)\s*\zs[[:alnum:]_.][[:alnum:]_.-]\+' contained
+syntax match   vimshrcVariable
+      \ '$\h\w*' contained
+syntax match   vimshrcVariable
+      \ '$$\h\w*' contained
+syntax region   vimshrcVariable
+      \ start=+${+ end=+}+ contained
+syntax region   vimshrcString
+      \ start=+'+ end=+'+ oneline contained
+syntax region   vimshrcString
+      \ start=+"+ end=+"+ contains=VimShellQuoted oneline contained
+syntax region   vimshrcString
+      \ start=+`+ end=+`+ oneline contained
+syntax match   vimshrcString
+      \ '[''"`]$' contained
+syntax match   vimshrcComment
+      \ '#.*$' contained
+syntax match   vimshrcConstants
+      \ '[+-]\=\<\d\+\>' contained
+syntax match   vimshrcConstants
+      \ '[+-]\=\<0x\x\+\>' contained
+syntax match   vimshrcConstants
+      \ '[+-]\=\<0\o\+\>' contained
+syntax match   vimshrcConstants
+      \ '[+-]\=\d\+#[-+]\=\w\+\>' contained
+syntax match   vimshrcConstants
+      \ '[+-]\=\d\+\.\d\+\([eE][+-]\?\d\+\)\?\>' contained
+syntax match   vimshrcArguments
+      \ '\s-\=-[[:alnum:]-]\+=\=' contained
+syntax match   vimshrcQuoted
+      \ '\\.' contained
+syntax match   vimshrcSpecial
+      \ '[|<>;&;]' contained
+if vimshell#util#is_windows()
+  syntax match   vimshrcArguments
+        \ '\s/[?:,_[:alnum:]]\+\ze\%(\s\|$\)' contained
+  syntax match   vimshrcDirectory
+        \ '\%(\f\s\?\)\+[/\\]\ze\%(\s\|$\)'
 else
-    syn match   VimShellRcDirectory         '\%(\f\s\?\)\+/\ze\%(\s\|$\)'
+  syntax match   vimshrcDirectory
+        \ '\%(\f\s\?\)\+/\ze\%(\s\|$\)'
 endif
 
-syn region   VimShellRcVimShellScriptRegion start='\zs\<\f\+' end='\zs$' contains=VimShellRcCommand,VimShellRcVariable,VimShellRcString,VimShellRcComment,VimShellRcConstants,VimShellRcArguments,VimShellRcQuoted,VimShellRcSpecial,VimShellRcDirectory
-syn region   VimShellRcCommentRegion  start='#' end='\zs$'
-syn cluster  VimShellRcBodyList contains=VimShellRcVimShellScriptRegion,VimShellRcComment
+syntax region   vimshrcVimShellScriptRegion
+      \ start='\zs\<\f\+' end='\zs$'
+      \ contains=vimshrcCommand,vimshrcVariable,vimshrcString,
+      \vimshrcComment,vimshrcConstants,vimshrcArguments,
+      \vimshrcQuoted,vimshrcSpecial,vimshrcDirectory
+syntax region   vimshrcCommentRegion  start='#' end='\zs$'
+syntax cluster  vimshrcBodyList
+      \ contains=vimshrcVimShellScriptRegion,vimshrcComment
 
 unlet! b:current_syntax
-syn include @VimShellRcVimScript syntax/vim.vim
-syn region VimShellRcVimScriptRegion start=-\<vexe\s\+\z(["']\)\zs$- end=+\z1\zs$+ contains=@VimShellRcVimScript
-syn cluster VimShellRcBodyList add=VimShellRcVimScriptRegion
+syntax include @vimshrcVimScript syntax/vim.vim
+syntax region vimshrcVimScriptRegion
+      \ start=-\<vexe\s\+\z(["']\)\zs$- end=+\z1\zs$+ contains=@vimshrcVimScript
+syntax cluster vimshrcBodyList add=vimshrcVimScriptRegion
 
-hi def link VimShellRcQuoted Special
-hi def link VimShellRcString Constant
-hi def link VimShellRcArguments Type
-hi def link VimShellRcConstants Constant
-hi def link VimShellRcSpecial PreProc
-hi def link VimShellRcVariable Comment
-hi def link VimShellRcComment Identifier
-hi def link VimShellRcCommentRegion Identifier
-hi def link VimShellRcNormal Normal
+highlight default link vimshrcQuoted Special
+highlight default link vimshrcString String
+highlight default link vimshrcArguments Type
+highlight default link vimshrcConstants Constant
+highlight default link vimshrcSpecial PreProc
+highlight default link vimshrcVariable Identifier
+highlight default link vimshrcComment Comment
+highlight default link vimshrcCommentRegion Comment
+highlight default link vimshrcNormal Normal
 
-hi def link VimShellRcCommand Statement
-hi def link VimShellRcDirectory Preproc
+highlight default link vimshrcCommand Statement
+highlight default link vimshrcDirectory Preproc
 
 let b:current_syntax = 'vimshrc'

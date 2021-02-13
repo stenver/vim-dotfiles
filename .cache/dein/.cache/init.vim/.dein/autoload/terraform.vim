@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'terraform') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'terraform', 'autoload/terraform.vim')
+  finish
+endif
 
 let s:cpo_save = &cpoptions
 set cpoptions&vim
@@ -18,7 +20,7 @@ function! terraform#fmt() abort
   let tmpfile = tempname()
   let shellredir_save = &shellredir
   let &shellredir = '>%s 2>'.tmpfile
-  silent execute '%!terraform fmt -no-color -'
+  silent execute '%!'.g:terraform_binary_path.' fmt -no-color -'
   let &shellredir = shellredir_save
 
   " If there was an error, undo any changes and show stderr.
@@ -46,35 +48,31 @@ endfunction
 
 function! terraform#commands(ArgLead, CmdLine, CursorPos) abort
   let commands = [
+    \ 'init',
+    \ 'validate',
+    \ 'plan',
     \ 'apply',
-    \ 'console',
     \ 'destroy',
-    \ 'env',
+    \ 'console',
     \ 'fmt',
+    \ 'force-unlock',
     \ 'get',
     \ 'graph',
     \ 'import',
-    \ 'init',
+    \ 'login',
+    \ 'logout',
     \ 'output',
-    \ 'plan',
     \ 'providers',
     \ 'refresh',
     \ 'show',
+    \ 'state',
     \ 'taint',
     \ 'untaint',
-    \ 'validate',
     \ 'version',
-    \ 'workspace',
-    \ '0.12upgrade',
-    \ 'debug',
-    \ 'force-unlock',
-    \ 'push',
-    \ 'state'
+    \ 'workspace'
   \ ]
   return join(commands, "\n")
 endfunction
 
 let &cpoptions = s:cpo_save
 unlet s:cpo_save
-
-endif

@@ -1,10 +1,12 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'git') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'git', 'syntax/gitconfig.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:	git config file
 " Maintainer:	Tim Pope <vimNOSPAM@tpope.org>
 " Filenames:	gitconfig, .gitconfig, *.git/config
-" Last Change:	2019 Sep 27
+" Last Change:	2019 Dec 05
 
 if exists("b:current_syntax")
   finish
@@ -36,5 +38,3 @@ hi def link gitconfigEscape		Special
 hi def link gitconfigError		Error
 
 let b:current_syntax = "gitconfig"
-
-endif

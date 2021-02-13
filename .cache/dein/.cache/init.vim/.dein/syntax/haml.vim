@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'haml') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'haml', 'syntax/haml.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:	Haml
@@ -109,5 +111,3 @@ if main_syntax == "haml"
 endif
 
 " vim:set sw=2:
-
-endif

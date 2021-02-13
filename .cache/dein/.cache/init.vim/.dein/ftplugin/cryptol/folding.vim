@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'cryptol') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'cryptol', 'ftplugin/cryptol/folding.vim')
+  finish
+endif
 
 " Copyright © 2013 Edward O'Callaghan. All Rights Reserved.
 
@@ -46,5 +48,3 @@ function! GetPotionFold(lnum)
         return '>' . next_indent
     endif
 endfunction
-
-endif

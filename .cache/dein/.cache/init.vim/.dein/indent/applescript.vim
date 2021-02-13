@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'applescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'applescript', 'indent/applescript.vim')
+  finish
+endif
 
 "Plugin Name: applescript indent file.
 "Author: mityu
@@ -77,5 +79,3 @@ let &cpo=s:cpo_save
 unlet s:cpo_save
 
 " vim: foldmethod=marker
-
-endif

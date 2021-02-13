@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'blade') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'blade', 'ftplugin/blade.vim')
+  finish
+endif
 
 " Vim filetype plugin
 " Language:     Blade (Laravel)
@@ -32,6 +34,4 @@ if exists('loaded_matchit') && exists('b:match_words')
                 \ ',{:},\[:\],(:)'
     let b:match_skip = 'synIDattr(synID(line("."), col("."), 0), "name") !=# "bladeKeyword"'
     let b:match_ignorecase = 0
-endif
-
 endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'perl') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'perl', 'syntax/mason.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:     Mason (Perl embedded in HTML)
@@ -82,6 +84,4 @@ let b:current_syntax = "mason"
 
 if main_syntax == 'mason'
 	unlet main_syntax
-endif
-
 endif

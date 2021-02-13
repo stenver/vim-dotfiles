@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'hcl') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'hcl', 'ftplugin/hcl.vim')
+  finish
+endif
 
 " File: ftplugin/hcl.vim
 " Author: BABAROT <b4b4r07@gmail.com>
@@ -37,5 +39,3 @@ let &cpo = s:save_cpo
 unlet s:save_cpo
 
 " vim: set et sw=4 ts=4:
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'ruby') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'ruby', 'indent/ruby.vim')
+  finish
+endif
 
 " Vim indent file
 " Language:		Ruby
@@ -28,7 +30,12 @@ endif
 
 if !exists('g:ruby_indent_block_style')
   " Possible values: "expression", "do"
-  let g:ruby_indent_block_style = 'expression'
+  let g:ruby_indent_block_style = 'do'
+endif
+
+if !exists('g:ruby_indent_hanging_elements')
+  " Non-zero means hanging indents are enabled, zero means disabled
+  let g:ruby_indent_hanging_elements = 1
 endif
 
 setlocal nosmartindent
@@ -323,7 +330,11 @@ function! s:ClosingBracketOnEmptyLine(cline_info) abort
 
     if searchpair(escape(bracket_pair[0], '\['), '', bracket_pair[1], 'bW', s:skip_expr) > 0
       if closing_bracket == ')' && col('.') != col('$') - 1
-        let ind = virtcol('.') - 1
+        if g:ruby_indent_hanging_elements
+          let ind = virtcol('.') - 1
+        else
+          let ind = indent(line('.'))
+        end
       elseif g:ruby_indent_block_style == 'do'
         let ind = indent(line('.'))
       else " g:ruby_indent_block_style == 'expression'
@@ -548,7 +559,9 @@ function! s:AfterUnbalancedBracket(pline_info) abort
     let [opening, closing] = s:ExtraBrackets(info.plnum)
 
     if opening.pos != -1
-      if opening.type == '(' && searchpair('(', '', ')', 'bW', s:skip_expr) > 0
+      if !g:ruby_indent_hanging_elements
+        return indent(info.plnum) + info.sw
+      elseif opening.type == '(' && searchpair('(', '', ')', 'bW', s:skip_expr) > 0
         if col('.') + 1 == col('$')
           return indent(info.plnum) + info.sw
         else
@@ -953,5 +966,3 @@ let &cpo = s:cpo_save
 unlet s:cpo_save
 
 " vim:set sw=2 sts=2 ts=8 et:
-
-endif

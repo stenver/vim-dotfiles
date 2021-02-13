@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'reason') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'reason', 'syntax/reason.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:     Reason (Forked from Rust)
@@ -250,5 +252,3 @@ syn sync minlines=200
 syn sync maxlines=500
 
 let b:current_syntax = "reason"
-
-endif

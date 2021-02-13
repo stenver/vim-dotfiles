@@ -1,5 +1,5 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'idris') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'idris', 'after/ftplugin/idris.vim')
+  finish
+endif
 
 setlocal iskeyword+='
-
-endif

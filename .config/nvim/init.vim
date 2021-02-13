@@ -165,13 +165,15 @@ if &compatible
   set nocompatible               " Be iMproved
 endif
 
-set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
+set runtimepath+=/Users/stenver/.cache/dein/repos/github.com/Shougo/dein.vim
 
-if dein#load_state('~/.cache/dein')
-  call dein#begin('~/.cache/dein')
+" Required:
+if dein#load_state('/Users/stenver/.cache/dein')
+  call dein#begin('/Users/stenver/.cache/dein')
+
   " Let dein manage dein
   " Required:
-  call dein#add('/Users/stenver/.config/nvim/repos/github.com/Shougo/dein.vim')
+  call dein#add('/Users/stenver/.cache/dein/repos/github.com/Shougo/dein.vim')
 
   " completion framework
   " call dein#add('Shougo/deoplete.nvim')
@@ -232,23 +234,23 @@ if dein#load_state('~/.cache/dein')
   "" use cs'" to change surrounding ' to ". Can take any other combinations as
   "" well like cs'<q>, etc
   call dein#add('tpope/vim-surround')
-  
+
   "" gS to split condition statements, gJ to join them
   call dein#add('AndrewRadev/splitjoin.vim')
-  
+
   "" Sublime select file. ctrl+n to select, ctrl+x to skip, ctrl+p to go back
   call dein#add('terryma/vim-multiple-cursors')
-  
+
   "" Use AG
   " call dein#add('rking/ag.vim')
   call dein#add('mileszs/ack.vim')
-  
+
   "" Camelcase for moving in camelcase code
   call dein#add('bkad/CamelCaseMotion')
-  
+
   "" Test plugin
   call dein#add('janko-m/vim-test')
-  
+
   " You can specify revision/branch/tag.
   call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
 
@@ -279,7 +281,7 @@ nmap ,m :NERDTreeFind<CR>
 nmap ,n :NERDTreeToggle<CR>
 
 " Some color scheme stuff
-colorscheme liquidcarbon
+colorscheme deus
 set t_Co=256
 set nocursorline
 set guioptions=egmrti
@@ -473,7 +475,7 @@ augroup file-types
 
   autocmd BufEnter *.html set filetype=xhtml
   autocmd BufEnter */nginx/*.conf* set filetype=nginx
-  autocmd BufEnter *.html.erb source $HOME/.config/nvim/repos/github.com/othree/html5.vim/syntax/html.vim
+  autocmd BufEnter *.html.erb source $HOME/.cache/dein/repos/github.com/othree/html5.vim/syntax/html.vim
   autocmd BufEnter *.es6 set filetype=javascript
 
   autocmd BufEnter *.prawn set filetype=ruby

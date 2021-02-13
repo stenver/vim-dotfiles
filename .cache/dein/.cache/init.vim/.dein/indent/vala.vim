@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'vala') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'vala', 'indent/vala.vim')
+  finish
+endif
 
 " Vim indent file
 " Language:         Vala
@@ -83,5 +85,3 @@ function GetValaIndent(lnum)
 	" Fall back on cindent, which does it mostly right
 	return cindent(a:lnum)
 endfunction
-
-endif

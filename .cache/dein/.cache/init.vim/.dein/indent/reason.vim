@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'reason') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'reason', 'indent/reason.vim')
+  finish
+endif
 
 " Vim indent file
 " Language:         Reason (adapted from Rust)
@@ -217,5 +219,3 @@ function GetReasonIndent(lnum)
 	" Fall back on cindent, which does it mostly right
 	return cindent(a:lnum)
 endfunction
-
-endif

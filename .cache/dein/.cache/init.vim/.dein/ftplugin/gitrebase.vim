@@ -1,9 +1,11 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'git') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'git', 'ftplugin/gitrebase.vim')
+  finish
+endif
 
 " Vim filetype plugin
 " Language:	git rebase --interactive
 " Maintainer:	Tim Pope <vimNOSPAM@tpope.org>
-" Last Change:	2016 Aug 29
+" Last Change:	2019 Dec 05
 
 " Only do this when not done yet for this buffer
 if (exists("b:did_ftplugin"))
@@ -48,5 +50,3 @@ nnoremap <buffer> <silent> <C-A> :<C-U><C-R>=v:count1<CR>Cycle<CR>
 nnoremap <buffer> <silent> <C-X> :<C-U><C-R>=v:count1<CR>Cycle!<CR>
 
 let b:undo_ftplugin = b:undo_ftplugin . "|exe 'nunmap <buffer> K'|exe 'nunmap <buffer> <C-A>'|exe 'nunmap <buffer> <C-X>'"
-
-endif

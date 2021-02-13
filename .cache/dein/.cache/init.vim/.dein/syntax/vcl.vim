@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'vcl') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'vcl', 'syntax/vcl.vim')
+  finish
+endif
 
 " Vim syntax file
 " Filename:     vcl.vim
@@ -106,5 +108,3 @@ hi link vclModes            Operator
 hi link vclOption           Identifier
 hi link vclNumber           Number
 hi link vclNumberTime       Number
-
-endif

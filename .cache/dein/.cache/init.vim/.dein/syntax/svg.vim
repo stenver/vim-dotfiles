@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'svg') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'svg', 'syntax/svg.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:	SVG
@@ -145,5 +147,3 @@ if main_syntax == 'svg'
 endif
 
 " vim: ts=8
-
-endif

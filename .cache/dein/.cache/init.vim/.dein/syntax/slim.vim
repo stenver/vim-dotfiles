@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'slim') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'slim', 'syntax/slim.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language: Slim
@@ -43,7 +45,8 @@ syn match slimTag           "\w\+[><]*"         contained contains=htmlTagName n
 syn match slimIdChar        "#{\@!"        contained nextgroup=slimId
 syn match slimId            "\%(\w\|-\)\+" contained nextgroup=@slimComponent
 syn match slimClassChar     "\."           contained nextgroup=slimClass
-syn match slimClass         "\%(\w\|-\)\+" contained nextgroup=@slimComponent
+syn match slimClass         "\%(\w\|-\|\/\|:\(\w\|-\)\+\)\+" contained nextgroup=@slimComponent
+
 syn match slimInlineTagChar "\s*:\s*"      contained nextgroup=slimTag,slimClassChar,slimIdChar
 
 syn region slimWrappedAttrs matchgroup=slimWrappedAttrsDelimiter start="\s*{\s*" skip="}\s*\""  end="\s*}\s*"  contained contains=slimAttr nextgroup=slimRuby
@@ -110,5 +113,3 @@ hi def link slimInlineTagChar             Delimiter
 hi def link slimFilter                    PreProc
 
 let b:current_syntax = "slim"
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'puppet') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'puppet', 'ftplugin/puppet.vim')
+  finish
+endif
 
 " Vim filetype plugin
 " Language:             Puppet
@@ -28,5 +30,3 @@ let b:undo_ftplugin = "
     \| setlocal keywordprg< iskeyword< comments< commentstring<
     \| setlocal formatoptions< formatexpr<
     \"
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'flatbuffers') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'flatbuffers', 'syntax/fbs.vim')
+  finish
+endif
 
 if exists("b:current_syntax")
   finish
@@ -52,5 +54,3 @@ if version >= 508 || !exists("did_proto_syn_inits")
 endif
 
 let b:current_syntax = "fbs"
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'typescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'typescript', 'syntax/yats/web-payment.vim')
+  finish
+endif
 
 syntax keyword typescriptGlobal containedin=typescriptIdentifierName PaymentRequest
 syntax keyword typescriptPaymentMethod contained show abort canMakePayment nextgroup=typescriptFuncCallArg
@@ -32,6 +34,4 @@ endif
 syntax keyword typescriptPaymentShippingOptionProp contained id label amount selected
 syntax cluster props add=typescriptPaymentShippingOptionProp
 if exists("did_typescript_hilink") | HiLink typescriptPaymentShippingOptionProp Keyword
-endif
-
 endif

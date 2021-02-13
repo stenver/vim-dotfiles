@@ -1,5 +1,5 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'i3') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'i3', 'ftplugin/i3config.vim')
+  finish
+endif
 
 setlocal commentstring=#\ %s
-
-endif

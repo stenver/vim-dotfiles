@@ -1,54 +1,34 @@
-This is a mirror of http://www.vim.org/scripts/script.php?script_id=2390
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=302
 
-CSApprox.vim
+Files with ANSI escape sequences look good when dumped onto a terminal that accepts them, but have been a distracting clutter when edited via vim.  The AnsiEsc.vim file, when sourced, will conceal Ansi escape sequences but will cause subsequent text to be colored as the escape sequence specifies when used with Vince Negri's conceal patch.  AnsiEsc.vim v3 or later uses the conceal patch to accomplish this.
 
-============
-DESCRIPTION
-============
+Without that conceal patch, the best that can be done is to suppress Ansi escape sequences with "Ignore" highlighting.  AnsiEsc.vim v2 does that.
 
-It's hard to find colorschemes for terminal Vim.  Most colorschemes are
-written to only support GVim, and don't work at all in terminal Vim.
+------------------------------
+VIM Developer's Corner:
+------------------------------
 
-This plugin makes GVim-only colorschemes Just Work in terminal Vim, as long
-as the terminal supports 88 or 256 colors - and most do these days.  This
-usually requires no user interaction (but see the help for what to do if
-things don't Just Work).  After getting this plugin happily installed, any
-time you use :colorscheme it will do its magic and make the colorscheme Just
-Work.
+   
+Vince Negri's "conceal" patch to vim6.3 and vim7.0 allows one to suppress strings within a line; ie. in-line folding! This feature is ideal for Ansi escape sequence handling.  Starting with AnsiEsc's version 3 the <AnsiEsc.vim> script makes use of that new capability to display Ansi-sequence containing files.  The Ansi escape sequences themselves are concealed (except for the line where the cursor is), but they have their desired colorizing effect.  Note that you must have Vim7.0 with the +conceal option for the latest <AnsiEsc.vim> (v8) to work.  Apply Vince Negri's patch to the Vim 7.0 source code and compile Vim for "huge" features.  Once you've done that, simply source the <AnsiEsc.vim> file in when you want to see Ansi-escape sequenced text in Vim.
 
-Whenever you change colorschemes using the :colorscheme command this script
-will be executed.  It will take the colors that the scheme specified for use
-in the GUI and use an approximation algorithm to try to gracefully degrade
-them to the closest color available in your terminal.  If you are running in
-a GUI or if your terminal doesn't support 88 or 256 colors, no changes are
-made.  Also, no changes will be made if the colorscheme seems to have been
-high color already.
+    ----------------------------------
+    Typical Compiling Directions:
+    ----------------------------------
+To use the AnsiEsc v2, just source it in when you wish to; your vim version needs +syntax, which is fairly common.
 
-If for some reason this transparent method isn't suitable to you (for instance
-if your environment can't be configured to meet the |csapprox-requirements|,
-or you need to work in Vim 6), another option is also available: using the
-|:CSApproxSnapshot| command to create a new GUI/88-/256-color terminal
-colorscheme.  To use this command, a user would generally start GVim, choose a
-colorscheme that sets up the desired colors, and then use |:CSApproxSnapshot|
-to create a new colorscheme based on those colors that works in high color
-terminals.  This method is more flexible than the transparent mode and works
-in more places, but also requires more user intervention, and makes it harder
-to deal with colorschemes being updated and such.
+To use the conceal-mode AnsiEsc (those with versions >= 3), you'll need to have a Vim that has been patched with Vince Negri's concealownsyntax patch; the version will show both +syntax and +conceal.
 
-======
-NOTES
-======
+Typical compiling directions:
 
-Ideally, this plugin should require absolutely no configuration, but you may
-need some tweaking to make sure vim realizes that your terminal supports more
-than 16 colors.  Also, konsole and Eterm users will want to make sure that
-this plugin realizes that the terminal does not use colors that are exactly
-xterm-compatible; they will want to skim through the help articles
-|csapprox-palettes| and |csapprox-configuration| for a better end result.
+        * cd ..wherever../vim70/
+        * browse http://sites.google.com/site/vincenegri/ for the conceal/ownsyntax patch
+        * patch -p0 < conceal-ownsyntax.diff
+        * make distclean
+        * configure --with-features=huge
+        * make
+        * make install
 
-==============
-SCREENSHOTS
-==============
 
-Some quick side-by-side screenshots can be found at
-http://www.cs.drexel.edu/~mjw452/CSApprox/
+(also see: vimtip#1308)
+(alpha/beta version available at http://mysite.verizon.net/astronaut/vim/index.html#ANSIESC)
+

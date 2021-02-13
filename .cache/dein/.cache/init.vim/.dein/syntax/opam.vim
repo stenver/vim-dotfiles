@@ -1,4 +1,13 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'ocaml') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'ocaml', 'syntax/opam.vim')
+  finish
+endif
+
+" Vim syntax file
+" Language:    OPAM - OCaml package manager
+" Maintainer:  Markus Mottl        <markus.mottl@gmail.com>
+" URL:         https://github.com/ocaml/vim-ocaml
+" Last Change:
+"              2020 Dec 31 - Added header (Markus Mottl)
 
 if exists("b:current_syntax")
   finish
@@ -31,5 +40,3 @@ hi link opamInterpolate Identifier
 let b:current_syntax = "opam"
 
 " vim: ts=2 sw=2
-
-endif

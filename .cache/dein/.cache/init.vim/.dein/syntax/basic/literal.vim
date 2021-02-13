@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'typescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'typescript', 'syntax/basic/literal.vim')
+  finish
+endif
 
 "Syntax in the JavaScript code
 
@@ -7,7 +9,7 @@ syntax match   typescriptASCII                 contained /\\\d\d\d/
 
 syntax region  typescriptTemplateSubstitution matchgroup=typescriptTemplateSB
   \ start=/\${/ end=/}/
-  \ contains=@typescriptValue
+  \ contains=@typescriptValue,typescriptCastKeyword
   \ contained
 
 
@@ -31,7 +33,7 @@ syntax region  typescriptTemplate
 "Array
 syntax region  typescriptArray matchgroup=typescriptBraces
   \ start=/\[/ end=/]/
-  \ contains=@typescriptValue,@typescriptComments
+  \ contains=@typescriptValue,@typescriptComments,typescriptCastKeyword
   \ nextgroup=@typescriptSymbols,typescriptDotNotation
   \ skipwhite skipempty fold
 
@@ -41,5 +43,3 @@ syntax match typescriptNumber /\<0[oO][0-7][0-7_]*\>/       nextgroup=@typescrip
 syntax match typescriptNumber /\<0[xX][0-9a-fA-F][0-9a-fA-F_]*\>/ nextgroup=@typescriptSymbols skipwhite skipempty
 syntax match typescriptNumber /\<\%(\d[0-9_]*\%(\.\d[0-9_]*\)\=\|\.\d[0-9_]*\)\%([eE][+-]\=\d[0-9_]*\)\=\>/
   \ nextgroup=typescriptSymbols skipwhite skipempty
-
-endif

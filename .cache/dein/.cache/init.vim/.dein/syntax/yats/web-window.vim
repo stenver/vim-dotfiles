@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'typescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'typescript', 'syntax/yats/web-window.vim')
+  finish
+endif
 
 syntax keyword typescriptBOMWindowProp containedin=typescriptIdentifierName applicationCache
 syntax keyword typescriptBOMWindowProp containedin=typescriptIdentifierName closed
@@ -108,6 +110,4 @@ syntax keyword typescriptBOMWindowCons containedin=typescriptIdentifierName DOMP
 syntax keyword typescriptBOMWindowCons containedin=typescriptIdentifierName QueryInterface
 syntax keyword typescriptBOMWindowCons containedin=typescriptIdentifierName XMLSerializer
 if exists("did_typescript_hilink") | HiLink typescriptBOMWindowCons Structure
-endif
-
 endif

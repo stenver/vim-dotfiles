@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'dlang') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'dlang', 'syntax/dcov.vim')
+  finish
+endif
 
 " Vim syntax file for coverage information for the reference compiler (DMD) of
 " the D programming language.
@@ -51,5 +53,3 @@ hi def link dcovLow                     Operator
 hi def link dcovPartial                 Structure
 
 let b:current_syntax = "dcov"
-
-endif

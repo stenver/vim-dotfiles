@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'puppet') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'puppet', 'autoload/puppet/format.vim')
+  finish
+endif
 
 "
 " Simple format using puppet's l:indents and align hashrockets function
@@ -70,5 +72,3 @@ function! puppet#format#Fallback(start_lnum, end_lnum) abort
 
 endfunction
 
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'puppet') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'puppet', 'ftplugin/puppet_tagbar.vim')
+  finish
+endif
 
 " Puppet set up for Tagbar plugin
 " (https://github.com/majutsushi/tagbar).
@@ -44,5 +46,3 @@ endif
 
 let g:tagbar_type_puppet.deffile = puppet#ctags#OptionFile()
 
-
-endif

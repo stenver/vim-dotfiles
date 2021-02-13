@@ -1,7 +1,6 @@
 "=============================================================================
 " FILE: dirs.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 07 Jul 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -29,7 +28,7 @@ let s:command = {
       \ 'kind' : 'internal',
       \ 'description' : 'dirs [{max}]',
       \}
-function! s:command.execute(args, context)"{{{
+function! s:command.execute(args, context) abort "{{{
   " Print directory stack.
 
   let cnt = 0
@@ -56,6 +55,6 @@ function! s:command.execute(args, context)"{{{
   endwhile
 endfunction"}}}
 
-function! vimshell#commands#dirs#define()
+function! vimshell#commands#dirs#define() abort
   return s:command
 endfunction

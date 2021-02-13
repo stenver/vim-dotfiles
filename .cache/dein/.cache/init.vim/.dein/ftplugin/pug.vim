@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'pug') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'pug', 'ftplugin/pug.vim')
+  finish
+endif
 
 " Vim filetype plugin
 " Language: Pug
@@ -57,5 +59,3 @@ let b:undo_ftplugin = "setl cms< com< "
 let &cpo = s:save_cpo
 
 " vim:set sw=2:
-
-endif

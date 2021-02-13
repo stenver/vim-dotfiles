@@ -1,10 +1,12 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'git') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'git', 'syntax/gitrebase.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:	git rebase --interactive
 " Maintainer:	Tim Pope <vimNOSPAM@tpope.org>
 " Filenames:	git-rebase-todo
-" Last Change:	2016 Aug 29
+" Last Change:	2019 Dec 06
 
 if exists("b:current_syntax")
   finish
@@ -25,7 +27,7 @@ syn match   gitrebaseDrop   "\v^d%(rop)=>"   nextgroup=gitrebaseCommit skipwhite
 syn match   gitrebaseNoop   "\v^noop>"
 syn match   gitrebaseMerge  "\v^m(erge)=>"   nextgroup=gitrebaseMergeOption,gitrebaseName skipwhite
 syn match   gitrebaseLabel  "\v^l(abel)=>"   nextgroup=gitrebaseName skipwhite
-syn match   gitrebaseReset  "\v^r(eset)=>"   nextgroup=gitrebaseName skipwhite
+syn match   gitrebaseReset  "\v^(t|reset)=>" nextgroup=gitrebaseName skipwhite
 syn match   gitrebaseSummary ".*"               contains=gitrebaseHash contained
 syn match   gitrebaseCommand ".*"                                      contained
 syn match   gitrebaseComment "^\s*#.*"             contains=gitrebaseHash
@@ -57,5 +59,3 @@ hi def link gitrebaseMergeComment   gitrebaseComment
 hi def link gitrebaseName           Tag
 
 let b:current_syntax = "gitrebase"
-
-endif

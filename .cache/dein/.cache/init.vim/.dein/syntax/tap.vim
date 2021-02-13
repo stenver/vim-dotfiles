@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'perl') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'perl', 'syntax/tap.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:    Verbose TAP Output
@@ -97,5 +99,3 @@ if !exists("did_tapverboseoutput_syntax_inits")
 endif
 
 let b:current_syntax="tapVerboseOutput"
-
-endif

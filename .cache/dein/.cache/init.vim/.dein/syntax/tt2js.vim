@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'perl') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'perl', 'syntax/tt2js.vim')
+  finish
+endif
 
 " Language:      TT2 embedded with Javascript
 " Maintainer:    Andy Lester <andy@petdance.com>
@@ -20,5 +22,3 @@ unlet b:current_syntax
 syn cluster javascriptPreProc add=@tt2_top_cluster
 
 let b:current_syntax = "tt2js"
-
-endif

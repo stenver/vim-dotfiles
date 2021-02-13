@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'moonscript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'moonscript', 'ftplugin/moon.vim')
+  finish
+endif
 
 " Language:    MoonScript
 " Maintainer:  leafo <leafot@gmail.com>
@@ -16,5 +18,3 @@ setlocal comments=:--
 setlocal commentstring=--\ %s
 
 let b:undo_ftplugin = "setlocal commentstring< comments< formatoptions<"
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'jst') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'jst', 'syntax/jst.vim')
+  finish
+endif
 
 if exists("b:current_syntax")
   finish
@@ -87,5 +89,3 @@ if exists("loaded_matchit")
 endif
 
 " vim: nowrap sw=2 sts=2 ts=8:
-
-endif

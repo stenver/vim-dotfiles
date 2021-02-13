@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'go') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'go', 'syntax/gotexttmpl.vim')
+  finish
+endif
 
 " Copyright 2011 The Go Authors. All rights reserved.
 " Use of this source code is governed by a BSD-style
@@ -85,5 +87,3 @@ hi def link goTplComment Comment
 let b:current_syntax = "gotexttmpl"
 
 " vim: sw=2 ts=2 et
-
-endif

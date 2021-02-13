@@ -1,5 +1,5 @@
-if !exists('g:polyglot_disabled') || !(index(g:polyglot_disabled, 'typescript') != -1 || index(g:polyglot_disabled, 'typescript') != -1 || index(g:polyglot_disabled, 'jsx') != -1)
-
-source <sfile>:h/javascript.vim
-
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'jsx', 'after/syntax/javascriptreact.vim')
+  finish
 endif
+
+source <sfile>:h/jsx.vim

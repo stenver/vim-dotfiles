@@ -1,7 +1,6 @@
 "=============================================================================
 " FILE: histdel.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 04 Oct 2011.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -29,30 +28,40 @@ let s:command = {
       \ 'kind' : 'internal',
       \ 'description' : 'histdel {history-number}',
       \}
-function! s:command.execute(args, context)"{{{
+function! s:command.execute(args, context) abort "{{{
   " Delete from history.
 
-  if !empty(a:args)
-    let del_hist = {}
-    for d in a:args
-      let del_hist[d] = 1
-    endfor
-
-    let new_hist = []
-    let cnt = 0
-    for h in vimshell#history#read()
-      if !has_key(del_hist, cnt)
-        call add(new_hist, h)
-      endif
-      let cnt += 1
-    endfor
-
-    call vimshell#history#write(new_hist)
-  else
+  if empty(a:args)
     call vimshell#error_line(a:context.fd, 'histdel: Arguments required.')
+    return
   endif
+
+  let histories = vimshell#history#read()
+  let del_hist = {}
+  for d in a:args
+    if d >= len(histories) || -d > len(histories)
+      " Error.
+      call vimshell#error_line(a:context.fd, 'histdel: Not found in history.')
+      return
+    elseif d < 0
+      let d = len(histories) + d
+    endif
+
+    let del_hist[d] = 1
+  endfor
+
+  let new_hist = []
+  let cnt = 0
+  for h in histories
+    if !has_key(del_hist, cnt)
+      call add(new_hist, h)
+    endif
+    let cnt += 1
+  endfor
+
+  call vimshell#history#write(new_hist)
 endfunction"}}}
 
-function! vimshell#commands#histdel#define()
+function! vimshell#commands#histdel#define() abort
   return s:command
 endfunction

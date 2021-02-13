@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'scss') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'scss', 'indent/scss.vim')
+  finish
+endif
 
 " Vim indent file
 " Language    : SCSS (Sassy CSS)
@@ -89,5 +91,3 @@ unlet s:keepcpo
 
 " vim:set et ts=2 sw=2:
 
-
-endif

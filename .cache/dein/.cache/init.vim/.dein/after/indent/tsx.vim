@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || !(index(g:polyglot_disabled, 'typescript') != -1 || index(g:polyglot_disabled, 'typescript') != -1 || index(g:polyglot_disabled, 'jsx') != -1)
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'jsx', 'after/indent/tsx.vim')
+  finish
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim indent file
@@ -36,5 +38,3 @@ endfunction
 
 let &cpo = s:keepcpo
 unlet s:keepcpo
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'julia') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'julia', 'autoload/LaTeXtoUnicode.vim')
+  finish
+endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Support for LaTex-to-Unicode conversion as in the Julia REPL "
@@ -652,5 +654,3 @@ function! LaTeXtoUnicode#Toggle()
   endif
   return ''
 endfunction
-
-endif

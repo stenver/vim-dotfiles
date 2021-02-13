@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'caddyfile') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'caddyfile', 'indent/caddyfile.vim')
+  finish
+endif
 
 if exists('b:did_indent')
 	finish
@@ -41,5 +43,3 @@ function! GetCaddyfileIndent(lnum)
 
 	return ind
 endfunction
-
-endif

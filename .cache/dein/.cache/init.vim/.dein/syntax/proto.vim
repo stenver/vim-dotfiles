@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'protobuf') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'protobuf', 'syntax/proto.vim')
+  finish
+endif
 
 " Protocol Buffers - Google's data interchange format
 " Copyright 2008 Google Inc.  All rights reserved.
@@ -107,5 +109,3 @@ if version >= 508 || !exists("did_proto_syn_inits")
 endif
 
 let b:current_syntax = "proto"
-
-endif

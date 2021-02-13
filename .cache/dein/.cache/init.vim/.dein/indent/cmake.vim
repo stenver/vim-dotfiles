@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'cmake') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'cmake', 'indent/cmake.vim')
+  finish
+endif
 
 " Vim indent file
 " Language:     CMake (ft=cmake)
@@ -89,5 +91,3 @@ endfun
 
 let &cpo = s:keepcpo
 unlet s:keepcpo
-
-endif

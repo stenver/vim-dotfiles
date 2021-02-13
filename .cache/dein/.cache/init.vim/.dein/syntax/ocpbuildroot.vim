@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'ocaml') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'ocaml', 'syntax/ocpbuildroot.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language: ocp-build.root files
@@ -53,5 +55,3 @@ hi def link ocprNumber        Number
 
 let b:current_syntax = "ocpbuildroot"
 
-
-endif

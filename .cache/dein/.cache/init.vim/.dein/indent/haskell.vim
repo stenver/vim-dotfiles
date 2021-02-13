@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'haskell') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'haskell', 'indent/haskell.vim')
+  finish
+endif
 
 " indentation for haskell
 "
@@ -509,5 +511,3 @@ function! GetHaskellIndent()
 
   return -1
 endfunction
-
-endif

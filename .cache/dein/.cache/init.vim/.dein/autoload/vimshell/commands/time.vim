@@ -1,7 +1,6 @@
 "=============================================================================
 " FILE: time.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 04 Oct 2011.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -29,7 +28,7 @@ let s:command = {
       \ 'kind' : 'internal',
       \ 'description' : 'time {command}',
       \}
-function! s:command.execute(args, context)"{{{
+function! s:command.execute(args, context) abort "{{{
   " Repeat command.
 
   if len(a:args) < 1
@@ -43,11 +42,11 @@ function! s:command.execute(args, context)"{{{
   let start = reltime()
 
   " Execute.
-  call vimshell#execute_internal_command('exe', a:args, context)
+  call vimshell#helpers#execute_internal_command('exe', a:args, context)
 
   call vimshell#print(a:context.fd, printf('time = %s', reltimestr(reltime(start))))
 endfunction"}}}
 
-function! vimshell#commands#time#define()
+function! vimshell#commands#time#define() abort
   return s:command
 endfunction

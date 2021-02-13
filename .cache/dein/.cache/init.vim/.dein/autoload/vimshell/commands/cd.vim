@@ -1,7 +1,6 @@
 "=============================================================================
 " FILE: cd.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 07 Oct 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -29,7 +28,7 @@ let s:command = {
       \ 'kind' : 'internal',
       \ 'description' : 'cd {directory-path} [{substitute-pattern}]',
       \}
-function! s:command.execute(args, context)"{{{
+function! s:command.execute(args, context) abort "{{{
   " Change the working directory.
 
   if empty(a:args)
@@ -43,54 +42,59 @@ function! s:command.execute(args, context)"{{{
     return
   else
     " Filename escape.
-    let dir = substitute(a:args[0], '^\~\ze[/\\]', substitute($HOME, '\\', '/', 'g'), '')
+    let dir = substitute(a:args[0], '^\~\ze[/\\]',
+          \ substitute($HOME, '\\', '/', 'g'), '')
   endif
 
-  if vimshell#iswin()
-    let dir = vimshell#resolve(dir)
+  if vimshell#util#is_windows()
+    let dir = vimshell#util#resolve(dir)
   endif
 
   let cwd = getcwd()
   if isdirectory(dir)
     " Move to directory.
-    let b:vimshell.current_dir = fnamemodify(dir, ':p')
-    call vimshell#cd(b:vimshell.current_dir)
+    call vimshell#cd(dir)
   elseif dir =~ '^-\d*$'
     " Popd.
-    return vimshell#execute_internal_command('popd', [ dir[1:] ],
+    return vimshell#helpers#execute_internal_command('popd', [ dir[1:] ],
           \ { 'has_head_spaces' : 0, 'is_interactive' : 1 })
   elseif filereadable(dir)
     " Move to parent directory.
-    let b:vimshell.current_dir = fnamemodify(dir, ':p:h')
-    call vimshell#cd(b:vimshell.current_dir)
+    call vimshell#cd(dir)
   else
     " Check cd path.
     let dirs = split(globpath(&cdpath, dir), '\n')
 
     if empty(dirs)
-      call vimshell#error_line(a:context.fd, printf('cd: File "%s" is not found.', dir))
+      call vimshell#error_line(a:context.fd,
+            \ printf('cd: File "%s" is not found.', dir))
       return
     endif
 
-    if vimshell#iswin()
-      let dir = vimshell#resolve(dir)
+    if vimshell#util#is_windows()
+      let dir = vimshell#util#resolve(dir)
     endif
 
     if isdirectory(dirs[0])
-      let b:vimshell.current_dir = fnamemodify(dirs[0], ':p')
-      call vimshell#cd(b:vimshell.current_dir)
+      call vimshell#cd(dirs[0])
     else
-      call vimshell#error_line(a:context.fd, printf('cd: File "%s" is not found.', dir))
+      call vimshell#error_line(a:context.fd,
+            \ printf('cd: File "%s" is not found.', dir))
       return
     endif
   endif
 
-  if empty(b:vimshell.directory_stack) || cwd !=# b:vimshell.directory_stack[0]
+  let b:vimshell.current_dir =
+        \ vimshell#util#substitute_path_separator(getcwd())
+
+  if empty(b:vimshell.directory_stack)
+        \ || cwd !=# b:vimshell.directory_stack[0]
     " Push current directory and filtering.
     call insert(b:vimshell.directory_stack, cwd)
 
     " Truncate.
-    let b:vimshell.directory_stack = b:vimshell.directory_stack[: g:vimshell_max_directory_stack-1]
+    let b:vimshell.directory_stack =
+          \ b:vimshell.directory_stack[: g:vimshell_max_directory_stack-1]
   endif
 
   if a:context.is_interactive
@@ -100,7 +104,7 @@ function! s:command.execute(args, context)"{{{
     call vimshell#hook#call('chpwd', context, getcwd())
   endif
 endfunction"}}}
-function! s:command.complete(args)"{{{
+function! s:command.complete(args) abort "{{{
   if a:args[-1] =~ '^-\d*$'
     let ret = vimshell#complete#helper#directory_stack(a:args[-1][1:])
     for keyword in ret
@@ -110,10 +114,10 @@ function! s:command.complete(args)"{{{
   else
     let ret = vimshell#complete#helper#directories(a:args[-1])
   endif
-    
+
   return ret
 endfunction"}}}
 
-function! vimshell#commands#cd#define()
+function! vimshell#commands#cd#define() abort
   return s:command
 endfunction

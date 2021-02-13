@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'razor') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'razor', 'indent/razor.vim')
+  finish
+endif
 
 " Vim indent file
 " Language:	    Razor
@@ -10,5 +12,3 @@ if exists("b:did_indent")
 endif
 runtime! indent/html.vim
 runtime! indent/javscript.vim
-
-endif

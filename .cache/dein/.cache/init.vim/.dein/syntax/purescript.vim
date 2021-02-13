@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'purescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'purescript', 'syntax/purescript.vim')
+  finish
+endif
 
 " syntax highlighting for purescript
 "
@@ -217,5 +219,3 @@ highlight def link purescriptType Type
 highlight def link purescriptComment Comment
 
 let b:current_syntax = "purescript"
-
-endif

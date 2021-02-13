@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'coffee-script') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'coffee-script', 'autoload/coffee.vim')
+  finish
+endif
 
 " Language:    CoffeeScript
 " Maintainer:  Mick Koch <mick@kochm.co>
@@ -54,5 +56,3 @@ function! coffee#CoffeeSetUpErrorFormat()
                          \%f:%l:%c:\ error:\ %m,
                          \%-G%.%#
 endfunction
-
-endif

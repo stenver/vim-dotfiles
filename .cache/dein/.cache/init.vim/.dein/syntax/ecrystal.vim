@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'crystal') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'crystal', 'syntax/ecrystal.vim')
+  finish
+endif
 
 if &syntax !~# '\<ecrystal\>' || get(b:, 'current_syntax') =~# '\<ecrystal\>'
   finish
@@ -32,6 +34,4 @@ let b:current_syntax = 'ecrystal'
 
 if exists('main_syntax') && main_syntax ==# 'ecrystal'
   unlet main_syntax
-endif
-
 endif

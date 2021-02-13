@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'purescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'purescript', 'indent/purescript.vim')
+  finish
+endif
 
 " indentation for purescript
 "
@@ -276,5 +278,3 @@ function! GetPurescriptIndent()
 
   return match(prevline, '\S')
 endfunction
-
-endif

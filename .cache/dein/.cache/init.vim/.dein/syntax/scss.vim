@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'scss') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'scss', 'syntax/scss.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:    SCSS (Sassy CSS)
@@ -222,6 +224,4 @@ hi def link scssSemicolon Delimiter
 let b:current_syntax = "scss"
 if main_syntax == 'scss'
   unlet main_syntax
-endif
-
 endif

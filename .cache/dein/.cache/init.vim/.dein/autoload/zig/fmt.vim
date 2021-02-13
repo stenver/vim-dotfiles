@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'zig') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'zig', 'autoload/zig/fmt.vim')
+  finish
+endif
 
 " Adapted from fatih/vim-go: autoload/go/fmt.vim
 "
@@ -166,5 +168,3 @@ function! zig#fmt#ToggleFmtAutoSave() abort
 endfunction
 
 " vim: sw=2 ts=2 et
-
-endif

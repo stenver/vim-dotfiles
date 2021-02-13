@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'applescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'applescript', 'syntax/applescript.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:    AppleScript
@@ -245,5 +247,3 @@ hi def link scptTodo Todo
 
 let b:current_syntax = "applescript"
 
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'emblem') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'emblem', 'indent/emblem.vim')
+  finish
+endif
 
 " Language:    emblem
 " Maintainer:  Yulij Andreevich Lesov <yalesov@gmail.com>
@@ -6,5 +8,3 @@ if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'emblem') == -1
 " Version:     2.0.1
 " Last Change: 2016 Jul 6
 " License:     ISC
-
-endif

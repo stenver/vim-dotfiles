@@ -1,4 +1,4 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'reason') == -1
-
-
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'reason', 'after/syntax/reason.vim')
+  finish
 endif
+

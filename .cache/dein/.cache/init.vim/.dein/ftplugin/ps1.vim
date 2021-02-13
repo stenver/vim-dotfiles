@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'powershell') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'powershell', 'ftplugin/ps1.vim')
+  finish
+endif
 
 " Vim filetype plugin file
 " Language:           Windows PowerShell
@@ -56,5 +58,3 @@ setlocal keywordprg=:GetHelp
 let b:undo_ftplugin = "setlocal tw< cms< fo< iskeyword< keywordprg<" .
 			\ " | unlet! b:browsefilter"
 
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'crystal') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'crystal', 'indent/ecrystal.vim')
+  finish
+endif
 
 " Setup {{{1
 " =====
@@ -52,7 +54,7 @@ if b:ecrystal_indent_multiline
 endif
 
 setlocal indentexpr=GetEcrystalIndent()
-setlocal indentkeys+=<>>,=end,=else,=elsif,=rescue,=ensure,=when
+setlocal indentkeys+=<>>,=end,=else,=elsif,=rescue,=ensure,=when,=in
 
 let b:did_indent = 1
 
@@ -71,11 +73,10 @@ let s:ecr_control_open = '<%%\@!-\=[=#]\@!'
 let s:ecr_comment_open = '<%%\@!-\=#'
 
 let s:ecr_indent_regex =
-      \ '\<\%(if\|unless\|else\|elsif\|case\|for\|when\|while\|until\|begin\|do\|rescue\|ensure\|' .
-      \ 'class\|module\|struct\|lib\|enum\|union\)\>'
+      \ '\<\%(if\|unless\|else\|elsif\|case\|when\|in\|while\|until\|begin\|do\|rescue\|ensure\|\)\>'
 
 let s:ecr_dedent_regex =
-      \ '\<\%(end\|else\|elsif\|when\|rescue\|ensure\)\>'
+      \ '\<\%(end\|else\|elsif\|when\|in\|rescue\|ensure\)\>'
 
 " Return the value of a single shift-width
 if exists('*shiftwidth')
@@ -477,5 +478,3 @@ endfunction
 " }}}
 
 " vim:fdm=marker
-
-endif

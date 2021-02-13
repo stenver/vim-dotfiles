@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'typescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'typescript', 'syntax/yats/es6-promise.vim')
+  finish
+endif
 
 syntax keyword typescriptGlobal containedin=typescriptIdentifierName Promise nextgroup=typescriptGlobalPromiseDot,typescriptFuncCallArg
 syntax match   typescriptGlobalPromiseDot /\./ contained nextgroup=typescriptPromiseStaticMethod,typescriptProp
@@ -8,6 +10,4 @@ endif
 syntax keyword typescriptPromiseMethod contained then catch finally nextgroup=typescriptFuncCallArg
 syntax cluster props add=typescriptPromiseMethod
 if exists("did_typescript_hilink") | HiLink typescriptPromiseMethod Keyword
-endif
-
 endif

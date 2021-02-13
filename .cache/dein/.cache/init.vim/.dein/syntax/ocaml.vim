@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'ocaml') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'ocaml', 'syntax/ocaml.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:     OCaml
@@ -6,7 +8,7 @@ if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'ocaml') == -1
 " Maintainers:  Markus Mottl      <markus.mottl@gmail.com>
 "               Karl-Heinz Sylla  <Karl-Heinz.Sylla@gmd.de>
 "               Issac Trotts      <ijtrotts@ucdavis.edu>
-" URL:          http://www.ocaml.info/vim/syntax/ocaml.vim
+" URL:          https://github.com/ocaml/vim-ocaml
 " Last Change:
 "               2018 Nov 08 - Improved highlighting of operators (Maëlan)
 "               2018 Apr 22 - Improved support for PPX (Andrey Popp)
@@ -24,6 +26,9 @@ if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'ocaml') == -1
 if exists("b:current_syntax") && b:current_syntax == "ocaml"
   finish
 endif
+
+let s:keepcpo = &cpo
+set cpo&vim
 
 " ' can be used in OCaml identifiers
 setlocal iskeyword+='
@@ -386,6 +391,7 @@ hi def link ocamlPpxEncl       ocamlEncl
 
 let b:current_syntax = "ocaml"
 
-" vim: ts=8
+let &cpo = s:keepcpo
+unlet s:keepcpo
 
-endif
+" vim: ts=8

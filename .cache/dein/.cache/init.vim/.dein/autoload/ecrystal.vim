@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'crystal') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'crystal', 'autoload/ecrystal.vim')
+  finish
+endif
 
 let s:ecrystal_extensions = {
       \ 'cr': 'crystal',
@@ -32,5 +34,3 @@ function! ecrystal#SetSubtype() abort
 endfunction
 
 " vim: sw=2 sts=2 et:
-
-endif

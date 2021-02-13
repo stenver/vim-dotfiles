@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'clojure') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'clojure', 'autoload/clojurecomplete.vim')
+  finish
+endif
 
 " Vim completion script
 " Language:     Clojure
@@ -22,5 +24,3 @@ function! clojurecomplete#Complete(findstart, base)
 endfunction
 
 " vim:sts=8:sw=8:ts=8:noet
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'graphql') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'graphql', 'autoload/graphql.vim')
+  finish
+endif
 
 " Copyright (c) 2016-2020 Jon Parise <jon@indelible.org>
 "
@@ -35,5 +37,3 @@ endfunction
 function! graphql#javascript_tags() abort
   return get(g:, 'graphql_javascript_tags', ['gql', 'graphql', 'Relay.QL'])
 endfunction
-
-endif

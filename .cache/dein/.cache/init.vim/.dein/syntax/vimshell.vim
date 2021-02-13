@@ -1,7 +1,6 @@
 "=============================================================================
 " FILE: syntax/vimshell.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 05 Oct 2011.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -26,86 +25,110 @@
 
 if version < 700
   syntax clear
-elseif exists("b:current_syntax")
+elseif exists('b:current_syntax')
   finish
 endif
 
-execute 'syn match VimShellPrompt' string('^' . vimshell#escape_match(vimshell#get_prompt()))
-execute 'syn match VimShellPrompt' string('^' . vimshell#escape_match(vimshell#get_secondary_prompt()))
-syn match   VimShellUserPrompt   '^\[%\] .*$' contains=VimShellUserPromptHidden
-syn region   VimShellString   start=+'+ end=+'+ oneline
-syn region   VimShellString   start=+"+ end=+"+ contains=VimShellQuoted oneline
-syn region   VimShellString   start=+`+ end=+`+ oneline
-syn match   VimShellString   '[''"`]$' contained
-syn region   VimShellError   start=+!!!+ end=+!!!+ contains=VimShellErrorHidden oneline
-syn match   VimShellComment   '#.*$' contained
-syn match   VimShellConstants         '[+-]\=\<\d\+\>'
-syn match   VimShellConstants         '[+-]\=\<0x\x\+\>'
-syn match   VimShellConstants         '[+-]\=\<0\o\+\>'
-syn match   VimShellConstants         '[+-]\=\d\+#[-+]\=\w\+\>'
-syn match   VimShellConstants         '[+-]\=\d\+\.\d\+\([eE][+-]\?\d\+\)\?\>'
-syn match   VimShellExe               '\%(^\|\s\)[[:alnum:]_.][[:alnum:]_.-]\+\*[[:blank:]\n]'
-syn match   VimShellSocket            '\%(^\|\s\)[[:alnum:]_.][[:alnum:]_.-]\+=[[:blank:]\n]'
-syn match   VimShellDotFiles          '\%(^\|\s\)\.[[:alnum:]_.-]\+[[:blank:]\n]'
-syn match   VimShellArguments         '\s-\=-[[:alnum:]-]\+=\=' contained
-syn match   VimShellQuoted            '\\.' contained
-syn match   VimShellSpecial           '[|<>;&;]' contained
-syn match   VimShellVariable          '$\h\w*' contained
-syn match   VimShellVariable          '$$\h\w*' contained
-syn region   VimShellVariable  start=+${+ end=+}+ contained
-if vimshell#iswin()
-  syn match   VimShellArguments         '\s/[?:,_[:alnum:]]\+\ze\%(\s\|$\)' contained
-  syn match   VimShellDirectory         '\%(\f\s\?\)\+[/\\]\ze\%(\s\|$\)'
-  syn match   VimShellLink              '\([[:alnum:]_.-]\+\.lnk\)'
+syntax match   vimshellUserPrompt
+      \ '^\[%\] .*$' contains=vimshellUserPromptHidden
+syntax region   vimshellString
+      \ start=+'+ end=+'+ oneline contained
+syntax region   vimshellString
+      \ start=+"+ end=+"+ contains=vimshellQuoted oneline contained
+syntax region   vimshellString
+      \ start=+`+ end=+`+ oneline contained
+syntax match   vimshellString
+      \ '[''"`]$' contained
+syntax match   vimshellError
+        \ '!!![^!].*!!!' contains=vimshellErrorHidden
+syntax match   vimshellComment
+      \ '\s#.*$' contained
+syntax match   vimshellConstants
+      \ '[+-]\=\<\d\+\>'
+syntax match   vimshellConstants
+      \ '[+-]\=\<0x\x\+\>'
+syntax match   vimshellConstants
+      \ '[+-]\=\<0\o\+\>'
+syntax match   vimshellConstants
+      \ '[+-]\=\d\+#[-+]\=\w\+\>'
+syntax match   vimshellConstants
+      \ '[+-]\=\d\+\.\d\+\([eE][+-]\?\d\+\)\?\>'
+syntax match   vimshellSocket
+      \ '\%(^\|\s\)[[:alnum:]_.][[:alnum:]_.-]\+=[[:blank:]\n]'
+syntax match   vimshellDotFiles
+      \ '\%(^\|\s\)\.[[:alnum:]_.-]\+[[:blank:]\n]'
+syntax match   vimshellArguments
+      \ '\s-\=-[[:alnum:]-]\+=\=' contained
+syntax match   vimshellQuoted
+      \ '\\.' contained
+syntax match   vimshellSpecial
+      \ '[<>&]' contained
+syntax match   vimshellSpecial
+      \ '|\|;\|&&' contained nextgroup=vimshellCommand
+syntax match   vimshellVariable
+      \ '$\h\w*' contained
+syntax match   vimshellVariable
+      \ '$$\h\w*' contained
+syntax region   vimshellVariable  start=+${+ end=+}+ contained
+
+syntax match vimshellURI
+      \ '\a\a\+://[[:alnum:];/?:@&=+$,_.~*|()-]\+' containedin=ALL
+
+if vimshell#util#is_windows()
+  syntax match   vimshellArguments
+        \ '\s/[?:,_[:alnum:]]\+\ze\%(\s\|$\)' contained
+  syntax match   vimshellDirectory
+        \ '\%(\f\s\?\)\+[/\\]\ze\%(\s\|$\)'
+  syntax match   vimshellLink
+        \ '\([[:alnum:]_.-]\+\.lnk\)'
 else
-  syn match   VimShellDirectory         '\%(\f\s\?\)\+/\ze\%(\s\|$\)'
-  syn match   VimShellLink              '\(^\|\s\)[[:alnum:]_.][[:alnum:]_.-]\+@'
+  syntax match   vimshellDirectory
+        \ '\%(\f\s\?\)\+/\ze\%(\s\|$\)'
+  syntax match   vimshellLink
+        \ '\(^\|\s\)[[:alnum:]_.][[:alnum:]_.-]\+@\ze\(\s\|$\)'
 endif
-syn region   VimShellHistory  start=+^\s*\d\+:\s[^[:space:]]+ end=+.*+ oneline
-syn region   VimShellGrep  start=+^[^!]\f\+:+ end=+.*+ oneline
 
 if has('conceal')
   " Supported conceal features.
-  syn match   VimShellErrorHidden            '!!!' contained conceal
-  syn match   VimShellUserPromptHidden       '^\[%\] ' contained conceal
+  syntax match   vimshellErrorHidden
+        \ '!!!' contained conceal
+  syntax match   vimshellUserPromptHidden
+        \ '^\[%\] ' contained conceal
 else
-  syn match   VimShellErrorHidden            '!!!' contained
-  syn match   VimShellUserPromptHidden       '^\[%\] ' contained
+  syntax match   vimshellErrorHidden
+        \ '!!!' contained
+  syntax match   vimshellUserPromptHidden
+        \ '^\[%\] ' contained
+  highlight default link vimshellErrorHidden Ignore
+  highlight default link vimshellUserPromptHidden Ignore
 endif
-
-execute "syn region   VimShellExe start=".string('^'.vimshell#escape_match(vimshell#get_prompt())) "end='[^[:blank:]]\\+\\zs[[:blank:]\\n]' contained contains=VimShellPrompt,VimShellSpecial,VimShellConstants,VimShellArguments,VimShellString,VimShellComment"
-syn match VimShellExe '[|;]\s*\f\+' contained contains=VimShellSpecial,VimShellArguments
-execute "syn region   VimShellLine start=".string('^'.vimshell#escape_match(vimshell#get_prompt())) "end='$' keepend contains=VimShellExe,VimShellDirectory,VimShellConstants,VimShellArguments, VimShellQuoted,VimShellString,VimShellVariable,VimShellSpecial,VimShellComment"
-
-execute "syn region   VimShellExe start=".string('^'.vimshell#escape_match(vimshell#get_secondary_prompt())) "end='[^[:blank:]]\\+\\zs[[:blank:]\\n]' contained contains=VimShellPrompt,VimShellSpecial,VimShellConstants,VimShellArguments,VimShellString,VimShellComment"
-execute "syn region   VimShellLine start=".string('^'.vimshell#escape_match(vimshell#get_secondary_prompt())) "end='$' keepend contains=VimShellExe,VimShellDirectory,VimShellConstants,VimShellArguments, VimShellQuoted,VimShellString,VimShellVariable,VimShellSpecial,VimShellComment"
 
 if has('gui_running')
-  hi VimShellPrompt  gui=UNDERLINE guifg=#80ffff guibg=NONE
+  highlight vimshellURI gui=UNDERLINE guifg=#6699ff guibg=NONE
 else
-  hi def link VimShellPrompt Identifier
+  highlight def link vimshellURI Identifier
 endif
 
-hi def link VimShellUserPrompt Special
+highlight default link vimshellPrompt Identifier
+highlight default link vimshellUserPrompt Special
 
-hi def link VimShellQuoted Special
-hi def link VimShellString Constant
-hi def link VimShellArguments Type
-hi def link VimShellConstants Constant
-hi def link VimShellSpecial PreProc
-hi def link VimShellVariable Comment
-hi def link VimShellComment Identifier
-hi def link VimShellHistory Comment
-hi def link VimShellGrep Comment
-hi def link VimShellNormal Normal
+highlight default link vimshellQuoted Special
+highlight default link vimshellString String
+highlight default link vimshellArguments Type
+highlight default link vimshellConstants Constant
+highlight default link vimshellSpecial PreProc
+highlight default link vimshellVariable Identifier
+highlight default link vimshellComment Comment
+highlight default link vimshellNormal Normal
 
-hi def link VimShellExe Statement
-hi def link VimShellDirectory Preproc
-hi def link VimShellSocket Constant
-hi def link VimShellLink Comment
-hi def link VimShellDotFiles Identifier
-hi def link VimShellError Error
-hi def link VimShellErrorHidden Ignore
-hi def link VimShellUserPromptHidden Ignore
+highlight default link vimshellCommand Statement
+highlight default link vimshellDirectory Preproc
+highlight default link vimshellSocket Constant
+highlight default link vimshellLink Identifier
+highlight default link vimshellDotFiles Identifier
+highlight default link vimshellError Error
+
+call vimshell#view#_set_highlight()
+call vimshell#terminal#init_highlight()
 
 let b:current_syntax = 'vimshell'

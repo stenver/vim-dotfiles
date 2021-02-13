@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'tptp') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'tptp', 'syntax/tptp.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:		TPTP
@@ -148,5 +150,3 @@ end
 let b:current_syntax = "tptp"
 
 " vim: ts=8 sw=8
-
-endif

@@ -1,6 +1,7 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'fish') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'fish', 'indent/fish.vim')
+  finish
+endif
 
 setlocal indentexpr=fish#Indent()
+setlocal indentkeys=!^F,o,O
 setlocal indentkeys+==end,=else,=case
-
-endif

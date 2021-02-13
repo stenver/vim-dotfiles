@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'haproxy') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'haproxy', 'syntax/haproxy.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:    HAproxy
@@ -356,5 +358,3 @@ delcommand HiLink
 
 let b:current_syntax = "haproxy"
 " vim: ts=8
-
-endif

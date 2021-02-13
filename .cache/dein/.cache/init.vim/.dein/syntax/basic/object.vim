@@ -1,8 +1,10 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'typescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'typescript', 'syntax/basic/object.vim')
+  finish
+endif
 
 syntax region  typescriptObjectLiteral         matchgroup=typescriptBraces
   \ start=/{/ end=/}/
-  \ contains=@typescriptComments,typescriptObjectLabel,typescriptStringProperty,typescriptComputedPropertyName,typescriptObjectAsyncKeyword
+  \ contains=@typescriptComments,typescriptObjectLabel,typescriptStringProperty,typescriptComputedPropertyName,typescriptObjectAsyncKeyword,typescriptTernary,typescriptCastKeyword
   \ fold contained
 
 syntax keyword typescriptObjectAsyncKeyword async contained
@@ -30,5 +32,3 @@ syntax match typescriptRestOrSpread /\.\.\./ contained
 syntax match typescriptObjectSpread /\.\.\./ contained containedin=typescriptObjectLiteral,typescriptArray nextgroup=@typescriptValue
 
 syntax match typescriptObjectColon contained /:/ nextgroup=@typescriptValue skipwhite skipempty
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'qmake') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'qmake', 'syntax/qmake.vim')
+  finish
+endif
 
 " qmake project syntax file
 " Language:     qmake project
@@ -299,5 +301,3 @@ hi def link qmakeQtConfiguration PreProc
 hi def link qmakeScope Conditional
 
 let b:current_syntax = "qmake"
-
-endif

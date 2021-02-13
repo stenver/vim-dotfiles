@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'slim') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'slim', 'indent/slim.vim')
+  finish
+endif
 
 " Vim indent file
 " Language:	Slim
@@ -75,5 +77,3 @@ function! GetSlimIndent()
 endfunction
 
 " vim:set sw=2:
-
-endif

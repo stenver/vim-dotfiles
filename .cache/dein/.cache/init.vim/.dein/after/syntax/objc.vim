@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'objc') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'objc', 'after/syntax/objc.vim')
+  finish
+endif
 
 " ARC type modifiers
 syn keyword objcTypeModifier __bridge __bridge_retained __bridge_transfer __autoreleasing __strong __weak __unsafe_unretained
@@ -19,5 +21,3 @@ syn match objcDirective "@property\|@synthesize\|@dynamic\|@package"
 
 " Highlight property attributes as if they were type modifiers
 hi def link objcPropertyAttribute objcTypeModifier
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'razor') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'razor', 'syntax/razor.vim')
+  finish
+endif
 
 if exists("b:current_syntax")
   finish
@@ -51,5 +53,3 @@ hi def link rUsing Preproc
 hi def link rNamespace Type
 
 let b:current_syntax = "razor"
-
-endif

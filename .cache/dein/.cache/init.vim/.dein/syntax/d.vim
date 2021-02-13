@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'dlang') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'dlang', 'syntax/d.vim')
+  finish
+endif
 
 " Vim syntax file for the D programming language (version 1.076 and 2.069).
 "
@@ -573,5 +575,3 @@ syn keyword dAsmOpCode contained	adc
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
-
-endif

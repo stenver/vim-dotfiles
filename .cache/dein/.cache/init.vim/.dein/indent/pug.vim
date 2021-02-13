@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'pug') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'pug', 'indent/pug.vim')
+  finish
+endif
 
 " Vim indent file
 " Language: Pug
@@ -70,5 +72,3 @@ function! GetPugIndent()
 endfunction
 
 " vim:set sw=2:
-
-endif

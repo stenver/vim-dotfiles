@@ -1,12 +1,10 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'go') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'go', 'autoload/go/config.vim')
+  finish
+endif
 
 " don't spam the user when Vim is started in Vi compatibility mode
 let s:cpo_save = &cpo
 set cpo&vim
-
-function! go#config#AutodetectGopath() abort
-	return get(g:, 'go_autodetect_gopath', 0)
-endfunction
 
 function! go#config#ListTypeCommands() abort
   return get(g:, 'go_list_type_commands', {})
@@ -53,6 +51,10 @@ endfunction
 
 function! go#config#TermCloseOnExit() abort
   return get(g:, 'go_term_close_on_exit', 1)
+endfunction
+
+function! go#config#TermReuse() abort
+  return get(g:, 'go_term_reuse', 0)
 endfunction
 
 function! go#config#SetTermCloseOnExit(value) abort
@@ -261,16 +263,27 @@ function! go#config#SetTemplateAutocreate(value) abort
   let g:go_template_autocreate = a:value
 endfunction
 
+let s:default_metalinter = 'staticcheck'
 function! go#config#MetalinterCommand() abort
-  return get(g:, "go_metalinter_command", "golangci-lint")
+  return get(g:, 'go_metalinter_command', s:default_metalinter)
 endfunction
 
 function! go#config#MetalinterAutosaveEnabled() abort
-  return get(g:, "go_metalinter_autosave_enabled", ["govet", "golint"])
+  let l:default = []
+  if get(g:, 'go_metalinter_command', s:default_metalinter) == 'golangci-lint'
+    let l:default = ['govet', 'golint']
+  endif
+
+  return get(g:, 'go_metalinter_autosave_enabled', l:default)
 endfunction
 
 function! go#config#MetalinterEnabled() abort
-  return get(g:, "go_metalinter_enabled", ["vet", "golint", "errcheck"])
+  let l:default = []
+  if get(g:, 'go_metalinter_command', s:default_metalinter) == 'golangci-lint'
+    let l:default = ['vet', 'golint', 'errcheck']
+  endif
+
+  return get(g:, 'go_metalinter_enabled', l:default)
 endfunction
 
 function! go#config#GolintBin() abort
@@ -371,7 +384,7 @@ function! go#config#RenameCommand() abort
 endfunction
 
 function! go#config#GorenameBin() abort
-  return get(g:, "go_gorename_bin", "gorename")
+  return get(g:, "go_gorename_bin", "gopls")
 endfunction
 
 function! go#config#GorenamePrefill() abort
@@ -496,6 +509,10 @@ function! go#config#CodeCompletionEnabled() abort
   return get(g:, "go_code_completion_enabled", 1)
 endfunction
 
+function! go#config#CodeCompletionIcase() abort
+  return get(g:, "go_code_completion_icase", 0)
+endfunction
+
 function! go#config#Updatetime() abort
   let go_updatetime = get(g:, 'go_updatetime', 800)
   return go_updatetime == 0 ? &updatetime : go_updatetime
@@ -506,7 +523,7 @@ function! go#config#ReferrersMode() abort
 endfunction
 
 function! go#config#ImplementsMode() abort
-  return get(g:, 'go_implements_mode', 'guru')
+  return get(g:, 'go_implements_mode', 'gopls')
 endfunction
 
 function! go#config#GoplsCompleteUnimported() abort
@@ -544,16 +561,54 @@ function! go#config#GoplsLocal() abort
   return get(g:, 'go_gopls_local', v:null)
 endfunction
 
+function! go#config#GoplsGofumpt() abort
+  return get(g:, 'go_gopls_gofumpt', v:null)
+endfunction
+
+function! go#config#GoplsSettings() abort
+  return get(g:, 'go_gopls_settings', v:null)
+endfunction
+
 function! go#config#GoplsEnabled() abort
   return get(g:, 'go_gopls_enabled', 1)
 endfunction
 
+" TODO(bc): remove support for g:go_diagnostics_enabled;
+" g:go_diagnostics_level is the replacement.
 function! go#config#DiagnosticsEnabled() abort
   return get(g:, 'go_diagnostics_enabled', 0)
 endfunction
 
+function! go#config#DiagnosticsLevel() abort
+  let l:default = 0
+  if has_key(g:, 'go_diagnostics_enabled') && g:go_diagnostics_enabled
+    let l:default = 2
+  endif
+
+  return get(g:, 'go_diagnostics_level', l:default)
+endfunction
+
 function! go#config#GoplsOptions() abort
   return get(g:, 'go_gopls_options', ['-remote=auto'])
+endfunction
+
+function! go#config#FillStructMode() abort
+  return get(g:, 'go_fillstruct_mode', 'fillstruct')
+endfunction
+
+function! go#config#DebugMappings() abort
+  let l:default = {
+     \ '(go-debug-continue)':   {'key': '<F5>'},
+     \ '(go-debug-print)':      {'key': '<F6>'},
+     \ '(go-debug-breakpoint)': {'key': '<F9>'},
+     \ '(go-debug-next)':       {'key': '<F10>'},
+     \ '(go-debug-step)':       {'key': '<F11>'},
+     \ '(go-debug-halt)':       {'key': '<F8>'},
+  \ }
+
+  let l:user = deepcopy(get(g:, 'go_debug_mappings', {}))
+
+  return extend(l:user, l:default, 'keep')
 endfunction
 
 " Set the default value. A value of "1" is a shortcut for this, for
@@ -567,5 +622,3 @@ let &cpo = s:cpo_save
 unlet s:cpo_save
 
 " vim: sw=2 ts=2 et
-
-endif

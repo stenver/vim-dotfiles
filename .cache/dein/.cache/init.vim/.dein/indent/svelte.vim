@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'svelte') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'svelte', 'indent/svelte.vim')
+  finish
+endif
 
 " Vim indent file
 " Language:   Svelte 3 (HTML/JavaScript)
@@ -144,5 +146,3 @@ function! GetSvelteIndent()
 
   return indent
 endfunction
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'powershell') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'powershell', 'compiler/powershell.vim')
+  finish
+endif
 
 " Compiler:	powershell
 " Run ps1 scripts in powershell and process their output. Quickly jump through
@@ -83,5 +85,3 @@ let &cpo = s:cpo_save
 unlet s:cpo_save
 
 " vim:set sw=2 sts=2:
-
-endif

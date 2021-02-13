@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || !(index(g:polyglot_disabled, 'typescript') != -1 || index(g:polyglot_disabled, 'typescript') != -1 || index(g:polyglot_disabled, 'jsx') != -1)
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'jsx', 'autoload/jsx_pretty/comment.vim')
+  finish
+endif
 
 function! jsx_pretty#comment#update_commentstring(original)
   let line = getline(".")
@@ -37,5 +39,3 @@ function! s:syn_contains(lnum, cnum, syn_name)
   let syn_names = map(stack, 'synIDattr(v:val, "name")')
   return index(syn_names, a:syn_name) >= 0
 endfunction
-
-endif

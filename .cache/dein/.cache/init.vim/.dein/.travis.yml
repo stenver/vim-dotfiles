@@ -1,19 +1,8 @@
-language: ruby
-
 sudo: false
 
-cache:
-  directories:
-    - "$HOME/.rvm"
-    - "$HOME/.vvm"
 before_script:
-  - "curl https://raw.githubusercontent.com/kana/vim-version-manager/master/bin/vvm | python - setup; true"
-  - "source ~/.vvm/etc/login"
-  - "vvm update_itself"
-  - "vvm use vimorg--v8.2.0803 --install --with-features=huge"
-  -
-  - "rvm use 2.5.8 --install --binary --fuzzy"
-  - "gem install vim-flavor"
-  - "vim-flavor install"
+    - git clone https://github.com/syngan/vim-vimlint /tmp/vim-vimlint
+    - git clone https://github.com/ynkdir/vim-vimlparser /tmp/vim-vimlparser
 
-script: "vim-flavor test spec/"
+script:
+    - sh /tmp/vim-vimlint/bin/vimlint.sh -l /tmp/vim-vimlint -p /tmp/vim-vimlparser -e EVL103=1 -e EVL102.l:_=1 autoload

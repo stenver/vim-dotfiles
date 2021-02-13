@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'javascript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'javascript', 'syntax/javascript.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:     JavaScript
@@ -392,6 +394,4 @@ hi! def link javaScript              NONE
 let b:current_syntax = "javascript"
 if main_syntax == 'javascript'
   unlet main_syntax
-endif
-
 endif

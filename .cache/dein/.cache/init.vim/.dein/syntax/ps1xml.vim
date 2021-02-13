@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'powershell') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'powershell', 'syntax/ps1xml.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:           Windows PowerShell XML
@@ -56,5 +58,3 @@ let b:current_syntax = "ps1xml"
 let &cpo = s:ps1xml_cpo_save
 unlet s:ps1xml_cpo_save
 
-
-endif

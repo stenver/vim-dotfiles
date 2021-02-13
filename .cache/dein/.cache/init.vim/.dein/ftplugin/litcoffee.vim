@@ -1,5 +1,5 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'coffee-script') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'coffee-script', 'ftplugin/litcoffee.vim')
+  finish
+endif
 
 runtime ftplugin/coffee.vim
-
-endif

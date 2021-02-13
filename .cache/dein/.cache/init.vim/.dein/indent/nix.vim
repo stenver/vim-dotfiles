@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'nix') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'nix', 'indent/nix.vim')
+  finish
+endif
 
 " Vim indent file
 " Language:    Nix
@@ -103,5 +105,3 @@ endfunction
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
-
-endif

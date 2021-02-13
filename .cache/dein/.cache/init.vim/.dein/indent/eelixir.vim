@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'elixir') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'elixir', 'indent/eelixir.vim')
+  finish
+endif
 
 if exists("b:did_indent")
   finish
@@ -72,5 +74,3 @@ endfunction
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
-
-endif

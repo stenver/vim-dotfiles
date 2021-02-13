@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'smt2') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'smt2', 'ftplugin/smt2.vim')
+  finish
+endif
 
 setlocal iskeyword+=-,:,#,',$
 
@@ -25,5 +27,3 @@ nnoremap <silent> <buffer> <localleader>v :call smt2#PrintSolverVersion()<cr>
 
 " Comment String
 setlocal commentstring=;%s
-
-endif

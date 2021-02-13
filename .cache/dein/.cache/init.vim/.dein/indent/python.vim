@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'python-indent') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'python-indent', 'indent/python.vim')
+  finish
+endif
 
 " PEP8 compatible Python indent file
 " Language:         Python
@@ -454,5 +456,3 @@ function! GetPythonPEPIndent(lnum)
 
     return s:indent_like_previous_line(a:lnum)
 endfunction
-
-endif

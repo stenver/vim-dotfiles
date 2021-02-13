@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'pug') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'pug', 'syntax/pug.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language: Pug
@@ -113,6 +115,4 @@ let b:current_syntax = "pug"
 
 if main_syntax == "pug"
   unlet main_syntax
-endif
-
 endif

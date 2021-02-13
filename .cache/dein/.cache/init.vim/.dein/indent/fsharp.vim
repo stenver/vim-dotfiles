@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'fsharp') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'fsharp', 'indent/fsharp.vim')
+  finish
+endif
 
 " Vim indent file
 " Language:     FSharp
@@ -249,5 +251,3 @@ function! GetFsharpIndent()
 endfunction
 
 " vim: sw=4 et sts=4
-
-endif

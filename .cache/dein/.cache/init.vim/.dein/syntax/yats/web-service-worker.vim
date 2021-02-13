@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'typescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'typescript', 'syntax/yats/web-service-worker.vim')
+  finish
+endif
 
 syntax keyword typescriptServiceWorkerProp contained controller ready
 syntax cluster props add=typescriptServiceWorkerProp
@@ -13,6 +15,4 @@ syntax keyword typescriptCacheMethod contained match matchAll add addAll put del
 syntax keyword typescriptCacheMethod contained keys nextgroup=typescriptFuncCallArg
 syntax cluster props add=typescriptCacheMethod
 if exists("did_typescript_hilink") | HiLink typescriptCacheMethod Keyword
-endif
-
 endif

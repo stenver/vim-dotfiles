@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'jst') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'jst', 'indent/jst.vim')
+  finish
+endif
 
 if exists("b:did_indent")
   finish
@@ -75,5 +77,3 @@ endfunction
 
 " vim:set sw=2 sts=2 ts=8 noet:
 
-
-endif

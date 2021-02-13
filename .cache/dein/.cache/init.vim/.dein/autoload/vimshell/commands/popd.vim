@@ -1,7 +1,6 @@
 "=============================================================================
 " FILE: popd.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 09 Jul 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -29,7 +28,7 @@ let s:command = {
       \ 'kind' : 'internal',
       \ 'description' : 'popd [{directory-stack-number}]',
       \}
-function! s:command.execute(args, context)"{{{
+function! s:command.execute(args, context) abort "{{{
   " Pop directory.
 
   if empty(b:vimshell.directory_stack)
@@ -38,7 +37,6 @@ function! s:command.execute(args, context)"{{{
     return
   endif
 
-  let cnt = 0
   let arguments = join(a:args)
   if arguments =~ '^\d\+$'
     let pop = str2nr(arguments)
@@ -57,13 +55,13 @@ function! s:command.execute(args, context)"{{{
     return
   endif
 
-  return vimshell#execute_internal_command('cd',
+  return vimshell#helpers#execute_internal_command('cd',
         \ [ b:vimshell.directory_stack[pop] ], a:context)
 endfunction"}}}
-function! s:command.complete(args)"{{{
+function! s:command.complete(args) abort "{{{
   return vimshell#complete#helper#directory_stack(a:args[-1])
 endfunction"}}}
 
-function! vimshell#commands#popd#define()
+function! vimshell#commands#popd#define() abort
   return s:command
 endfunction

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'emberscript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'emberscript', 'indent/ember-script.vim')
+  finish
+endif
 
 " Language:    ember-script
 " Maintainer:  Yulij Andreevich Lesov <yalesov@gmail.com>>
@@ -14,5 +16,3 @@ endif
 runtime! indent/coffee.vim
 unlet! b:did_indent
 let b:did_indent = 1
-
-endif

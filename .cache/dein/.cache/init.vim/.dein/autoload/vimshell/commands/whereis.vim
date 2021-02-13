@@ -1,7 +1,6 @@
 "=============================================================================
 " FILE: whrereis.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 17 Aug 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -29,17 +28,23 @@ let s:command = {
       \ 'kind' : 'internal',
       \ 'description' : 'whereis command',
       \}
-function! s:command.execute(args, context)"{{{
+function! s:command.execute(args, context) abort "{{{
   if empty(a:args)
     return
   endif
 
-  let name = a:args[0]
   for arg in vimproc#get_command_name(a:args[0], $PATH, -1)
     call vimshell#print_line(a:context.fd, arg)
   endfor
 endfunction"}}}
+function! s:command.complete(args) abort "{{{
+  if len(a:args) == 1
+    return vimshell#complete#helper#executables(a:args[-1])
+  endif
 
-function! vimshell#commands#whereis#define()
+  return []
+endfunction"}}}
+
+function! vimshell#commands#whereis#define() abort
   return s:command
 endfunction

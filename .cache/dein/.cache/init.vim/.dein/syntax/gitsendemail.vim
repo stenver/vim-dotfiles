@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'git') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'git', 'syntax/gitsendemail.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:	git send-email message
@@ -23,5 +25,3 @@ syn match   gitsendemailComment "^GIT:.*"
 hi def link gitsendemailComment Comment
 
 let b:current_syntax = "gitsendemail"
-
-endif

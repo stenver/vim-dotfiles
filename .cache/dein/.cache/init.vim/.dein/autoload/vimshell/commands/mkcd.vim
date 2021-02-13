@@ -1,7 +1,6 @@
 "=============================================================================
 " FILE: mkcd.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 07 Jul 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -29,7 +28,7 @@ let s:command = {
       \ 'kind' : 'internal',
       \ 'description' : 'mkcd {directory-name}',
       \}
-function! s:command.execute(args, context)"{{{
+function! s:command.execute(args, context) abort "{{{
   " Make directory and change the working directory.
 
   if empty(a:args)
@@ -51,9 +50,9 @@ function! s:command.execute(args, context)"{{{
     call mkdir(arguments)
   endif
 
-  return vimshell#execute_internal_command('cd', a:args, a:context)
+  return vimshell#helpers#execute_internal_command('cd', a:args, a:context)
 endfunction"}}}
 
-function! vimshell#commands#mkcd#define()
+function! vimshell#commands#mkcd#define() abort
   return s:command
 endfunction

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'go') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'go', 'compiler/go.vim')
+  finish
+endif
 
 " Copyright 2013 The Go Authors. All rights reserved.
 " Use of this source code is governed by a BSD-style
@@ -48,5 +50,3 @@ let &cpo = s:cpo_save
 unlet s:cpo_save
 
 " vim: sw=2 ts=2 et
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'perl') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'perl', 'syntax/perl.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:      Perl 5
@@ -582,5 +584,3 @@ unlet s:cpo_save
 
 " XXX Change to sts=4:sw=4
 " vim:ts=8:sts=2:sw=2:expandtab:ft=vim
-
-endif

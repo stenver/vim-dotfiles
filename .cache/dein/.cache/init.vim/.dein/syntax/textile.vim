@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'textile') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'textile', 'syntax/textile.vim')
+  finish
+endif
 
 "
 "   You will have to restart vim for this to take effect.  In any case
@@ -91,5 +93,3 @@ if version >= 508 || !exists("did_txt_syn_inits")
 endif
 
 " vim: set ai et sw=4 :
-
-endif

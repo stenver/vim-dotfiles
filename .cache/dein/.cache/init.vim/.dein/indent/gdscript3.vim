@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'gdscript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'gdscript', 'indent/gdscript3.vim')
+  finish
+endif
 
 " Vim indent file
 " Language:		Python
@@ -200,5 +202,3 @@ let &cpo = s:keepcpo
 unlet s:keepcpo
 
 " vim:sw=2
-
-endif

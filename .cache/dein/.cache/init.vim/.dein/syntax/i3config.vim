@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'i3') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'i3', 'syntax/i3config.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language: i3 config file
@@ -259,5 +261,3 @@ hi! def link i3ConfigVariable                        Statement
 hi! def link i3ConfigArbitraryCommand                Type
 
 let b:current_syntax = "i3config"
-
-endif

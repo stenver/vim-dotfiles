@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'livescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'livescript', 'syntax/ls.vim')
+  finish
+endif
 
 " Language:    LiveScript "
 " Maintainer:  George Zahariev
@@ -135,6 +137,4 @@ highlight default link lsSpaceError Error
 
 if !exists('b:current_syntax')
   let b:current_syntax = 'livescript'
-endif
-
 endif

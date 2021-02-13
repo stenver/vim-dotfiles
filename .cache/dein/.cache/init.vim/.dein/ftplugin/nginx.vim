@@ -1,5 +1,5 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'nginx') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'nginx', 'ftplugin/nginx.vim')
+  finish
+endif
 
 setlocal commentstring=#\ %s
-
-endif

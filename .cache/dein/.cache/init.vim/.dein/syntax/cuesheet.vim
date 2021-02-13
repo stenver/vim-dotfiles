@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'cue') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'cue', 'syntax/cuesheet.vim')
+  finish
+endif
 
 " Language:    Cue sheet
 " Maintainer:  Matěj Grabovský
@@ -26,5 +28,3 @@ syn match Number /\<\d\+\%(:\d\{2}\)\{2}\>/
 let b:current_syntax='cuesheet'
 
 " vim: nowrap sw=2 sts=2 ts=8:
-
-endif

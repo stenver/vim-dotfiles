@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'puppet') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'puppet', 'autoload/puppet/ctags.vim')
+  finish
+endif
 
 
 if !exists('s:ctags_type')
@@ -36,5 +38,3 @@ function! puppet#ctags#Type()
   return s:ctags_type
 endfunction
 
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'ansible') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'ansible', 'syntax/ansible_hosts.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language: Ansible hosts files
@@ -31,5 +33,3 @@ if exists("g:ansible_attribute_highlight")
 endif
 
 let b:current_syntax = "ansible_hosts"
-
-endif

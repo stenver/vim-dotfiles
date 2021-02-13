@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'qml') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'qml', 'ftplugin/qml.vim')
+  finish
+endif
 
 " Vim filetype plugin file
 " Language: qml
@@ -37,5 +39,3 @@ setlocal formatoptions+=croql
 
 let &cpoptions = s:cpoptions_save
 unlet s:cpoptions_save
-
-endif

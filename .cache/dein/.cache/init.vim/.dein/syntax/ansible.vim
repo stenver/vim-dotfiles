@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'ansible') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'ansible', 'syntax/ansible.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language: Ansible YAML/Jinja templates
@@ -103,6 +105,11 @@ else
   highlight default link ansible_with_keywords Statement
 endif
 
-let b:current_syntax = "ansible"
-
+execute 'syn keyword ansible_with_keywords loop containedin='.s:yamlKey.' contained'
+if exists("g:ansible_with_keywords_highlight")
+  execute 'highlight link ansible_with_keywords '.g:ansible_with_keywords_highlight
+else
+  highlight default link ansible_with_keywords Statement
 endif
+
+let b:current_syntax = "ansible"

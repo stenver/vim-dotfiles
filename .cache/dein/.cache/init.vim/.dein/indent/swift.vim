@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'swift') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'swift', 'indent/swift.vim')
+  finish
+endif
 
 " File: swift.vim
 " Author: Keith Smiley
@@ -294,5 +296,3 @@ endfunction
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
-
-endif

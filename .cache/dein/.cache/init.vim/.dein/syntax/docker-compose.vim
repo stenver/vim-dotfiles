@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'dockerfile') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'docker-compose', 'syntax/docker-compose.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language: Dockerfile
@@ -80,5 +82,3 @@ hi link dockercomposeTodo      Todo
 hi link bashStatement       Function
 
 let b:current_syntax = "dockercompose"
-
-endif

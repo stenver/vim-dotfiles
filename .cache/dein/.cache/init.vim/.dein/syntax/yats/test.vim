@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'typescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'typescript', 'syntax/yats/test.vim')
+  finish
+endif
 
 syntax keyword typescriptTestGlobal containedin=typescriptIdentifierName describe
 syntax keyword typescriptTestGlobal containedin=typescriptIdentifierName it test before
@@ -7,5 +9,3 @@ syntax keyword typescriptTestGlobal containedin=typescriptIdentifierName afterEa
 syntax keyword typescriptTestGlobal containedin=typescriptIdentifierName beforeAll
 syntax keyword typescriptTestGlobal containedin=typescriptIdentifierName afterAll
 syntax keyword typescriptTestGlobal containedin=typescriptIdentifierName expect assert
-
-endif

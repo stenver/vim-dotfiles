@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'svelte') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'svelte', 'ftplugin/svelte.vim')
+  finish
+endif
 
 " Vim filetype plugin
 " Language:   Svelte 3 (HTML/JavaScript)
@@ -42,6 +44,4 @@ if exists('g:loaded_ale')
   if !exists('b:ale_linters')
     let b:ale_linters = ['stylelint', 'eslint']
   endif
-endif
-
 endif

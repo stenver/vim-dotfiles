@@ -1,7 +1,6 @@
 "=============================================================================
 " FILE: hook.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 19 Sep 2011.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -24,9 +23,9 @@
 " }}}
 "=============================================================================
 
-function! vimshell#hook#call(hook_point, context, args)"{{{
-  " There are cases when this variable doesn't 
-  " exist 
+function! vimshell#hook#call(hook_point, context, args) abort "{{{
+  " There are cases when this variable doesn't
+  " exist
   " USE: 'b:interactive.is_close_immediately = 1' to replicate
   if !exists('b:interactive')
     return
@@ -48,10 +47,10 @@ function! vimshell#hook#call(hook_point, context, args)"{{{
     call call(table[key], [a:args, context], {})
   endfor
 endfunction"}}}
-function! vimshell#hook#call_filter(hook_point, context, args)"{{{
-  if !a:context.is_interactive
+function! vimshell#hook#call_filter(hook_point, context, cmdline) abort "{{{
+  if !exists('b:interactive') || !a:context.is_interactive
         \ || !has_key(b:interactive.hook_functions_table, a:hook_point)
-    return a:args
+    return a:cmdline
   endif
 
   let context = copy(a:context)
@@ -59,15 +58,24 @@ function! vimshell#hook#call_filter(hook_point, context, args)"{{{
   call vimshell#set_context(context)
 
   " Call hook function.
-  let args = a:args
+  let cmdline = a:cmdline
   let table = b:interactive.hook_functions_table[a:hook_point]
   for key in sort(keys(table))
-    let args = call(table[key], [args, context], {})
+    let ret = call(table[key], [cmdline, context], {})
+
+    if type(ret) != type(0)
+      " Use new value.
+      let cmdline = ret
+    endif
   endfor
 
-  return args
+  return cmdline
 endfunction"}}}
-function! vimshell#hook#set(hook_point, func_list)"{{{
+function! vimshell#hook#set(hook_point, func_list) abort "{{{
+  if !exists('b:interactive')
+    return
+  endif
+
   if !has_key(b:interactive.hook_functions_table, a:hook_point)
     let b:interactive.hook_functions_table[a:hook_point] = {}
   endif
@@ -80,17 +88,29 @@ function! vimshell#hook#set(hook_point, func_list)"{{{
     let cnt += 1
   endfor
 endfunction"}}}
-function! vimshell#hook#get(hook_point)"{{{
+function! vimshell#hook#get(hook_point) abort "{{{
+  if !exists('b:interactive')
+    return
+  endif
+
   return get(b:interactive.hook_functions_table, a:hook_point, {})
 endfunction"}}}
-function! vimshell#hook#add(hook_point, hook_name, func)"{{{
+function! vimshell#hook#add(hook_point, hook_name, func) abort "{{{
+  if !exists('b:interactive')
+    return
+  endif
+
   if !has_key(b:interactive.hook_functions_table, a:hook_point)
     let b:interactive.hook_functions_table[a:hook_point] = {}
   endif
 
   let b:interactive.hook_functions_table[a:hook_point][a:hook_name] = a:func
 endfunction"}}}
-function! vimshell#hook#remove(hook_point, hook_name)"{{{
+function! vimshell#hook#remove(hook_point, hook_name) abort "{{{
+  if !exists('b:interactive')
+    return
+  endif
+
   if !has_key(b:interactive.hook_functions_table, a:hook_point)
     let b:interactive.hook_functions_table[a:hook_point] = {}
   endif

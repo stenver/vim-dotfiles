@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'kotlin') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'kotlin', 'indent/kotlin.vim')
+  finish
+endif
 
 " Vim indent file
 " Language: Kotlin
@@ -56,5 +58,3 @@ function! GetKotlinIndent()
 
     return prev_indent
 endfunction
-
-endif

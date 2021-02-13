@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'go') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'go', 'syntax/godefstack.vim')
+  finish
+endif
 
 if exists("b:current_syntax")
   finish
@@ -20,5 +22,3 @@ hi def link godefStackFilename          Directory
 hi def link godefStackEntryLocationNumber LineNr
 
 " vim: sw=2 ts=2 et
-
-endif

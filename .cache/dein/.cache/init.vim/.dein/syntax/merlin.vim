@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'reason') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'reason', 'syntax/merlin.vim')
+  finish
+endif
 
 " Vim syntax file for editing merlin project files
 if exists("b:current_syntax")
@@ -13,5 +15,3 @@ hi link merlinComment Comment
 
 let b:current_syntax = "merlin"
 
-
-endif

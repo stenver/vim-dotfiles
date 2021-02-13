@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'javascript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'javascript', 'indent/javascript.vim')
+  finish
+endif
 
 " Vim indent file
 " Language: Javascript
@@ -477,5 +479,3 @@ endfunction
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
-
-endif

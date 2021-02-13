@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'mathematica') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'mathematica', 'ftplugin/mma.vim')
+  finish
+endif
 
 "Vim filetype plugin
 " Language: Mathematica
@@ -59,5 +61,3 @@ unlet s:cpo_save
 "}
 
 " vim: set foldmarker={,} foldlevel=0 foldmethod=marker:
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'smt2') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'smt2', 'syntax/smt2.vim')
+  finish
+endif
 
 " Vim syntax file
 " " Language:     SMT-LIB2 with Z3's extensions
@@ -13,14 +15,13 @@ let b:current_syntax = "smt2"
 " Comments
 syntax match smt2Comment ";.*$"
 
-" Keywords
-syntax keyword smt2Keyword
+" Commands
+syntax keyword smt2Commands
       \ apply
-      \ as
-      \ assert
       \ assert
       \ assert-soft
       \ check-sat
+      \ check-sat-assuming
       \ check-sat-using
       \ declare-const
       \ declare-datatype
@@ -32,44 +33,46 @@ syntax keyword smt2Keyword
       \ declare-var
       \ define-const
       \ define-fun
+      \ define-fun-rec
+      \ define-funs-rec
       \ define-sort
       \ display
       \ echo
       \ elim-quantifiers
       \ eval
-      \ exists
       \ exit
-      \ forall
+      \ get-assertions
       \ get-assignment
       \ get-info
       \ get-model
       \ get-option
       \ get-proof
+      \ get-unsat-assumptions
       \ get-unsat-core
       \ get-user-tactics
       \ get-value
       \ help
-      \ let
-      \ match
       \ maximize
       \ minimize
       \ pop
       \ push
       \ query
       \ reset
+      \ reset-assertions
       \ rule
       \ set-info
       \ set-logic
       \ set-option
       \ simplify
-syntax match smt2Keyword "!"
+syntax match smt2Commands "!"
 
 " Operators
-syntax match smt2Operator "[=\|>\|<\|<=\|>=\|=>\|+\|\-\|*\|/]"
+syntax match smt2Operator "[=\|>\|<\|<=\|>=\|=>\|+\|\-\|*\|/\|!]"
 
 " Builtins
 syntax keyword smt2Builtin
       \ and
+      \ as
       \ bit0
       \ bit1
       \ bvadd
@@ -106,16 +109,20 @@ syntax keyword smt2Builtin
       \ const
       \ distinct
       \ div
+      \ exists
       \ extract
       \ false
-      \ get-assertions
+      \ forall
       \ if
       \ is_int
       \ ite
+      \ let
       \ map
+      \ match
       \ mod
       \ not
       \ or
+      \ par
       \ rem
       \ repeat
       \ root-obj
@@ -161,7 +168,7 @@ syntax match smt2Delimiter "[()]"
 syntax keyword smt2Error error
 
 highlight def link smt2Comment     Comment
-highlight def link smt2Keyword     Function
+highlight def link smt2Commands    Function
 highlight def link smt2Operator    Operator
 highlight def link smt2Builtin     Operator
 highlight def link smt2Identifier  Normal
@@ -175,5 +182,3 @@ highlight def link smt2Binary      Number
 highlight def link smt2Int         Number
 highlight def link smt2Delimiter   Delimiter
 highlight def link smt2Error       Error
-
-endif

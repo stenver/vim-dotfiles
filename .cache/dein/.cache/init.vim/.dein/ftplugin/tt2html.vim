@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'perl') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'perl', 'ftplugin/tt2html.vim')
+  finish
+endif
 
 " Language:      TT2 embedded with HTML
 " Maintainer:    vim-perl <vim-perl@googlegroups.com>
@@ -13,5 +15,3 @@ endif
 
 " Just use the HTML plugin for now.
 runtime! ftplugin/html.vim ftplugin/html_*.vim ftplugin/html/*.vim
-
-endif

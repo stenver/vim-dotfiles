@@ -1,7 +1,9 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'typescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'typescript', 'syntax/basic/function.vim')
+  finish
+endif
 
 syntax keyword typescriptAsyncFuncKeyword      async
-  \ nextgroup=typescriptFuncKeyword,typescriptArrowFuncDef
+  \ nextgroup=typescriptFuncKeyword,typescriptArrowFuncDef,typescriptArrowFuncTypeParameter
   \ skipwhite
 
 syntax keyword typescriptAsyncFuncKeyword      await
@@ -20,39 +22,33 @@ syntax match   typescriptFuncName              contained /\K\k*/
   \ nextgroup=@typescriptCallSignature
   \ skipwhite
 
-" destructuring ({ a: ee }) =>
-syntax match   typescriptArrowFuncDef          contained /(\(\s*\({\_[^}]*}\|\k\+\)\(:\_[^)]\)\?,\?\)\+)\s*=>/
-  \ contains=typescriptArrowFuncArg,typescriptArrowFunc
-  \ nextgroup=@typescriptExpression,typescriptBlock
-  \ skipwhite skipempty
-
-" matches `(a) =>` or `([a]) =>` or
-" `(
-"  a) =>`
-syntax match   typescriptArrowFuncDef          contained /(\(\_s*[a-zA-Z\$_\[.]\_[^)]*\)*)\s*=>/
-  \ contains=typescriptArrowFuncArg,typescriptArrowFunc
-  \ nextgroup=@typescriptExpression,typescriptBlock
-  \ skipwhite skipempty
-
 syntax match   typescriptArrowFuncDef          contained /\K\k*\s*=>/
   \ contains=typescriptArrowFuncArg,typescriptArrowFunc
   \ nextgroup=@typescriptExpression,typescriptBlock
   \ skipwhite skipempty
 
-" TODO: optimize this pattern
-syntax region   typescriptArrowFuncDef          contained start=/(\_[^(^)]*):/ end=/=>/
-  \ contains=typescriptArrowFuncArg,typescriptArrowFunc,typescriptTypeAnnotation
+syntax match   typescriptArrowFuncDef          contained /(\%(\_[^()]\+\|(\_[^()]*)\)*)\_s*=>/
+  \ contains=typescriptArrowFuncArg,typescriptArrowFunc,@typescriptCallSignature
+  \ nextgroup=@typescriptExpression,typescriptBlock
+  \ skipwhite skipempty
+
+syntax region  typescriptArrowFuncDef          contained start=/(\%(\_[^()]\+\|(\_[^()]*)\)*):/ matchgroup=typescriptArrowFunc end=/=>/
+  \ contains=typescriptArrowFuncArg,typescriptTypeAnnotation,@typescriptCallSignature
   \ nextgroup=@typescriptExpression,typescriptBlock
   \ skipwhite skipempty keepend
 
+syntax region  typescriptArrowFuncTypeParameter start=/</ end=/>/
+  \ contains=@typescriptTypeParameterCluster
+  \ nextgroup=typescriptArrowFuncDef
+  \ contained skipwhite skipnl
+
 syntax match   typescriptArrowFunc             /=>/
 syntax match   typescriptArrowFuncArg          contained /\K\k*/
-syntax region  typescriptArrowFuncArg          contained start=/<\|(/ end=/\ze=>/ contains=@typescriptCallSignature
 
 syntax region typescriptReturnAnnotation contained start=/:/ end=/{/me=e-1 contains=@typescriptType nextgroup=typescriptBlock
 
 
-syntax region typescriptFuncImpl contained start=/function/ end=/{/me=e-1
+syntax region typescriptFuncImpl contained start=/function\>/ end=/{/me=e-1
   \ contains=typescriptFuncKeyword
   \ nextgroup=typescriptBlock
 
@@ -67,5 +63,3 @@ syntax region typescriptParamImpl matchgroup=typescriptParens
   \ contains=typescriptDecorator,@typescriptParameterList,@typescriptComments
   \ nextgroup=typescriptReturnAnnotation,typescriptBlock
   \ contained skipwhite skipnl
-
-endif

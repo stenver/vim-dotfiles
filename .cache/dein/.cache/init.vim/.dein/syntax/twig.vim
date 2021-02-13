@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'twig') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'twig', 'syntax/twig.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:	Twig template
@@ -113,6 +115,4 @@ if version >= 508 || !exists("did_twig_syn_inits")
   HiLink twigComment Comment
 
   delcommand HiLink
-endif
-
 endif

@@ -1,37 +1,23 @@
-# Contributing
+# Problems summary
 
-If you'd like to contribute to the project, you can use the usual github pull-request flow:
+## Expected
 
-1. Fork the project
-2. Make your change/addition, preferably in a separate branch.
-3. Test the new behaviour and make sure all existing tests pass (optional, see below for more information).
-4. Issue a pull request with a description of your feature/bugfix.
+## Environment Information
+ * OS:
+ * Neovim/Vim/Gvim version:
 
-## Testing
+## Provide a minimal .vimrc with less than 50 lines
 
-This project uses [rspec](http://rspec.info/) and [vimrunner](https://github.com/AndrewRadev/vimrunner) to test its behaviour. Testing vimscript this way does a great job of catching regressions, since it launches a real Vim instance and drives it (almost) as if it's a real user. Tests are written in the ruby programming language, so if you're familiar with it, you should (I hope) find the tests fairly understandable and easy to get into.
+    " Your minimal.vimrc
 
-If you're not familiar with ruby, it's okay to skip them. I'd definitely appreciate it if you could take a look at the tests and attempt to write something that describes your change. Even if you don't, TravisCI should run the tests on every pull request, so we'll know right away if there's a regression. In that case, I'll work on the tests myself and see what I can do.
+## Generate a logfile if appropriate
 
-To run the test suite, provided you have ruby installed, first you need bundler:
+ 1. export NVIM_PYTHON_LOG_FILE=/tmp/log
+ 2. export NVIM_PYTHON_LOG_LEVEL=DEBUG
+ 3. nvim -u minimal.vimrc
+ 4. recreate your issue
+ 5. cat /tmp/log_{PID}
 
-```
-$ gem install bundler
-```
+## Screen shot (if possible)
 
-If you already have the `bundle` command (check it out with `which bundle`), you don't need this step. Afterwards, it should be as simple as:
-
-```
-$ bundle install
-$ bundle exec rspec spec
-```
-
-Instead of running `rspec` by hand you can also use:
-
-```
-$ bundle exec guard
-```
-
-This will trigger `rspec` automatically every time you make a change either to a spec file like `spec/plugin/coffee_spec.rb` or one of sj's autoload files like `autoload/sj/coffee.vim`. This has the additional benefit of only running the specs for the file you are currently working one, which shortens your feedback loop considerably. E.g. when you work on `autoload/sj/sh.vim` only shell specs will be run.
-
-Depending on what kind of Vim you have installed, this may spawn a GUI Vim instance, or even several. You can read up on [vimrunner's README](https://github.com/AndrewRadev/vimrunner/blob/master/README.md) to understand how that works.
+## Upload the log file

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'toml') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'toml', 'ftplugin/toml.vim')
+  finish
+endif
 
 " File: ftplugin/toml.vim
 " Author: Kevin Ballard <kevin@sb.org>
@@ -21,5 +23,3 @@ let &cpo = s:save_cpo
 unlet s:save_cpo
 
 " vim: set et sw=4 ts=4:
-
-endif

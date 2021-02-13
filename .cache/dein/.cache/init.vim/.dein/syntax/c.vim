@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'c/c++') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'c/c++', 'syntax/c.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:	C
@@ -510,5 +512,3 @@ unlet s:ft
 let &cpo = s:cpo_save
 unlet s:cpo_save
 " vim: ts=8
-
-endif

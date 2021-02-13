@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'gdscript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'gdscript', 'syntax/gdscript3.vim')
+  finish
+endif
 
 " Syntax file for GDScript
 
@@ -97,5 +99,3 @@ hi def link gdTodo    Todo
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'scala') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'scala', 'after/syntax/help.vim')
+  finish
+endif
 
 " Extends standard help syntax with highlighting of Scala code.
 "
@@ -13,6 +15,4 @@ if has('conceal')
   syntax region rgnScala matchgroup=Ignore concealends start='!sc!' end='!/sc!' contains=@ScalaCode
 else
   syntax region rgnScala matchgroup=Ignore start='!sc!' end='!/sc!' contains=@ScalaCode
-endif
-
 endif

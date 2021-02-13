@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'rust') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'rust', 'autoload/rust.vim')
+  finish
+endif
 
 " Description: Helper functions for Rust commands/mappings
 " Last Modified: May 27, 2014
@@ -570,5 +572,3 @@ endfunction
 " }}}1
 
 " vim: set et sw=4 sts=4 ts=8:
-
-endif

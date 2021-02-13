@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'dlang') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'dlang', 'syntax/ddoc.vim')
+  finish
+endif
 
 if &filetype == "ddoc"
     "ddoc file type
@@ -81,6 +83,4 @@ elseif &filetype == "d"
     hi! def link ddocIdentifierBlockDecl   Macro
     hi! def link ddocIdentifierNestedDecl  Macro
     hi! def link ddocKeyword               Macro
-endif
-
 endif

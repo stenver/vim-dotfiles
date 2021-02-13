@@ -1,7 +1,7 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'ocaml') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'ocaml', 'ftplugin/ocamlbuild_tags.vim')
+  finish
+endif
 
 
 setlocal comments=:#
 setlocal commentstring=#\ %s
-
-endif

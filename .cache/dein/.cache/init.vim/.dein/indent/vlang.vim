@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'v') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'v', 'indent/vlang.vim')
+  finish
+endif
 
 " Based on the Go identation file.
 "
@@ -66,5 +68,3 @@ let &cpo = s:cpo_save
 unlet s:cpo_save
 
 " vim: sw=2 ts=2 et
-
-endif

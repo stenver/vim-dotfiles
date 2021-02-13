@@ -1,7 +1,6 @@
 "=============================================================================
 " FILE: source.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 04 Oct 2011.
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -29,27 +28,17 @@ let s:command = {
       \ 'kind' : 'internal',
       \ 'description' : 'source files...',
       \}
-function! s:command.execute(args, context)"{{{
+function! s:command.execute(args, context) abort "{{{
   if len(a:args) < 1
     return
   endif
 
-  let output = vimshell#iswin() ?
-        \ system(printf('cmd /c "%s& set"', join(map(a:args, '"\"".v:val."\""'), '& '))) :
-        \ vimproc#system(printf('%s -c ''%s; env''', &shell, join(map(a:args, '"source ".v:val.""'), '; ')))
-  let output = vimproc#util#iconv(output, vimproc#util#termencoding(), &encoding)
-  let variables = {}
-  for line in split(output, '\n\|\r\n')
-    if line =~ '^\u\w*='
-      let name = '$'.matchstr(line, '^\u\w*')
-      let val = matchstr(line, '^\u\w*=\zs.*')
-      let variables[name] = val
-    endif
+  for file in a:args
+    call vimshell#helpers#execute_internal_command('source_shellcmd',
+          \ (vimshell#util#is_windows() ? [file] : ['source', file]), a:context)
   endfor
-
-  call vimshell#set_variables(variables)
 endfunction"}}}
 
-function! vimshell#commands#source#define()
+function! vimshell#commands#source#define() abort
   return s:command
 endfunction

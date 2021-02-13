@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'scala') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'scala', 'ftplugin/scala.xpt.vim')
+  finish
+endif
 
 
 XPTemplate priority=lang
@@ -29,5 +31,3 @@ trait `derived^`trait^Component extends `trait^Component {
 		`body2^
 	}
 }
-
-endif

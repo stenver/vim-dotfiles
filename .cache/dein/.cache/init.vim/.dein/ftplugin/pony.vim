@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'pony') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'pony', 'ftplugin/pony.vim')
+  finish
+endif
 
 " Vim filetype plugin file
 " Language:     Pony
@@ -40,5 +42,3 @@ let &cpo = s:cpo_save
 unlet s:cpo_save
 
 let b:did_ftplugin = 1
-
-endif

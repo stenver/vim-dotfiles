@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'typescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'typescript', 'syntax/yats/es6-object.vim')
+  finish
+endif
 
 syntax keyword typescriptGlobal containedin=typescriptIdentifierName Object nextgroup=typescriptGlobalObjectDot,typescriptFuncCallArg
 syntax match   typescriptGlobalObjectDot /\./ contained nextgroup=typescriptObjectStaticMethod,typescriptProp
@@ -16,6 +18,4 @@ syntax keyword typescriptObjectMethod contained toLocaleString toString valueOf 
 syntax keyword typescriptObjectMethod contained setPrototypeOf nextgroup=typescriptFuncCallArg
 syntax cluster props add=typescriptObjectMethod
 if exists("did_typescript_hilink") | HiLink typescriptObjectMethod Keyword
-endif
-
 endif

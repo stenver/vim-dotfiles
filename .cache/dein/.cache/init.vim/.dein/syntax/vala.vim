@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'vala') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'vala', 'syntax/vala.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:	Vala
@@ -234,5 +236,3 @@ let &cpo = s:vala_cpo_save
 unlet s:vala_cpo_save
 
 " vim: ts=8
-
-endif

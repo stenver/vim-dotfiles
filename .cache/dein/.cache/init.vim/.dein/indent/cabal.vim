@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'haskell') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'haskell', 'indent/cabal.vim')
+  finish
+endif
 
 " indentation for cabal
 "
@@ -31,5 +33,3 @@ function! GetCabalIndent()
     return match(l:prevline, '\S')
   endif
 endfunction
-
-endif

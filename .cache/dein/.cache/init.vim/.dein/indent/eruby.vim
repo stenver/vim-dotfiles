@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'ruby') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'ruby', 'indent/eruby.vim')
+  finish
+endif
 
 " Vim indent file
 " Language:		eRuby
@@ -110,5 +112,3 @@ let &cpo = s:cpo_sav
 unlet! s:cpo_sav
 
 " vim:set sw=2 sts=2 ts=8 noet:
-
-endif

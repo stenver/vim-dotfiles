@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'acpiasl') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'acpiasl', 'syntax/asl.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language: ACPI ASL files
@@ -108,5 +110,3 @@ hi def link aslNumber            Number
 let b:current_syntax = "asl"
 syn sync minlines=200
 
-
-endif

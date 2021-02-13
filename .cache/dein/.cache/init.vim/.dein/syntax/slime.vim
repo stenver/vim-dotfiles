@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'slime') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'slime', 'syntax/slime.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language: slime
@@ -102,5 +104,3 @@ hi def link slimeWrappedAttrsDelimiter     Delimiter
 hi def link slimeInlineTagChar             Delimiter
 
 let b:current_syntax = "slime"
-
-endif

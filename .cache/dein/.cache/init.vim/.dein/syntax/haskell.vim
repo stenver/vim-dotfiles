@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'haskell') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'haskell', 'syntax/haskell.vim')
+  finish
+endif
 
 " syntax highlighting for haskell
 "
@@ -208,5 +210,3 @@ if get(g:, 'haskell_backpack', 0)
   highlight def link haskellBackpackDependency Include
 endif
 let b:current_syntax = "haskell"
-
-endif

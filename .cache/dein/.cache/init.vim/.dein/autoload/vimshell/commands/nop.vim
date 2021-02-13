@@ -1,7 +1,6 @@
 "=============================================================================
 " FILE: nop.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 07 Jun 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -29,10 +28,10 @@ let s:command = {
       \ 'kind' : 'internal',
       \ 'description' : 'nop',
       \}
-function! s:command.execute(args, context)
+function! s:command.execute(args, context) abort
   " No operation.
 endfunction
 
-function! vimshell#commands#nop#define()
+function! vimshell#commands#nop#define() abort
   return s:command
 endfunction

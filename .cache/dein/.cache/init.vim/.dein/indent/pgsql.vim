@@ -1,9 +1,12 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'pgsql') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'pgsql', 'indent/pgsql.vim')
+  finish
+endif
 
 " Vim indent file
 " Language:    SQL
 " Author:  David Fishburn <dfishburn dot vim at gmail dot com>
 " Maintainer: Lifepillar <lifepillar at lifepillar dot me>
+" License:     Vim license (see `:help license`)
 
 " Notes:
 " Adapted from Vim's default indentation for SQL.
@@ -389,5 +392,3 @@ endfunction
 let &cpo= s:keepcpo
 unlet s:keepcpo
 " vim: ts=4 fdm=marker sw=4
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'textile') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'textile', 'ftplugin/textile.vim')
+  finish
+endif
 
 " textile.vim
 "
@@ -59,5 +61,3 @@ function! TextileRenderBufferToTab()
   set syntax=html
 endfunction
 
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'typescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'typescript', 'syntax/typescript.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:     TypeScript
@@ -31,6 +33,4 @@ runtime syntax/common.vim
 let b:current_syntax = "typescript"
 if main_syntax == 'typescript'
   unlet main_syntax
-endif
-
 endif

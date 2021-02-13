@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'gnuplot') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'gnuplot', 'syntax/gnuplot.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:	gnuplot 4.7.0
@@ -554,5 +556,3 @@ endif
 let b:current_syntax = "gnuplot"
 
 " vim: ts=8
-
-endif

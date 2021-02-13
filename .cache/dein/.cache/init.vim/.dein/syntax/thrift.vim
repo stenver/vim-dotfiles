@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'thrift') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'thrift', 'syntax/thrift.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language: Thrift
@@ -97,5 +99,3 @@ endif
 
 let b:current_syntax = "thrift"
 
-
-endif

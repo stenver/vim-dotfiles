@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'twig') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'twig', 'ftplugin/twig.vim')
+  finish
+endif
 
 " Vim filetype plugin
 " Language: Twig
@@ -40,5 +42,3 @@ else
 endif
 
 " vim:set sw=2:
-
-endif

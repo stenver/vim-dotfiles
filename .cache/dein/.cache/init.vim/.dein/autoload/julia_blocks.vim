@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'julia') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'julia', 'autoload/julia_blocks.vim')
+  finish
+endif
 
 " Facilities for moving around Julia blocks (e.g. if/end, function/end etc.)
 " (AKA a collection of horrible hacks)
@@ -794,5 +796,3 @@ function! s:cursor_moved(...)
   let b:jlblk_did_select = b:jlblk_doing_select
   let b:jlblk_doing_select = 0
 endfunction
-
-endif

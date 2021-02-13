@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'r-lang') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'r-lang', 'syntax/rhelp.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:    R Help File
@@ -155,5 +157,3 @@ endif
 
 let   b:current_syntax = "rhelp"
 " vim: foldmethod=marker:
-
-endif

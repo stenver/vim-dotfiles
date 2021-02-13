@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'typescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'typescript', 'syntax/yats/es6-math.vim')
+  finish
+endif
 
 syntax keyword typescriptGlobal containedin=typescriptIdentifierName Math nextgroup=typescriptGlobalMathDot,typescriptFuncCallArg
 syntax match   typescriptGlobalMathDot /\./ contained nextgroup=typescriptMathStaticProp,typescriptMathStaticMethod,typescriptProp
@@ -13,6 +15,4 @@ syntax keyword typescriptMathStaticMethod contained imul log log10 log1p log2 ma
 syntax keyword typescriptMathStaticMethod contained min pow random round sign sin nextgroup=typescriptFuncCallArg
 syntax keyword typescriptMathStaticMethod contained sinh sqrt tan tanh trunc nextgroup=typescriptFuncCallArg
 if exists("did_typescript_hilink") | HiLink typescriptMathStaticMethod Keyword
-endif
-
 endif

@@ -1,7 +1,6 @@
 "=============================================================================
 " FILE: h.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 30 Jul 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -29,18 +28,19 @@ let s:command = {
       \ 'kind' : 'internal',
       \ 'description' : 'h [{pattern}]',
       \}
-function! s:command.execute(args, context)"{{{
+function! s:command.execute(args, context) abort "{{{
   " Execute from history.
 
   let histories = vimshell#history#read()
-  if empty(a:args) || a:args[0] =~ '^\d\+'
+  let hist = ''
+  if empty(a:args) || a:args[0] =~ '^-\?\d\+'
     if empty(a:args)
-      let num = 0
+      let num = -1
     else
       let num = str2nr(a:args[0])
     endif
 
-    if num >= len(histories)
+    if num >= len(histories) || -num > len(histories)
       " Error.
       call vimshell#error_line(a:context.fd, 'h: Not found in history.')
       return
@@ -50,13 +50,13 @@ function! s:command.execute(args, context)"{{{
   else
     let args = join(a:args)
     for h in histories
-      if vimshell#head_match(h, args)
+      if vimshell#util#head_match(h, args)
         let hist = h
         break
       endif
     endfor
 
-    if !exists('hist')
+    if hist == ''
       " Error.
       call vimshell#error_line(a:context.fd, 'h: Not found in history.')
       return
@@ -66,24 +66,19 @@ function! s:command.execute(args, context)"{{{
   if a:context.has_head_spaces
     let hist = ' ' . hist
   endif
-  call vimshell#set_prompt_command(hist)
+  call vimshell#view#_set_prompt_command(hist)
 
   let context = a:context
   let context.is_interactive = 0
   let context.fd = a:context.fd
   try
     call vimshell#parser#eval_script(hist, context)
-  catch /.*/
-    call vimshell#error_line({}, v:exception)
-    call vimshell#print_prompt(context)
-
-    if has_key(context, 'is_insert') && context.is_insert
-      call vimshell#start_insert()
-    endif
-    return
+  catch
+    call vimshell#error_line(context.fd, v:exception)
+    call vimshell#error_line(context.fd, v:throwpoint)
   endtry
 endfunction"}}}
 
-function! vimshell#commands#h#define()
+function! vimshell#commands#h#define() abort
   return s:command
 endfunction

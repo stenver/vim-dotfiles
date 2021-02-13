@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'emblem') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'emblem', 'syntax/emblem.vim')
+  finish
+endif
 
 " Language:    emblem
 " Maintainer:  Yulij Andreevich Lesov <yalesov@gmail.com>
@@ -171,5 +173,3 @@ hi def link eblId       Constant
 hi def link eblClass    Identifier
 
 let b:current_syntax = 'emblem'
-
-endif

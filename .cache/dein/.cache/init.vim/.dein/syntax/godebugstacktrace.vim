@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'go') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'go', 'syntax/godebugstacktrace.vim')
+  finish
+endif
 
 if exists("b:current_syntax")
   finish
@@ -11,5 +13,3 @@ let b:current_syntax = "godebugoutput"
 hi def link godebugStacktrace SpecialKey
 
 " vim: sw=2 ts=2 et
-
-endif

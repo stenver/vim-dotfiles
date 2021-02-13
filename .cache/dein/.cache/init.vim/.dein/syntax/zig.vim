@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'zig') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'zig', 'syntax/zig.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language: Zig
@@ -10,8 +12,8 @@ if exists("b:current_syntax")
 endif
 let b:current_syntax = "zig"
 
-syn keyword zigStorage const var extern packed export pub noalias inline noinline comptime callconv volatile allowzero align linksection threadlocal
-syn keyword zigStructure struct enum union error
+syn keyword zigStorage const var extern packed export pub noalias inline noinline comptime callconv volatile allowzero align linksection threadlocal anytype
+syn keyword zigStructure struct enum union error opaque
 syn keyword zigStatement break return continue asm defer errdefer unreachable try catch async nosuspend await suspend resume
 syn keyword zigConditional if else switch and or orelse
 syn keyword zigRepeat while for
@@ -26,8 +28,8 @@ syn keyword zigBoolean true false
 
 syn match zigType "\v<[iu][1-9]\d*>"
 
-syn match zigOperator display "\%(+%\?\|-%\?\|/\|*%\?\|=\|\^\|&\|?\||\|!\|>\|<\|%\|<<%\?\|>>\)=\?"
-syn match zigArrowCharacter display "->"
+syn match zigOperator display "\V\[-+/*=^&?|!><%~]"
+syn match zigArrowCharacter display "\V->"
 
 syn match zigBuiltinFn "\v\@(addWithOverflow|as|atomicLoad|atomicStore|bitCast|breakpoint)>"
 syn match zigBuiltinFn "\v\@(alignCast|alignOf|cDefine|cImport|cInclude)>"
@@ -36,9 +38,9 @@ syn match zigBuiltinFn "\v\@(compileLog|ctz|popCount|divExact|divFloor|divTrunc)
 syn match zigBuiltinFn "\v\@(embedFile|export|tagName|TagType|errorName|call)>"
 syn match zigBuiltinFn "\v\@(errorReturnTrace|fence|fieldParentPtr|field|unionInit)>"
 syn match zigBuiltinFn "\v\@(frameAddress|import|newStackCall|asyncCall|intToPtr)>"
-syn match zigBuiltinFn "\v\@(memcpy|memset|mod|mulWithOverflow|splat)>"
+syn match zigBuiltinFn "\v\@(memcpy|memset|mod|mulWithOverflow|splat|src)>"
 syn match zigBuiltinFn "\v\@(bitOffsetOf|byteOffsetOf|OpaqueType|panic|ptrCast)>"
-syn match zigBuiltinFn "\v\@(ptrToInt|rem|returnAddress|setCold|Type|shuffle)>"
+syn match zigBuiltinFn "\v\@(ptrToInt|rem|returnAddress|setCold|Type|shuffle|reduce)>"
 syn match zigBuiltinFn "\v\@(setRuntimeSafety|setEvalBranchQuota|setFloatMode)>"
 syn match zigBuiltinFn "\v\@(setGlobalLinkage|setGlobalSection|shlExact|This|hasDecl|hasField)>"
 syn match zigBuiltinFn "\v\@(shlWithOverflow|shrExact|sizeOf|bitSizeOf|sqrt|byteSwap|subWithOverflow|intCast|floatCast|intToFloat|floatToInt|boolToInt|errSetCast)>"
@@ -60,7 +62,7 @@ syn match zigCharacter /'\([^\\]\|\\\(.\|x\x\{2}\|u\x\{4}\|U\x\{6}\)\)'/ contain
 syn region zigBlock start="{" end="}" transparent fold
 
 syn region zigCommentLine start="//" end="$" contains=zigTodo,@Spell
-syn region zigCommentLineDoc start="////\@!" end="$" contains=zigTodo,@Spell
+syn region zigCommentLineDoc start="//[/!]/\@!" end="$" contains=zigTodo,@Spell
 
 " TODO: match only the first '\\' within the zigMultilineString as zigMultilineStringPrefix
 syn match zigMultilineStringPrefix display contained /c\?\\\\/
@@ -104,5 +106,3 @@ hi def link zigStructure Structure
 hi def link zigStatement Statement
 hi def link zigConditional Conditional
 hi def link zigRepeat Repeat
-
-endif

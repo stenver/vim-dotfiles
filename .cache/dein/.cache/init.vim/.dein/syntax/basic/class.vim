@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'typescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'typescript', 'syntax/basic/class.vim')
+  finish
+endif
 
 "don't add typescriptMembers to nextgroup, let outer scope match it
 " so we won't match abstract method outside abstract class
@@ -65,5 +67,3 @@ syntax region typescriptInterfaceTypeArguments matchgroup=typescriptTypeBrackets
   \ contained skipwhite
 
 syntax match typescriptInterfaceComma /,/ contained nextgroup=typescriptInterfaceHeritage skipwhite skipnl
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || !(index(g:polyglot_disabled, 'typescript') != -1 || index(g:polyglot_disabled, 'typescript') != -1 || index(g:polyglot_disabled, 'jsx') != -1)
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'jsx', 'after/syntax/tsx.vim')
+  finish
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Vim syntax file
@@ -59,5 +61,3 @@ let b:current_syntax = 'typescript.tsx'
 
 let &cpo = s:jsx_cpo
 unlet s:jsx_cpo
-
-endif

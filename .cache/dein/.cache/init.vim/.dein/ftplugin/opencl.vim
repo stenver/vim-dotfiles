@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'opencl') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'opencl', 'ftplugin/opencl.vim')
+  finish
+endif
 
 if exists("b:did_ftplugin") | finish | endif
 
@@ -15,5 +17,3 @@ setlocal smarttab
 setlocal smartindent
 
 let b:did_ftplugin = 1
-
-endif

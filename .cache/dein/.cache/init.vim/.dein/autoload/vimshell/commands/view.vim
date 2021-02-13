@@ -1,7 +1,6 @@
 "=============================================================================
 " FILE: view.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 17 Nov 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -29,7 +28,7 @@ let s:command = {
       \ 'kind' : 'internal',
       \ 'description' : 'view [{filename}]',
       \}
-function! s:command.execute(args, context)"{{{
+function! s:command.execute(args, context) abort "{{{
   let [args, options] = vimshell#parser#getopt(a:args, {
         \ 'arg=' : ['--split'],
         \ }, {
@@ -38,7 +37,7 @@ function! s:command.execute(args, context)"{{{
 
   if empty(args)
     if a:context.fd.stdin == ''
-      vimshell#error_line(a:context.fd, 'view: Filename required.')
+      call vimshell#error_line(a:context.fd, 'view: Filename required.')
       return
     endif
 
@@ -63,11 +62,16 @@ function! s:command.execute(args, context)"{{{
   " Save current directiory.
   let cwd = getcwd()
 
-  let [new_pos, old_pos] = vimshell#split(options['--split'])
+  let [new_pos, old_pos] = vimshell#helpers#split(options['--split'])
 
   for filename in filenames
     try
-      silent edit +setlocal\ readonly `=filename`
+      let buflisted = buflisted(filename)
+      execute 'silent edit +setlocal\ readonly' fnameescape(filename)
+
+      if !buflisted
+        doautocmd BufRead
+      endif
     catch
       echohl Error | echomsg v:errmsg | echohl None
     endtry
@@ -77,15 +81,15 @@ function! s:command.execute(args, context)"{{{
 
   call vimshell#cd(cwd)
 
-  call vimshell#restore_pos(old_pos)
+  noautocmd call vimshell#helpers#restore_pos(old_pos)
 
   if has_key(a:context, 'is_single_command') && a:context.is_single_command
     call vimshell#next_prompt(a:context, 0)
-    call vimshell#restore_pos(new_pos)
+    noautocmd call vimshell#helpers#restore_pos(new_pos)
     stopinsert
   endif
 endfunction"}}}
 
-function! vimshell#commands#view#define()
+function! vimshell#commands#view#define() abort
   return s:command
 endfunction

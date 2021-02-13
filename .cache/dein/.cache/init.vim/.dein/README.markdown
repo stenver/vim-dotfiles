@@ -1,112 +1,116 @@
-# rails.vim
+# fugitive.vim
 
-This is a massive (in a good way) Vim plugin for editing Ruby on Rails
-applications.
+Fugitive is the premier Vim plugin for Git.  Or maybe it's the premier Git
+plugin for Vim?  Either way, it's "so awesome, it should be illegal".  That's
+why it's called Fugitive.
 
-* Easy navigation of the Rails directory structure.  `gf` considers
-  context and knows about partials, fixtures, and much more.  There are
-  two commands, `:A` (alternate) and `:R` (related) for easy jumping
-  between files, including favorites like model to schema, template to
-  helper, and controller to functional test.  Commands like `:Emodel`,
-  `:Eview`, `:Econtroller`, are provided to `:edit` files by type, along
-  with `S`, `V`, and `T` variants for `:split`, `:vsplit`, and
-  `:tabedit`.  Throw a bang on the end (`:Emodel foo!`) to automatically
-  create the file with the standard boilerplate if it doesn't exist.
-  `:help rails-navigation`
+The crown jewel of Fugitive is `:Git` (or just `:G`), which calls any
+arbitrary Git command.  If you know how to use Git at the command line, you
+know how to use `:Git`.  It's vaguely akin to `:!git` but with numerous
+improvements:
 
-* Enhanced syntax highlighting.  From `has_and_belongs_to_many` to
-  `distance_of_time_in_words`, it's here.
+* The default behavior is to directly echo the command's output.  Quiet
+  commands like `:Git add` avoid the dreaded "Press ENTER or type command to
+  continue" prompt.
+* `:Git commit`, `:Git rebase -i`, and other commands that invoke an editor do
+  their editing in the current Vim instance.
+* `:Git diff`, `:Git log`, and other verbose, paginated commands have their
+  output loaded into a temporary buffer.  Force this behavior for any command
+  with `:Git --paginate` or `:Git -p`.
+* `:Git blame` uses a temporary buffer with maps for additional triage.  Press
+  enter on a line to view the commit where the line changed, or `g?` to see
+  other available maps.  Omit the filename argument and the currently edited
+  file will be blamed in a vertical, scroll-bound split.
+* `:Git mergetool` and `:Git difftool` load their changesets into the quickfix
+  list.
+* Called with no arguments, `:Git` opens a summary window with dirty files and
+  unpushed and unpulled commits.  Press `g?` to bring up a list of maps for
+  numerous operations including diffing, staging, committing, rebasing, and
+  stashing.  (This is the successor to the old `:Gstatus`.)
+* This command (along with all other commands) always uses the current
+  buffer's repository, so you don't need to worry about the current working
+  directory.
 
-* Interface to the `rails` command.  Generally, use `:Rails console` to
-  call `rails console`.  Many commands have wrappers with additional features:
-  `:Generate controller Blog` generates a blog controller and loads the
-  generated files into the quickfix list, and `:Runner` wraps `rails runner`
-  and doubles as a direct test runner.  `:help rails-exec`
+Additional commands are provided for higher level operations:
 
-* Default task runner.  Use `:Rails` (with no arguments) to run the current
-  test, spec, or feature.  Use `:.Rails` to do a focused run of just the
-  method, example, or scenario on the current line.  `:Rails` can also run
-  arbitrary migrations, load individual fixtures, and more.
-  `:help rails-default-task`
+* View any blob, tree, commit, or tag in the repository with `:Gedit` (and
+  `:Gsplit`, etc.).  For example, `:Gedit HEAD~3:%` loads the current file as
+  it existed 3 commits ago.
+* `:Gdiffsplit` brings up the staged version of the file side by side with the
+  working tree version.  Use Vim's diff handling capabilities to apply changes
+  to the staged version, and write that buffer to stage the changes.  You can
+  also give an arbitrary `:Gedit` argument to diff against older versions of
+  the file.
+* `:Gread` is a variant of `git checkout -- filename` that operates on the
+  buffer rather than the file itself.  This means you can use `u` to undo it
+  and you never get any warnings about the file changing outside Vim.
+* `:Gwrite` writes to both the work tree and index versions of a file, making
+  it like `git add` when called from a work tree file and like `git checkout`
+  when called from the index or a blob in history.
+* `:Ggrep` is `:grep` for `git grep`.  `:Glgrep` is `:lgrep` for the same.
+* `:GMove` does a `git mv` on the current file and changes the buffer name to
+  match.  `:GRename` does the same with a destination filename relative to the
+  current file's directory.
+* `:GDelete` does a `git rm` on the current file and simultaneously deletes
+  the buffer.  `:GRemove` does the same but leaves the (now empty) buffer
+  open.
+* `:GBrowse` to open the current file on the web front-end of your favorite
+  hosting provider, with optional line range (try it in visual mode).  Plugins
+  are available for popular providers such as [GitHub][rhubarb.vim],
+  [GitLab][fugitive-gitlab.vim], [Bitbucket][fubitive.vim],
+  [Gitee][fugitive-gitee.vim], [Pagure][pagure], and
+  [Phabricator][vim-phabricator].
 
-* Partial and concern extraction.  In a view, `:Extract {file}`
-  replaces the desired range (typically selected in visual line mode)
-  with `render '{file}'`, which is automatically created with your
-  content.  In a model or controller, a concern is created, with the
-  appropriate `include` declaration left behind.
-  `:help rails-:Extract`
+[rhubarb.vim]: https://github.com/tpope/vim-rhubarb
+[fugitive-gitlab.vim]: https://github.com/shumphrey/fugitive-gitlab.vim
+[fubitive.vim]: https://github.com/tommcdo/vim-fubitive
+[fugitive-gitee.vim]: https://github.com/linuxsuren/fugitive-gitee.vim
+[pagure]: https://github.com/FrostyX/vim-fugitive-pagure
+[vim-phabricator]: https://github.com/jparise/vim-phabricator
 
-* Fully customizable. Define "projections" at the global, app, or gem
-  level to define navigation commands and override the alternate file,
-  default rake task, syntax highlighting, and more.
-  `:help rails-projections`.
+Add `%{FugitiveStatusline()}` to `'statusline'` to get an indicator
+with the current branch in your statusline.
 
-* Integration with other plugins.  If [dispatch.vim][] is installed, `:Rails`
-  and other command wrappers will use it for asynchronous execution.  Users of
-  [dadbod.vim](https://github.com/tpope/vim-dadbod) and
-  [dbext](http://www.vim.org/script.php?script_id=356) get easy access to
-  their application's database.  Users of
-  [abolish.vim](https://github.com/tpope/vim-abolish) get pluralize and
-  tableize coercions, and users of [bundler.vim][] get a smattering of
-  features.   `:help rails-integration`
+For more information, see `:help fugitive`.
+
+## Screencasts
+
+* [A complement to command line git](http://vimcasts.org/e/31)
+* [Working with the git index](http://vimcasts.org/e/32)
+* [Resolving merge conflicts with vimdiff](http://vimcasts.org/e/33)
+* [Browsing the git object database](http://vimcasts.org/e/34)
+* [Exploring the history of a git repository](http://vimcasts.org/e/35)
 
 ## Installation
 
-If you don't have a preferred installation method, I recommend
-installing [pathogen.vim](https://github.com/tpope/vim-pathogen), and
-then simply copy and paste:
+Install using your favorite package manager, or use Vim's built-in package support:
 
-    cd ~/.vim/bundle
-    git clone https://github.com/tpope/vim-rails.git
-    vim -u NONE -c "helptags vim-rails/doc" -c q
-
-While not strictly necessary, [bundler.vim][] and [dispatch.vim][] are highly
-recommended.
-
-[bundler.vim]: https://github.com/tpope/vim-bundler
-[dispatch.vim]: https://github.com/tpope/vim-dispatch
+    mkdir -p ~/.vim/pack/tpope/start
+    cd ~/.vim/pack/tpope/start
+    git clone https://tpope.io/vim/fugitive.git
+    vim -u NONE -c "helptags fugitive/doc" -c q
 
 ## FAQ
 
-> I installed the plugin and started Vim.  Why does only the `:Rails`
-> command exist?
+> Why can't I enter my password when I `:Git push`?
 
-This plugin cares about the current file, not the current working
-directory.  Edit a file from a Rails application.
+It is highly recommended to use SSH keys or [credentials caching][] to avoid
+entering your password on every upstream interaction.  If this isn't an
+option, the official solution is to use the `core.askPass` Git option to
+request the password via a GUI.  Fugitive will configure this for you
+automatically if you have `ssh-askpass` or `git-gui` installed; otherwise it's
+your responsibility to set this up.
 
-> I opened a new tab.  Why does only the `:Rails` command exist?
+If you absolutely must type in your password by hand, sidestep Fugitive and
+use `:terminal git push`.
 
-This plugin cares about the current file, not the current working directory.
-Edit a file from a Rails application.  You can use `:AT` and the `:T` family
-of commands to open a new tab and edit a file at the same time.
-
-> Can I use rails.vim to edit Rails engines?
-
-It's not supported, but if you `touch config/environment.rb` in the root
-of the engine, things should mostly work.
-
-> Can I use rails.vim to edit other Ruby projects?
-
-I wrote [rake.vim](https://github.com/tpope/vim-rake) for exactly that
-purpose.  It activates for any project with a `Rakefile` that's not a
-Rails application.
-
-> What Rails versions are supported?
-
-All of them, although you may notice a few minor breakages if you dip below
-3.0.  A few features like syntax highlighting tend to reflect the latest
-version only.
-
-> Didn't rails.vim used to handle indent settings?
-
-It got yanked after increasing contention over JavaScript.  Check out
-[sleuth.vim](https://github.com/tpope/vim-sleuth).
+[credentials caching]: https://help.github.com/en/articles/caching-your-github-password-in-git
 
 ## Self-Promotion
 
-Like rails.vim? Follow the repository on
-[GitHub](https://github.com/tpope/vim-rails) and vote for it on
-[vim.org](http://www.vim.org/scripts/script.php?script_id=1567).  And if
+Like fugitive.vim? Follow the repository on
+[GitHub](https://github.com/tpope/vim-fugitive) and vote for it on
+[vim.org](http://www.vim.org/scripts/script.php?script_id=2975).  And if
 you're feeling especially charitable, follow [tpope](http://tpo.pe/) on
 [Twitter](http://twitter.com/tpope) and
 [GitHub](https://github.com/tpope).

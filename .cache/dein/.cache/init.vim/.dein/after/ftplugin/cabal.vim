@@ -1,7 +1,7 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'haskell') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'haskell', 'after/ftplugin/cabal.vim')
+  finish
+endif
 
 setlocal comments=s1fl:{-,mb:-,ex:-},:--
 setlocal iskeyword+=-,.,*
 setlocal commentstring=--\ %s
-
-endif

@@ -1,4 +1,5 @@
 let s:skip_syntax = sj#SkipSyntax(['String', 'Comment'])
+let s:ending_semicolon_pattern = ';\s*\%(//.*\)\=$'
 
 function! sj#rust#SplitMatchClause()
   if !sj#SearchUnderCursor('^.*\s*=>\s*.*$')
@@ -148,21 +149,22 @@ function! sj#rust#JoinMatchStatement()
   let second_line  = match_line + 2
   let closing_line = match_line + 3
 
-  if getline(first_line) =~ '^\s*Ok(\(\k\+\)) => \1' ||
-        \ getline(second_line) =~ '^\s*Ok(\(\k\+\)) => \1'
+  let ok_pattern   = '^\s*Ok(\(\k\+\))\s*=>\s*\1'
+  let err_pattern  = '^\s*Err(\k\+)\s*=>\s*return\s\+Err('
+  let some_pattern = '^\s*Some(\(\k\+\))\s*=>\s*\1'
+  let none_pattern = '^\s*None\s*=>\s*return\s\+None\>'
+
+  if getline(first_line) =~# ok_pattern || getline(second_line) =~# ok_pattern
     let expr_type = 'Result'
-  elseif getline(first_line) =~ '^\s*None => return None,' ||
-        \ getline(second_line) =~ '^\s*None => return None,'
+  elseif getline(first_line) =~# none_pattern || getline(second_line) =~# none_pattern
     let expr_type = 'Option'
   else
     return 0
   endif
 
-  if getline(second_line) =~ '^\s*Err(\k\+) => return Err(' ||
-        \ getline(first_line) =~ '^\s*Err(\k\+) => return Err('
+  if getline(second_line) =~# err_pattern || getline(first_line) =~# err_pattern
     let expr_type = 'Result'
-  elseif getline(second_line) =~ '^\s*Some(\(\k\+\)) => \1' ||
-        \ getline(first_line) =~ '^\s*Some(\(\k\+\)) => \1'
+  elseif getline(second_line) =~# some_pattern || getline(first_line) =~# some_pattern
     let expr_type = 'Option'
   else
     return 0
@@ -434,16 +436,41 @@ endfunction
 
 function! sj#rust#SplitIfLetIntoMatch()
   let if_let_pattern =  'if\s\+let\s\+\(.*\)\s\+=\s\+\(.\{-}\)\s*{'
+  let else_pattern = '}\s\+else\s\+{'
 
   if search(if_let_pattern, 'We', line('.')) <= 0
     return 0
   endif
 
   let match_line = substitute(getline('.'), if_let_pattern, "match \\2 {\n\\1 => {", '')
-  let body = sj#GetMotion('vi{')
+  let body = sj#Trim(sj#GetMotion('vi{'))
+
+  " multiple lines or ends with `;` -> wrap it in a block
+  if len(split(body, "\n")) > 1 || body =~ s:ending_semicolon_pattern
+    let body = "{\n".body."\n}"
+  endif
+
+  " Is there an else clause?
+  call sj#PushCursor()
+  let else_body = '()'
+  normal! %
+  if search(else_pattern, 'We', line('.')) > 0
+    let else_body = sj#Trim(sj#GetMotion('vi{'))
+
+    " multiple lines or ends with `;` -> wrap it in a block
+    if len(split(else_body, "\n")) > 1 || else_body =~ s:ending_semicolon_pattern
+      let else_body = "{\n".else_body."\n}"
+    endif
+
+    " Delete block, delete rest of line:
+    normal! "_da{T}"_D
+  endif
+
+  " Back to the if-let line:
+  call sj#PopCursor()
   call sj#ReplaceMotion('V', match_line)
   normal! j$
-  call sj#ReplaceMotion('Va{', " {\n".body."},\n_ => (),\n}")
+  call sj#ReplaceMotion('Va{', body.",\n_ => ".else_body.",\n}")
 
   return 1
 endfunction
@@ -461,24 +488,35 @@ function! sj#rust#JoinEmptyMatchIntoIfLet()
   " find end point
   normal! f{%
   let outer_end_lineno = line('.')
-  let inner_end_lineno = prevnonblank(outer_end_lineno - 1)
-  if getline(inner_end_lineno) =~ '^\s*_\s*=>\s*(),\=$'
-    " it's a default match, ignore this one
-    let inner_end_lineno = prevnonblank(inner_end_lineno - 1)
-  endif
 
-  if inner_end_lineno == 0
-    " No inner end } found
-    return 0
-  endif
-  if getline(inner_end_lineno) !~ '^\s*},\=\s*$'
-    " not a }
+  let inner_start_lineno = search(pattern_pattern, 'Wb', outer_start_lineno)
+  if inner_start_lineno <= 0
     return 0
   endif
 
-  exe inner_end_lineno
-  normal! 0f}%
   let inner_start_lineno = line('.')
+  if getline(inner_start_lineno) =~ '^\s*_\s*=>'
+    " it's a default match, ignore this one for now
+    let inner_start_lineno = search(pattern_pattern, 'Wb', outer_start_lineno)
+    if inner_start_lineno <= 0
+      return 0
+    endif
+
+    if getline(inner_start_lineno) =~ '^\s*_\s*=>'
+      " more than one _ => clause?
+      return 0
+    endif
+  endif
+
+  if getline(inner_start_lineno) =~ '{,\=\s*$'
+    " it's a block, mark its area:
+    exe inner_start_lineno
+    normal! 0f{%
+    let inner_end_lineno = line('.')
+  else
+    " not a }, so just one line
+    let inner_end_lineno = inner_start_lineno
+  endif
 
   if prevnonblank(inner_start_lineno - 1) != outer_start_lineno
     " the inner start is not immediately after the outer start
@@ -489,7 +527,33 @@ function! sj#rust#JoinEmptyMatchIntoIfLet()
   let match_pattern = sj#Trim(matchstr(getline(inner_start_lineno), pattern_pattern))
 
   " currently on inner start, so let's take its contents:
-  let body = sj#Trim(sj#GetMotion('vi{'))
+  if inner_start_lineno == inner_end_lineno
+    " one-line body, take everything up to the comma
+    exe inner_start_lineno
+    let body = substitute(getline('.'), '^\s*.\{-}\s\+=>\s*\(.\{-}\),\=\s*$', '\1', '')
+  else
+    " block body, take everything inside
+    let body = sj#Trim(sj#GetMotion('vi{'))
+  endif
+
+  " look for an else clause
+  call sj#PushCursor()
+  exe outer_start_lineno
+  let else_body = ''
+  if search('^\s*_\s*=>\s*\zs\S', 'W', outer_end_lineno) > 0
+    let fallback_value = strpart(getline('.'), col('.') - 1)
+
+    if fallback_value =~ '^{'
+      " the else-clause is going to be in a block
+      let else_body = sj#Trim(sj#GetMotion('vi{'))
+    elseif fallback_value =~ '^()'
+      " ignore it
+    else
+      " one-line value, remove its trailing comma and any comments
+      let else_body = substitute(fallback_value, ',\=\s*\%(//.*\)\=$', '', '')
+    endif
+  endif
+  call sj#PopCursor()
 
   " jump on outer start
   exe outer_start_lineno
@@ -497,7 +561,164 @@ function! sj#rust#JoinEmptyMatchIntoIfLet()
   normal! 0f{
   call sj#ReplaceMotion('va{', "{\n".body."\n}")
 
+  if else_body != ''
+    normal! 0f{%
+    call sj#ReplaceMotion('V', "} else {\n".else_body."\n}")
+  endif
+
   return 1
+endfunction
+
+function! sj#rust#SplitImportList()
+  if sj#SearchUnderCursor('^\s*use\s\+\%(\k\+::\)\+{', 'e') <= 0
+    return 0
+  endif
+
+  let prefix = sj#Trim(strpart(getline('.'), 0, col('.') - 1))
+  let body   = sj#GetMotion('vi{')
+  let parser = sj#argparser#rust#Construct(1, len(body), body)
+
+  call parser.Process()
+
+  let expanded_imports = []
+  for arg in parser.args
+    let import = arg.argument
+
+    if import == 'self'
+      let expanded_import = substitute(prefix, '::$', ';', '')
+    else
+      let expanded_import = prefix . import . ';'
+    end
+
+    call add(expanded_imports, expanded_import)
+  endfor
+
+  if len(expanded_imports) <= 0
+    return 0
+  endif
+
+  let replacement = join(expanded_imports, "\n")
+  call sj#ReplaceMotion('V', replacement)
+
+  return 1
+endfunction
+
+function! sj#rust#JoinImportList()
+  let import_pattern = '^\s*use\s\+\%(\k\+::\)\+'
+
+  if sj#SearchUnderCursor(import_pattern) <= 0
+    return 0
+  endif
+
+  let first_import = getline('.')
+  let first_import = substitute(first_import, s:ending_semicolon_pattern, '', '')
+  let imports = [sj#Trim(first_import)]
+
+  let start_line = line('.')
+  let last_line = line('.')
+  normal! j
+
+  while sj#SearchUnderCursor(import_pattern) > 0
+    if line('.') == last_line
+      " we haven't moved, stop here
+      break
+    endif
+    let last_line = line('.')
+
+    let import_line = getline('.')
+    let import_line = substitute(import_line, s:ending_semicolon_pattern, '', '')
+
+    call add(imports, sj#Trim(import_line))
+    normal! j
+  endwhile
+
+  if len(imports) <= 1
+    return 0
+  endif
+
+  " find common prefix based on first two imports
+  let first_prefix_parts  = split(imports[0], '::')
+  let second_prefix_parts = split(imports[1], '::')
+
+  if first_prefix_parts[0] != second_prefix_parts[0]
+    " no match at all, nothing we can do
+    return 0
+  endif
+
+  " find only the next ones that match the common prefix
+  let common_prefix = ''
+  for i in range(1, min([len(first_prefix_parts), len(second_prefix_parts)]) - 1)
+    if first_prefix_parts[i] != second_prefix_parts[i]
+      let common_prefix = join(first_prefix_parts[:(i - 1)], '::')
+      break
+    endif
+  endfor
+
+  if common_prefix == ''
+    if len(imports[0]) > len(imports[1])
+      let longer_import  = imports[0]
+      let shorter_import = imports[1]
+    else
+      let longer_import  = imports[1]
+      let shorter_import = imports[0]
+    endif
+
+    " it hasn't been changed, meaning we completely matched the shorter import
+    " within the longer.
+    if longer_import == shorter_import
+      " they're perfectly identical, just delete the first line and move on
+      exe start_line . 'delete'
+      return 1
+    elseif stridx(longer_import, shorter_import) == 0
+      " the shorter is included, consider it a prefix, and we'll puts `self`
+      " in there later
+      let common_prefix = shorter_import
+    else
+      " something unexpected went wrong, let's give up
+      return 0
+    endif
+  endif
+
+  let compatible_imports = imports[:1]
+  for import in imports[2:]
+    if stridx(import, common_prefix) == 0
+      call add(compatible_imports, import)
+    else
+      break
+    endif
+  endfor
+
+  " Get the differences between the imports
+  let differences = []
+  for import in compatible_imports
+    let difference = strpart(import, len(common_prefix))
+    let difference = substitute(difference, '^::', '', '')
+
+    if difference =~ '^{.*}$'
+      " there's a list of imports, merge them together
+      let parser = sj#argparser#rust#Construct(2, len(difference) - 1, difference)
+      call parser.Process()
+      for part in map(parser.args, 'v:val.argument')
+        call add(differences, part)
+      endfor
+    elseif len(difference) == 0
+      " this is the parent module
+      call add(differences, 'self')
+    else
+      call add(differences, difference)
+    endif
+  endfor
+
+  if exists('*uniq')
+    " remove successive duplicates
+    call uniq(differences)
+  endif
+
+  let replacement = common_prefix . '::{' . join(differences, ', ') . '};'
+  let end_line = start_line + len(compatible_imports) - 1
+  call sj#ReplaceLines(start_line, end_line, replacement)
+
+  return 0
 endfunction
 
 " Note: special handling for < and >

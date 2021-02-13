@@ -1,5 +1,5 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'solidity') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'solidity', 'ftplugin/solidity.vim')
+  finish
+endif
 
 setlocal commentstring=//\ %s
-
-endif

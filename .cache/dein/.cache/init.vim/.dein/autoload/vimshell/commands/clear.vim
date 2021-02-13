@@ -1,7 +1,6 @@
 "=============================================================================
 " FILE: clear.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 07 Jul 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -29,13 +28,13 @@ let s:command = {
       \ 'kind' : 'internal',
       \ 'description' : 'clear',
       \}
-function! s:command.execute(args, context)
+function! s:command.execute(args, context) abort
   " Clean up the screen.
   % delete _
 
   call vimshell#terminal#clear_highlight()
 endfunction
 
-function! vimshell#commands#clear#define()
+function! vimshell#commands#clear#define() abort
   return s:command
 endfunction

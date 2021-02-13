@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'git') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'git', 'ftplugin/gitconfig.vim')
+  finish
+endif
 
 " Vim filetype plugin
 " Language:	git config file
@@ -15,5 +17,3 @@ setlocal formatoptions-=t formatoptions+=croql
 setlocal comments=:#,:; commentstring=;\ %s
 
 let b:undo_ftplugin = "setl fo< com< cms<"
-
-endif

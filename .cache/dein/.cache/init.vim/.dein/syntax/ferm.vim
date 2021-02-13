@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'ferm') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'ferm', 'syntax/ferm.vim')
+  finish
+endif
 
 "============================================================================
 " ferm syntax highlighter
@@ -203,5 +205,3 @@ endif
 " Autoconfigure vim indentation settings
 " vim:ts=4:sw=4:sts=4:fdm=marker:iskeyword+=-
 
-
-endif

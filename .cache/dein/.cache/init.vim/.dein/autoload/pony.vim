@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'pony') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'pony', 'autoload/pony.vim')
+  finish
+endif
 
 " Vim plugin file
 " Language:     Pony
@@ -532,5 +534,3 @@ endfunction
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
-
-endif

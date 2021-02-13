@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'rust') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'rust', 'autoload/rust/tags.vim')
+  finish
+endif
 
 " Tagbar support code, for the sake of not automatically overriding its
 " configuration in case Universal Ctags is detected.
@@ -18,5 +20,3 @@ function! rust#tags#IsUCtags() abort
 endfunction
 
 " vim: set et sw=4 sts=4 ts=8:
-
-endif

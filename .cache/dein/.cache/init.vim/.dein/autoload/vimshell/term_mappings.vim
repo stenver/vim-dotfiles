@@ -1,7 +1,6 @@
 "=============================================================================
 " FILE: term_mappings.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 05 Aug 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -24,8 +23,8 @@
 " }}}
 "=============================================================================
 
-function! vimshell#term_mappings#define_default_mappings()"{{{
-  " Plugin key-mappings."{{{
+function! vimshell#term_mappings#define_default_mappings() abort "{{{
+  " Plugin key-mappings. "{{{
   nnoremap <buffer><silent> <Plug>(vimshell_term_interrupt)
         \ :<C-u>call vimshell#interactive#hang_up(bufname('%'))<CR>
   nnoremap <buffer><silent> <Plug>(vimshell_term_exit)
@@ -113,26 +112,25 @@ function! vimshell#term_mappings#define_default_mappings()"{{{
   imap <buffer> <C-Space>  <C-@>
   imap <buffer> <C-@>              <Plug>(vimshell_term_send_input)
 endfunction"}}}
-function! vimshell#term_mappings#send_key(key)"{{{
+function! vimshell#term_mappings#send_key(key) abort "{{{
   return printf("\<C-o>:call vimshell#interactive#send_char(%s)\<CR>", char2nr(a:key))
 endfunction"}}}
-function! vimshell#term_mappings#send_keys(keys)"{{{
+function! vimshell#term_mappings#send_keys(keys) abort "{{{
   return printf("\<C-o>:call vimshell#interactive#send_char(%s)\<CR>", string(map(split(a:keys, '\zs'), 'char2nr(v:val)')))
 endfunction"}}}
 
 " vimshell interactive key-mappings functions.
-function! s:start_insert()"{{{
+function! s:start_insert() abort "{{{
   setlocal modifiable
   startinsert
 endfunction "}}}
-function! s:execute_line()"{{{
+function! s:execute_line() abort "{{{
   " Search cursor file.
-  let filename = substitute(substitute(expand('<cfile>'), ' ', '\\ ', 'g'), '\\', '/', 'g')
+  let filename = unite#util#substitute_path_separator(substitute(
+        \ expand('<cfile>'), ' ', '\\ ', 'g'))
 
-  if &termencoding != '' && &encoding != &termencoding
-    " Convert encoding.
-    let filename = iconv(filename, &encoding, &termencoding)
-  endif
+  " Convert encoding.
+  let filename = vimproc#util#iconv(filename, &encoding, 'char')
 
   " Execute cursor file.
   if filename =~ '^\%(https\?\|ftp\)://'

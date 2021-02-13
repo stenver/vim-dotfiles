@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'typescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'typescript', 'syntax/common.vim')
+  finish
+endif
 
 " Define the default highlighting.
 " For version 5.8 and later: only when an item doesn't have highlighting yet
@@ -71,9 +73,11 @@ if exists("did_typescript_hilink")
   HiLink typescriptString               String
   HiLink typescriptSpecial              Special
   HiLink typescriptStringLiteralType    String
+  HiLink typescriptTemplateLiteralType  String
   HiLink typescriptStringMember         String
   HiLink typescriptTemplate             String
   HiLink typescriptEventString          String
+  HiLink typescriptDestructureString    String
   HiLink typescriptASCII                Special
   HiLink typescriptTemplateSB           Label
   HiLink typescriptRegexpString         String
@@ -87,6 +91,7 @@ if exists("did_typescript_hilink")
   HiLink typescriptBranch               Conditional
   HiLink typescriptIdentifier           Structure
   HiLink typescriptVariable             Identifier
+  HiLink typescriptDestructureVariable  PreProc
   HiLink typescriptEnumKeyword          Identifier
   HiLink typescriptRepeat               Repeat
   HiLink typescriptForOperator          Repeat
@@ -100,7 +105,9 @@ if exists("did_typescript_hilink")
   HiLink typescriptNumber               Number
   HiLink typescriptBoolean              Boolean
   HiLink typescriptObjectLabel          typescriptLabel
+  HiLink typescriptDestructureLabel     Function
   HiLink typescriptLabel                Label
+  HiLink typescriptTupleLable           Label
   HiLink typescriptStringProperty       String
   HiLink typescriptImport               Special
   HiLink typescriptImportType           Special
@@ -166,6 +173,4 @@ if exists("did_typescript_hilink")
 
   delcommand HiLink
   unlet did_typescript_hilink
-endif
-
 endif

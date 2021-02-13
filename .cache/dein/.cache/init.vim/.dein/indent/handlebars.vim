@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'handlebars') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'handlebars', 'indent/handlebars.vim')
+  finish
+endif
 
 " Mustache & Handlebars syntax
 " Language:	Mustache, Handlebars
@@ -125,5 +127,3 @@ function! GetHandlebarsIndent(...)
 
   return ind
 endfunction
-
-endif

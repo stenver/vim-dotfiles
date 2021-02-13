@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'python-compiler') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'python-compiler', 'autoload/python/utils.vim')
+  finish
+endif
 
 " Sometimes Python issues debugging messages
 " which don't belong to a call stack context
@@ -17,5 +19,3 @@ function! python#utils#fix_qflist() " {{{
     call setqflist(l:traceback)
   endif
 endfunction " }}}
-
-endif

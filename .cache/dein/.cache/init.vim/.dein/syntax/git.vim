@@ -1,9 +1,11 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'git') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'git', 'syntax/git.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:	generic git output
 " Maintainer:	Tim Pope <vimNOSPAM@tpope.org>
-" Last Change:	2010 May 21
+" Last Change:	2019 Dec 05
 
 if exists("b:current_syntax")
   finish
@@ -27,9 +29,9 @@ syn region gitDiff start=/^\%(@@ -\)\@=/ end=/^\%(diff --\%(git\|cc\|combined\) 
 syn region gitDiffMerge start=/^\%(diff --\%(cc\|combined\) \)\@=/ end=/^\%(diff --\|$\)\@=/ contains=@gitDiff
 syn region gitDiffMerge start=/^\%(@@@@* -\)\@=/ end=/^\%(diff --\|$\)\@=/ contains=@gitDiff
 syn match gitDiffAdded "^ \++.*" contained containedin=gitDiffMerge
-syn match gitDiffAdded "{+.*+}" contained containedin=gitDiff
+syn match gitDiffAdded "{+[^}]*+}" contained containedin=gitDiff
 syn match gitDiffRemoved "^ \+-.*" contained containedin=gitDiffMerge
-syn match gitDiffRemoved "\[-.*-\]" contained containedin=gitDiff
+syn match gitDiffRemoved "\[-[^]]*-\]" contained containedin=gitDiff
 
 syn match  gitKeyword /^\%(object\|type\|tag\|commit\|tree\|parent\|encoding\)\>/ contained containedin=gitHead nextgroup=gitHash,gitType skipwhite
 syn match  gitKeyword /^\%(tag\>\|ref:\)/ contained containedin=gitHead nextgroup=gitReference skipwhite
@@ -80,5 +82,3 @@ hi def link gitDiffAdded         diffAdded
 hi def link gitDiffRemoved       diffRemoved
 
 let b:current_syntax = "git"
-
-endif

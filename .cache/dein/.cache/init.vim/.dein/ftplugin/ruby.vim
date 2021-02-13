@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'ruby') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'ruby', 'ftplugin/ruby.vim')
+  finish
+endif
 
 " Vim filetype plugin
 " Language:		Ruby
@@ -436,5 +438,3 @@ endfunction
 "
 
 " vim: nowrap sw=2 sts=2 ts=8:
-
-endif

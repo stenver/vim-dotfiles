@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'cucumber') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'cucumber', 'compiler/cucumber.vim')
+  finish
+endif
 
 " Vim compiler file
 " Compiler:	Cucumber
@@ -29,5 +31,3 @@ let &cpo = s:cpo_save
 unlet s:cpo_save
 
 " vim:set sw=2 sts=2:
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'vbnet') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'vbnet', 'syntax/vbnet.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:     VB.NET
@@ -431,5 +433,3 @@ endif
 let b:current_syntax = "vbnet"
 
 " vim:set ft=vim sts=4 sw=4:
-
-endif

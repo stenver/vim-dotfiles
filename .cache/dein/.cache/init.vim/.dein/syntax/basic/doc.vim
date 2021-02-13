@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'typescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'typescript', 'syntax/basic/doc.vim')
+  finish
+endif
 
 "Syntax coloring for Node.js shebang line
 syntax match   shellbang "^#!.*node\>"
@@ -84,5 +86,3 @@ if exists("main_syntax") && main_syntax == "typescript"
 endif
 
 syntax case match
-
-endif

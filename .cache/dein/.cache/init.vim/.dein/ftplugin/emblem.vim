@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'emblem') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'emblem', 'ftplugin/emblem.vim')
+  finish
+endif
 
 " Language:    emblem
 " Maintainer:  Yulij Andreevich Lesov <yalesov@gmail.com>
@@ -17,5 +19,3 @@ setlocal smartindent
 setlocal formatoptions=q
 setlocal comments=:/
 setlocal commentstring=/\ %s
-
-endif

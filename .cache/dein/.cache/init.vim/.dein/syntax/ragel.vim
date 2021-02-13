@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'ragel') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'ragel', 'syntax/ragel.vim')
+  finish
+endif
 
 " Vim syntax file
 "
@@ -164,5 +166,3 @@ hi link caseLabelKeyword Keyword
 hi link beginRL Type
  
 let b:current_syntax = "ragel"
-
-endif

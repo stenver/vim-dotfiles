@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'emberscript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'emberscript', 'syntax/ember-script.vim')
+  finish
+endif
 
 " Language:    ember-script
 " Maintainer:  Yulij Andreevich Lesov <yalesov@gmail.com>>
@@ -31,5 +33,3 @@ syn match emEach /\v\@each/ display
 hi def link emEach Special
 
 let b:current_syntax = 'ember-script'
-
-endif

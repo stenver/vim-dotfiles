@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'typescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'typescript', 'syntax/yats/dom-node.vim')
+  finish
+endif
 
 syntax keyword typescriptDOMNodeProp contained attributes baseURI baseURIObject childNodes
 syntax keyword typescriptDOMNodeProp contained firstChild lastChild localName namespaceURI
@@ -24,6 +26,4 @@ syntax keyword typescriptDOMNodeType contained ENTITY_NODE PROCESSING_INSTRUCTIO
 syntax keyword typescriptDOMNodeType contained COMMENT_NODE DOCUMENT_NODE DOCUMENT_TYPE_NODE
 syntax keyword typescriptDOMNodeType contained DOCUMENT_FRAGMENT_NODE NOTATION_NODE
 if exists("did_typescript_hilink") | HiLink typescriptDOMNodeType Keyword
-endif
-
 endif

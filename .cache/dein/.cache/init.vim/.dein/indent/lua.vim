@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'lua') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'lua', 'indent/lua.vim')
+  finish
+endif
 
 " Vim indent file
 " Language: Lua
@@ -30,6 +32,8 @@ let s:close_patt = '\C\%(\<\%(end\|until\)\>\|)\|}\)'
 
 let s:anon_func_start = '\S\+\s*[({].*\<function\s*(.*)\s*$'
 let s:anon_func_end = '\<end\%(\s*[)}]\)\+'
+
+let s:chained_func_call = "^\\v\\s*[:.]\\w+[({\"']"
 
 " Expression used to check whether we should skip a match with searchpair().
 let s:skip_expr = "synIDattr(synID(line('.'),col('.'),1),'name') =~# 'luaComment\\|luaString'"
@@ -100,6 +104,16 @@ function GetLuaIndent()
     let i += 1
   endif
 
+  " if the current line chains a function call to previous unchained line
+  if contents_prev !~# s:chained_func_call && contents_cur =~# s:chained_func_call
+    let i += 1
+  endif
+
+  " if the current line chains a function call to previous unchained line
+  if contents_prev =~# s:chained_func_call && contents_cur !~# s:chained_func_call
+    let i -= 1
+  endif
+
   " special case: call(with, {anon = function() -- should indent only once
   if i > 1 && contents_prev =~# s:anon_func_start
     let i = 1
@@ -116,5 +130,3 @@ function GetLuaIndent()
   return indent(prev_line) + (shiftwidth() * i)
 
 endfunction
-
-endif

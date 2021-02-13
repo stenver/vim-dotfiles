@@ -1,7 +1,6 @@
 "=============================================================================
 " FILE: eval.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 13 Apr 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -29,26 +28,25 @@ let s:command = {
       \ 'kind' : 'internal',
       \ 'description' : 'eval {expression}',
       \}
-function! s:command.execute(args, context)"{{{
+function! s:command.execute(args, context) abort "{{{
   " Evaluate arguments.
 
   let line = join(a:args)
-  let context = {
+  let context = vimshell#init#_context({
         \ 'has_head_spaces' : line =~ '^\s\+',
-        \ 'is_interactive' : a:context.is_interactive, 
-        \ 'is_insert' : a:context.is_insert, 
-        \ 'fd' : { 'stdin' : '', 'stdout': '', 'stderr': ''}, 
-        \}
+        \ 'is_interactive' : a:context.is_interactive,
+        \ 'is_insert' : a:context.is_insert,
+        \})
 
   try
     call vimshell#parser#eval_script(line, context)
   catch /.*/
     let message = v:exception . ' ' . v:throwpoint
-    call vimshell#error_line({}, message)
+    call vimshell#error_line(context.fd, message)
     return
   endtry
 endfunction"}}}
 
-function! vimshell#commands#eval#define()
+function! vimshell#commands#eval#define() abort
   return s:command
 endfunction

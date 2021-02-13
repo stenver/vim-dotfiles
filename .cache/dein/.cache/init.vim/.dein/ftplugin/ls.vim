@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'livescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'livescript', 'ftplugin/ls.vim')
+  finish
+endif
 
 " Language:    LiveScript
 " Maintainer:  George Zahariev
@@ -204,5 +206,3 @@ command! -range=% -bar -nargs=* -complete=customlist,s:LiveScriptCompileComplete
 \        LiveScriptCompile call s:LiveScriptCompile(<line1>, <line2>, <q-args>)
 " Run some LiveScript.
 command! -range=% -bar LiveScriptRun <line1>,<line2>:w !lsc -sp
-
-endif

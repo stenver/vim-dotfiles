@@ -61,7 +61,6 @@ In all commands [args] are forwarded to the underlying test runner.
                                                 *test-:TestVisit*
 :TestVisit                   Open the last run test in the current buffer.
 
-
 RUNNER COMMANDS                                 *test-runner_commands*
 
 In all commands [args] are forwarded to the underlying test runner.
@@ -135,6 +134,9 @@ In all commands [args] are forwarded to the underlying test runner.
 
                                                 *test-:DjangoTest*
 :DjangoTest [args]           Uses the `django` `test` command.
+
+                                                *test-:Behave*
+:Behave [args]               Uses the `behave` `test` command.
 
                                                 *test-:PyUnit*
 :PyUnit [args]               Uses the `unittest` `test` command.
@@ -234,10 +236,9 @@ In all commands [args] are forwarded to the underlying test runner.
 :Prove [args]                Uses the `prove` command.
 
                                                 *test-:MavenTest*
-:MavenTest [args]            Uses the `mvn` `test` command.
-
+:MavenTest [args]            Uses the `mvn` `test` command. If the file exists in a multi-module project then appends -pl <modulename> and runs a single module only. There is a different strategy for running tests with the failsafe plugin instead of surefire. It is described in detail in the test-maven-test-differences section.
                                                 *test-:GradleTest*
-:GradleTest [args]           Uses the `gradle` `test` command.
+:GradleTest [args]           Uses the `gradle` `test` command. If the project is multi module then it uses the -p <modulename> flag.
 
                                                 *test-:SbtTest*
 :SbtTest [args]            Uses the `sbt` `test/testOnly` command.
@@ -257,6 +258,25 @@ In all commands [args] are forwarded to the underlying test runner.
                                                 *test-:NgTest*
 :NgTest [args]  	         Uses the Angular `ng test` command.
 
+                                                *test-:TestBench*
+:TestBench [args]  	         Uses the TestBench `bench` command.
+
+                                                *test-:FlutterTest*
+:FlutterTest [args]  	         Uses the `flutter` `test` command.
+
+MAVEN TEST DIFFERENCES                          *test-maven-test-differences*
+
+As there are different approaches to run tests in a maven project (unit vs integration tests) there is a way to run both. Initially the vim-test runs `mvn` `test`. If you want it to run `mvn` `verify` instead, then you can create your own command invoking vim test directly with the 'integration' parameter:
+>
+  command! -nargs=* -bar IntegrationTest call test#run('integration', split(<q-args>))
+<
+
+With this set up you can run your integration tests with the :IntegrationTest command for that single file and module.
+As there might be some dependencies between the maven modules you might need to pass in other parameters for the tests just like any other commands in vim-test. Here is a mapping with other optional parameters:
+
+>
+  nnoremap <silent><leader>itf :IntegrationTest -Dtest=foo -DfailIfNoTests=false -am -Dpmd.skip=true -Dcheckstyle.skip=true<CR>
+<
 
 STRATEGIES                                      *test-strategies*
 
@@ -313,6 +333,12 @@ Neoterm ~
 Runs test commands with `:T`. Requires the Neoterm plugin.
 >
   let test#strategy = 'neoterm'
+<
+Floaterm ~
+
+Runs test commands within floating/popup terminal. Requires the vim-floaterm plugin.
+>
+  let test#strategy = 'floaterm'
 <
 Neomake ~
 
@@ -594,7 +620,7 @@ ABOUT                                           *test-about*
 
 You can get the latest version, see the changelog, or report a bug on GitHub:
 
-https://github.com/janko-m/vim-test
+https://github.com/vim-test/vim-test
 
 
 CREDITS                                         *test-credits*

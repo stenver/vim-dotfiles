@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'jenkins') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'jenkins', 'syntax/Jenkinsfile.vim')
+  finish
+endif
 
 runtime syntax/groovy.vim
 syn keyword jenkinsfileBuiltInVariable currentBuild
@@ -126,5 +128,3 @@ hi link jenkinsFileDockerKeyword     jenkinsfilePipelineStep
 let b:current_syntax = 'Jenkinsfile'
 
 " vim:set et sw=0 ts=2 ft=vim tw=78:
-
-endif

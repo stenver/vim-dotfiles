@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'scala') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'scala', 'indent/scala.vim')
+  finish
+endif
 
 " Vim indent file
 " Language         : Scala (http://scala-lang.org/)
@@ -606,5 +608,3 @@ endfunction
 
 " vim:set sw=2 sts=2 ts=8 et:
 " vim600:fdm=marker fdl=1 fdc=0:
-
-endif

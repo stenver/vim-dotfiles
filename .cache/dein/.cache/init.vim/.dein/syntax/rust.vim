@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'rust') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'rust', 'syntax/rust.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:     Rust
@@ -67,10 +69,11 @@ syn match   rustExternCrateString /".*"\_s*as/ contained nextgroup=rustIdentifie
 syn keyword   rustObsoleteExternMod mod contained nextgroup=rustIdentifier skipwhite skipempty
 
 syn match     rustIdentifier  contains=rustIdentifierPrime "\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
-syn match     rustFuncName    "\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
+syn match     rustFuncName    "\%(r#\)\=\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
 
 syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end="),\=[*+]" contains=TOP
 syn match rustMacroVariable "$\w\+"
+syn match rustRawIdent "\<r#\h\w*" contains=NONE
 
 " Reserved (but not yet used) keywords {{{2
 syn keyword   rustReservedKeyword become do priv typeof unsized abstract virtual final override
@@ -230,7 +233,28 @@ syn region rustCommentBlockDocNestError matchgroup=rustCommentBlockDocError star
 " then you must deal with cases like ``/*/**/*/``. And don't try making it
 " worse with ``\%(/\@<!\*\)\@<!``, either...
 
-syn keyword rustTodo contained TODO FIXME XXX NB NOTE
+syn keyword rustTodo contained TODO FIXME XXX NB NOTE SAFETY
+
+" asm! macro {{{2
+syn region rustAsmMacro matchgroup=rustMacro start="\<asm!\s*(" end=")" contains=rustAsmDirSpec,rustAsmSym,rustAsmConst,rustAsmOptionsGroup,rustComment.*,rustString.*
+
+" Clobbered registers
+syn keyword rustAsmDirSpec in out lateout inout inlateout contained nextgroup=rustAsmReg skipwhite skipempty
+syn region  rustAsmReg start="(" end=")" contained contains=rustString
+
+" Symbol operands
+syn keyword rustAsmSym sym contained nextgroup=rustAsmSymPath skipwhite skipempty
+syn region  rustAsmSymPath start="\S" end=",\|)"me=s-1 contained contains=rustComment.*,rustIdentifier
+
+" Const
+syn region  rustAsmConstBalancedParens start="("ms=s+1 end=")" contained contains=@rustAsmConstExpr
+syn cluster rustAsmConstExpr contains=rustComment.*,rust.*Number,rustString,rustAsmConstBalancedParens
+syn region  rustAsmConst start="const" end=",\|)"me=s-1 contained contains=rustStorage,@rustAsmConstExpr
+
+" Options
+syn region  rustAsmOptionsGroup start="options\s*(" end=")" contained contains=rustAsmOptions,rustAsmOptionsKey
+syn keyword rustAsmOptionsKey options contained
+syn keyword rustAsmOptions pure nomem readonly preserves_flags noreturn nostack att_syntax contained
 
 " Folding rules {{{2
 " Trivial folding rules to begin with.
@@ -347,6 +371,10 @@ hi def link rustObsoleteExternMod Error
 hi def link rustQuestionMark  Special
 hi def link rustAsync         rustKeyword
 hi def link rustAwait         rustKeyword
+hi def link rustAsmDirSpec    rustKeyword
+hi def link rustAsmSym        rustKeyword
+hi def link rustAsmOptions    rustKeyword
+hi def link rustAsmOptionsKey rustAttribute
 
 " Other Suggestions:
 " hi rustAttribute ctermfg=cyan
@@ -361,5 +389,3 @@ syn sync maxlines=500
 let b:current_syntax = "rust"
 
 " vim: set et sw=4 sts=4 ts=8:
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'html5') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'html5', 'autoload/xml/aria.vim')
+  finish
+endif
 
 " Vim completion for WAI-ARIA data file
 " Language:       HTML + WAI-ARIA
@@ -457,5 +459,3 @@ let g:xmldata_aria = {
     \ 'default_role': default_role,
     \ 'vimariaattrinfo': aria_attributes_value
 \ }
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'icalenadr') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'icalendar', 'syntax/icalendar.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:      icalendar <http://www.ietf.org/rfc/rfc2445.txt>
@@ -55,5 +57,3 @@ let b:current_syntax = "icalendar"
 "EOF vim: tw=78:ft=vim:ts=8
 
 
-
-endif

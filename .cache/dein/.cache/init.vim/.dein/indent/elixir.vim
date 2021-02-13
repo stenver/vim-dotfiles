@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'elixir') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'elixir', 'indent/elixir.vim')
+  finish
+endif
 
 if exists("b:did_indent")
   finish
@@ -15,5 +17,3 @@ setlocal indentkeys+=*<Return>,=->,=\|>,=<>,0},0],0)
 function! elixir#indent(lnum)
   return elixir#indent#indent(a:lnum)
 endfunction
-
-endif

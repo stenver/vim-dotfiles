@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'stylus') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'stylus', 'ftplugin/stylus.vim')
+  finish
+endif
 
 " Vim filetype plugin
 " Language: Stylus
@@ -63,5 +65,3 @@ let &cpo = s:save_cpo
 command! Stylus !clear; cat % | stylus
 
 " vim:set sw=2:
-
-endif

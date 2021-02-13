@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'solidity') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'solidity', 'indent/solidity.vim')
+  finish
+endif
 
 " Vim indent file
 " Language: Solidity
@@ -439,5 +441,3 @@ endfunction
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
-
-endif

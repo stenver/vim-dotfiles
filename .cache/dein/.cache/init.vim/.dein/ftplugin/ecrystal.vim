@@ -1,5 +1,8 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'crystal') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'crystal', 'ftplugin/ecrystal.vim')
+  finish
+endif
 
+" Filetype plugin for https://crystal-lang.org/api/0.35.1/ECR.html
 if exists('b:did_ftplugin')
   finish
 endif
@@ -96,5 +99,3 @@ let b:undo_ftplugin = 'setlocal comments< commentstring< shiftwidth<' .
       \ '| unlet! b:browsefilter b:match_words ' .
       \ '| unlet! b:AutoPairs ' .
       \ '| ' . s:undo_ftplugin
-
-endif

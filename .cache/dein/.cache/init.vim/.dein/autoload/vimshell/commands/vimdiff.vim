@@ -1,7 +1,6 @@
 "=============================================================================
 " FILE: vimdiff.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 14 Oct 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -29,7 +28,7 @@ let s:command = {
       \ 'kind' : 'internal',
       \ 'description' : 'vimdiff {filename1} {filename2}',
       \}
-function! s:command.execute(args, context)"{{{
+function! s:command.execute(args, context) abort "{{{
   let [args, options] = vimshell#parser#getopt(a:args, {
         \ 'arg=' : ['--split'],
         \ }, {
@@ -45,10 +44,10 @@ function! s:command.execute(args, context)"{{{
   " Save current directiory.
   let cwd = getcwd()
 
-  let [new_pos, old_pos] = vimshell#split(options['--split'])
+  let [new_pos, old_pos] = vimshell#helpers#split(options['--split'])
 
   try
-    edit `=args[0]`
+    silent execute 'edit' fnameescape(args[0])
   catch
     echohl Error | echomsg v:errmsg | echohl None
   endtry
@@ -57,17 +56,17 @@ function! s:command.execute(args, context)"{{{
 
   call vimshell#cd(cwd)
 
-  vertical diffsplit `=a:args[1]`
+  execute 'vertical diffsplit' fnameescape(a:args[1])
 
-  call vimshell#restore_pos(old_pos)
+  noautocmd call vimshell#helpers#restore_pos(old_pos)
 
   if has_key(a:context, 'is_single_command') && a:context.is_single_command
     call vimshell#next_prompt(a:context, 0)
-    call vimshell#restore_pos(new_pos)
+    noautocmd call vimshell#helpers#restore_pos(new_pos)
     stopinsert
   endif
 endfunction"}}}
 
-function! vimshell#commands#vimdiff#define()
+function! vimshell#commands#vimdiff#define() abort
   return s:command
 endfunction

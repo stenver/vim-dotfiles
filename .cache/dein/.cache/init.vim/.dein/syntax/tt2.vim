@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'perl') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'perl', 'syntax/tt2.vim')
+  finish
+endif
 
 " Language:      TT2 (Perl Template Toolkit)
 " Maintainer:    vim-perl <vim-perl@googlegroups.com>
@@ -210,5 +212,3 @@ let &cpo = s:cpo_save
 unlet s:cpo_save
 
 " vim:ts=4:sw=4
-
-endif

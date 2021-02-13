@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'crystal') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'crystal', 'autoload/vital/crystal.vim')
+  finish
+endif
 
 let s:plugin_name = expand('<sfile>:t:r')
 let s:vital_base_dir = expand('<sfile>:h')
@@ -327,6 +329,4 @@ else
     endwhile
     return a:list
   endfunction
-endif
-
 endif

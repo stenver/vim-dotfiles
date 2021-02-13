@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'javascript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'javascript', 'extras/flow.vim')
+  finish
+endif
 
 syntax region  jsFlowDefinition     contained                        start=/:/    end=/\%(\s*[,=;)\n]\)\@=/ contains=@jsFlowCluster containedin=jsParen
 syntax region  jsFlowArgumentDef    contained                        start=/:/    end=/\%(\s*[,)]\|=>\@!\)\@=/ contains=@jsFlowCluster
@@ -108,6 +110,4 @@ if version >= 508 || !exists("did_javascript_syn_inits")
   HiLink jsFlowTypeValue          PreProc
   HiLink jsFlowObjectFuncName     jsObjectFuncName
   delcommand HiLink
-endif
-
 endif

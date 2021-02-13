@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'coffee-script') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'coffee-script', 'indent/litcoffee.vim')
+  finish
+endif
 
 if exists('b:did_indent')
   finish
@@ -22,5 +24,3 @@ function GetLitCoffeeIndent()
   endif
 endfunc
 
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'ocaml') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'ocaml', 'indent/omake.vim')
+  finish
+endif
 
 " Vim indent file
 " Language:         OMakefile
@@ -114,5 +116,3 @@ function GetMakeIndent()
     endif
   endif
 endfunction
-
-endif

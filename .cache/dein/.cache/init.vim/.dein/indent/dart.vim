@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'dart') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'dart', 'indent/dart.vim')
+  finish
+endif
 
 if exists('b:did_indent')
   finish
@@ -35,5 +37,3 @@ function! DartIndent()
 
   return indentTo
 endfunction
-
-endif

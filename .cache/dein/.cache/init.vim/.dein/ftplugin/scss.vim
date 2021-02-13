@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'scss') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'scss', 'ftplugin/scss.vim')
+  finish
+endif
 
 if exists('b:did_indent') && b:did_indent
   " be kind. allow users to override this. Does it work?
@@ -13,5 +15,3 @@ setlocal formatoptions+=ro
 
 " SCSS comments are either /* */ or //
 setlocal comments=s1:/*,mb:*,ex:*/,://
-
-endif

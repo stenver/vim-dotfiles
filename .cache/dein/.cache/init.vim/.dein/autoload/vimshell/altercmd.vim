@@ -1,7 +1,6 @@
 "=============================================================================
 " FILE: altercmd.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 13 Apr 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -24,27 +23,28 @@
 " }}}
 "=============================================================================
 
-function! vimshell#altercmd#define(original, alternative)"{{{
+function! vimshell#altercmd#define(original, alternative) abort "{{{
   execute 'inoreabbrev <buffer><expr>' a:original
-        \ '(join(vimshell#get_current_args()) ==# "' . a:original  . '")?' 
+        \ '(join(vimshell#helpers#get_current_args()) ==# "' . a:original  . '") &&'
+        \ 'empty(b:vimshell.continuation) ?'
         \ s:SID_PREFIX().'recursive_expand_altercmd('.string(a:original).')' ':' string(a:original)
   let b:vimshell.altercmd_table[a:original] = a:alternative
 endfunction"}}}
 
-function! s:SID_PREFIX()
+function! s:SID_PREFIX() abort
   return matchstr(expand('<sfile>'), '<SNR>\d\+_\zeSID_PREFIX$')
 endfunction
 
-function! s:recursive_expand_altercmd(string)
+function! s:recursive_expand_altercmd(string) abort
   " Recursive expand altercmd.
   let abbrev = b:vimshell.altercmd_table[a:string]
   let expanded = {}
   while 1
-    let key = vimproc#parser#split_args(abbrev)[-1]
-    if has_key(expanded, abbrev) || !has_key(b:vimshell.altercmd_table, abbrev)
+    if has_key(expanded, abbrev) ||
+          \ !has_key(b:vimshell.altercmd_table, abbrev)
       break
     endif
-    
+
     let expanded[abbrev] = 1
     let abbrev = b:vimshell.altercmd_table[abbrev]
   endwhile

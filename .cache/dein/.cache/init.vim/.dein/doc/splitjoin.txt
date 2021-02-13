@@ -10,6 +10,7 @@ CONTENTS                                          *splitjoin* *splitjoin-content
     Coffeescript...........................: |splitjoin-coffee|
     CSS....................................: |splitjoin-css|
     Elixir.................................: |splitjoin-elixir|
+    Elm..................................  : |splitjoin-elm|
     Eruby..................................: |splitjoin-eruby|
     Go.....................................: |splitjoin-go|
     HAML...................................: |splitjoin-haml|
@@ -21,6 +22,7 @@ CONTENTS                                          *splitjoin* *splitjoin-content
     Perl...................................: |splitjoin-perl|
     PHP....................................: |splitjoin-php|
     Python.................................: |splitjoin-python|
+    R......................................: |splitjoin-r|
     Ruby...................................: |splitjoin-ruby|
     Rust...................................: |splitjoin-rust|
     SCSS/Less..............................: |splitjoin-scss| |splitjoin-less|
@@ -343,6 +345,21 @@ Do-blocks ~
 <
 
 ==============================================================================
+ELM                                                              *splitjoin-elm*
+
+Lists, tuples, records ~
+>
+    myUpdatedRecord =
+        {myPreviousRecord | firstName = "John", lastName = "Doe"}
+
+    myUpdatedRecord =
+        { myPreviousRecord
+        | firstName = "John"
+        , lastName = "Doe"
+        }
+<
+
+==============================================================================
 ERUBY                                                          *splitjoin-eruby*
 
 Tags ~
@@ -447,7 +464,7 @@ Block components ~
 HTML                                                            *splitjoin-html*
 
 This works for other HTML-like languages as well: XML, Eruby, JSX, TSX, Vue
-templates, Django templates.
+templates, Svelte.js, Django templates.
 
 Tags ~
 >
@@ -770,6 +787,25 @@ Note that splitting `a, b = b, a` would not result in an expression that works
 the same way, due to the special handling by python of this case to swap two
 values.
 
+==============================================================================
+R                                                                  *splitjoin-r*
+
+Function calls ~
+>
+    print(1, 2, 3)
+
+    # with g:r_indent_align_args = 0
+    print(
+      1,
+      2,
+      3
+    )
+
+    # with g:r_indent_align_args = 1
+    print(1,
+          2,
+          3)
+<
 
 ==============================================================================
 RUBY                                                            *splitjoin-ruby*
@@ -1057,6 +1093,29 @@ Empty matches and if-let ~
         },
         _ => (),
     }
+<
+Import lists ~
+
+With the cursor on the pre-curly bracket part of an import:
+>
+    use std::io::{Read, Write, Process};
+
+    use std::io::Read;
+    use std::io::Write;
+    use std::io::Process;
+<
+Joining works downwards -- attempting to join the current line with as many as
+possible below. It will look for the common part between the first two imports
+and try to apply it on any later ones that match.
+
+With the cursor in the curly brackets:
+>
+    use std::io::{Read, Write};
+
+    use std::io::{
+        Read,
+        Write
+    };
 <
 
 ==============================================================================

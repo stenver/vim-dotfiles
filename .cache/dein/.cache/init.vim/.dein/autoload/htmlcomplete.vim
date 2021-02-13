@@ -1,3 +1,7 @@
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'html5', 'autoload/htmlcomplete.vim')
+  finish
+endif
+
 " Vim completion script
 " Language:     HTML and XHTML
 " Maintainer:   Mikolaj Machowski ( mikmach AT wp DOT pl )

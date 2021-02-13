@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'elixir') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'elixir', 'compiler/mix.vim')
+  finish
+endif
 
 if exists('current_compiler')
     finish
@@ -16,5 +18,3 @@ CompilerSet errorformat=
             \%E==\ Compilation\ error\ in\ file\ %f\ ==,
             \%C**\ (%\\w%\\+)\ %f:%l:\ %m,%Z
 
-
-endif

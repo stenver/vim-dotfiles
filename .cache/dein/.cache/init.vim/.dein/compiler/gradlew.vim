@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'gradle') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'gradle', 'compiler/gradlew.vim')
+  finish
+endif
 
 " Vim Compiler File
 " Compiler: gradlew
@@ -24,5 +26,3 @@ CompilerSet errorformat=
     \%E%f:\ %\\d%\\+:\ %m\ @\ line\ %l\\,\ column\ %c.,%-C%.%#,%Z%p^,
     \%E%>%f:\ %\\d%\\+:\ %m,%C\ @\ line\ %l\\,\ column\ %c.,%-C%.%#,%Z%p^,
     \%-G%.%#
-
-endif

@@ -1,5 +1,5 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'jenkins') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'jenkins', 'indent/Jenkinsfile.vim')
+  finish
+endif
 
 runtime indent/groovy.vim
-
-endif

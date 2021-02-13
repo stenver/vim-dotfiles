@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'perl') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'perl', 'indent/perl.vim')
+  finish
+endif
 
 " Vim indent file
 " Language:      Perl 5
@@ -180,5 +182,3 @@ let &cpo = s:cpo_save
 unlet s:cpo_save
 
 " vim:ts=8:sts=4:sw=4:expandtab:ft=vim
-
-endif

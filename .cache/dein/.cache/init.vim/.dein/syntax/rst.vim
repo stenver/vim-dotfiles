@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'rst') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'rst', 'syntax/rst.vim')
+  finish
+endif
 
 " Vim reST syntax file
 " Language: reStructuredText documentation format
@@ -300,5 +302,3 @@ let b:current_syntax = "rst"
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
-
-endif

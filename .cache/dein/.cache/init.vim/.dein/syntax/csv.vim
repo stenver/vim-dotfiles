@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'csv') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'csv', 'syntax/csv.vim')
+  finish
+endif
 
 " A simple syntax highlighting, simply alternate colors between two
 " adjacent columns
@@ -169,5 +171,3 @@ let b:current_syntax="csv"
 let &cpo = s:cpo_save
 unlet s:cpo_save
 " vim: set foldmethod=marker et sw=0 sts=-1 ts=4:
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'rspec') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'rspec', 'after/syntax/rspec.vim')
+  finish
+endif
 
 "
 " An rspec syntax file
@@ -189,5 +191,3 @@ highlight link rspecMatchers Function
 highlight link rspecMessageExpectation Function
 
 let b:current_syntax = 'rspec'
-
-endif

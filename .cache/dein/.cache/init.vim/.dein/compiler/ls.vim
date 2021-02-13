@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'livescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'livescript', 'compiler/ls.vim')
+  finish
+endif
 
 " Language:    LiveScript
 " Maintainer:  George Zahariev
@@ -74,5 +76,3 @@ augroup LiveScriptUpdateMakePrg
     autocmd BufFilePost,BufWritePost          call s:UpdateMakePrg()
   endif
 augroup END
-
-endif

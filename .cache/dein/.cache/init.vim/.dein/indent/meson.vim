@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'meson') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'meson', 'indent/meson.vim')
+  finish
+endif
 
 " Vim indent file
 " Language:		Meson
@@ -180,5 +182,3 @@ let &cpo = s:keepcpo
 unlet s:keepcpo
 
 " vim:sw=2
-
-endif

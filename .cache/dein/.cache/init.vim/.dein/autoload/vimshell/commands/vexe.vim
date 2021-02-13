@@ -1,7 +1,6 @@
 "=============================================================================
 " FILE: vexe.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 08 Jul 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -29,30 +28,56 @@ let s:command = {
       \ 'kind' : 'special',
       \ 'description' : 'vexe {expression}',
       \}
-function! s:command.execute(args, context)"{{{
+function! s:command.execute(args, context) abort "{{{
   " Execute vim command.
+  let [args, options] = vimshell#parser#getopt(a:args, {
+        \ 'noarg' : ['--insert'],
+        \ }, {
+        \ '--insert' : 0,
+        \ })
 
   let context = a:context
   let context.fd = a:context.fd
   call vimshell#set_context(context)
-  
-  let temp = tempname()
-  let save_vfile = &verbosefile
-  let &verbosefile = temp
-  for command in split(join(a:args), '\n')
-    silent execute command
-  endfor
-  if &verbosefile == temp
-    let &verbosefile = save_vfile
-  endif
-  let output = readfile(temp)
-  call delete(temp)
 
-  for line in output
-    call vimshell#print_line(a:context.fd, line)
-  endfor
+  let old_pos = [ tabpagenr(), winnr(), bufnr('%'), getpos('.') ]
+
+  let verbose = tempname()
+  let [verbosefile_save, verbose_save] = [&verbosefile, &verbose]
+  try
+    let &verbosefile = verbose
+    let &verbose = 0
+
+    for command in split(join(args), '\n')
+      silent! execute command
+    endfor
+  finally
+    let [&verbosefile, &verbose] = [verbosefile_save, verbose_save]
+  endtry
+
+  let _ = join(readfile(verbose), "\n")[1:]
+  call delete(verbose)
+
+  let pos = [ tabpagenr(), winnr(), bufnr('%'), getpos('.') ]
+  let bufnr = bufnr('%')
+
+  noautocmd call vimshell#helpers#restore_pos(old_pos)
+
+  if bufnr('%') != bufnr
+    call vimshell#next_prompt(a:context)
+    noautocmd call vimshell#helpers#restore_pos(pos)
+    doautocmd BufRead
+    if options['--insert']
+      startinsert
+    else
+      stopinsert
+    endif
+    return 1
+  elseif _ != ''
+    call vimshell#print_line(a:context.fd, _)
+  endif
 endfunction"}}}
 
-function! vimshell#commands#vexe#define()
+function! vimshell#commands#vexe#define() abort
   return s:command
 endfunction

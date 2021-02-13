@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'svg-indent') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'svg-indent', 'indent/svg.vim')
+  finish
+endif
 
 " Vim indent file
 "
@@ -105,5 +107,3 @@ endfun
 
 let &cpo = s:keepcpo
 unlet s:keepcpo
-
-endif

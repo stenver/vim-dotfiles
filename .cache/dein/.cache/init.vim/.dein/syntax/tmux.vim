@@ -1,7 +1,9 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'tmux') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'tmux', 'syntax/tmux.vim')
+  finish
+endif
 
 " Language: tmux(1) configuration file
-" Version: before-OpenBSD-lock (git-53c84fd4)
+" Version: 3.2-rc (git-e94bd5cc)
 " URL: https://github.com/ericpruitt/tmux.vim/
 " Maintainer: Eric Pruitt <eric.pruitt@gmail.com>
 " License: 2-Clause BSD (http://opensource.org/licenses/BSD-2-Clause)
@@ -32,10 +34,10 @@ syn match tmuxVariable          /\w\+=/                display
 syn match tmuxVariableExpansion /\${\=\w\+}\=/         display
 syn match tmuxControl           /%\(if\|elif\|else\|endif\)/
 
-syn region tmuxComment start=/#/ skip=/\\\@<!\\$/ end=/$/ contains=tmuxTodo
+syn region tmuxComment start=/#/ skip=/\\\@<!\\$/ end=/$/ contains=tmuxTodo,@Spell
 
-syn region tmuxString start=+"+ skip=+\\\\\|\\"\|\\$+ excludenl end=+"+ end='$' contains=tmuxFormatString
-syn region tmuxString start=+'+ skip=+\\\\\|\\'\|\\$+ excludenl end=+'+ end='$' contains=tmuxFormatString
+syn region tmuxString start=+"+ skip=+\\\\\|\\"\|\\$+ excludenl end=+"+ end='$' contains=tmuxFormatString,@Spell
+syn region tmuxString start=+'+ skip=+\\\\\|\\'\|\\$+ excludenl end=+'+ end='$' contains=tmuxFormatString,@Spell
 
 " TODO: Figure out how escaping works inside of #(...) and #{...} blocks.
 syn region tmuxFormatString start=/#[#DFhHIPSTW]/ end=// contained keepend
@@ -57,13 +59,16 @@ hi def link tmuxTodo              Todo
 hi def link tmuxVariable          Identifier
 hi def link tmuxVariableExpansion Identifier
 
-" Make the foreground of colourXXX keywords match the color they represent.
+" Make the foreground of colourXXX keywords match the color they represent
+" when g:tmux_syntax_colors is unset or set to a non-zero value.
 " Darker colors have their background set to white.
-for s:i in range(0, 255)
-    let s:bg = (!s:i || s:i == 16 || (s:i > 231 && s:i < 235)) ? 15 : "none"
-    exec "syn match tmuxColour" . s:i . " /\\<colour" . s:i . "\\>/ display"
-\     " | highlight tmuxColour" . s:i . " ctermfg=" . s:i . " ctermbg=" . s:bg
-endfor
+if get(g:, "tmux_syntax_colors", 1)
+    for s:i in range(0, 255)
+        let s:bg = (!s:i || s:i == 16 || (s:i > 231 && s:i < 235)) ? 15 : "none"
+        exec "syn match tmuxColour" . s:i . " /\\<colour" . s:i . "\\>/ display"
+\         " | highlight tmuxColour" . s:i . " ctermfg=" . s:i . " ctermbg=" . s:bg
+    endfor
+endif
 
 syn keyword tmuxOptions
 \ backspace buffer-limit command-alias copy-command default-terminal editor
@@ -119,5 +124,3 @@ syn keyword tmuxCommands
 
 let &cpo = s:original_cpo
 unlet! s:original_cpo s:bg s:i
-
-endif

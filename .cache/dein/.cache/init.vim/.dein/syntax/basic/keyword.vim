@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'typescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'typescript', 'syntax/basic/keyword.vim')
+  finish
+endif
 
 "Import
 syntax keyword typescriptImport                from as
@@ -29,16 +31,12 @@ syntax keyword typescriptIdentifier            arguments this super
   \ nextgroup=@afterIdentifier
 
 syntax keyword typescriptVariable              let var
-  \ nextgroup=typescriptVariableDeclaration
-  \ skipwhite skipempty skipnl
+  \ nextgroup=@typescriptVariableDeclarations
+  \ skipwhite skipempty
 
 syntax keyword typescriptVariable const
-  \ nextgroup=typescriptEnum,typescriptVariableDeclaration
-  \ skipwhite
-
-syntax match typescriptVariableDeclaration /[A-Za-z_$]\k*/
-  \ nextgroup=typescriptTypeAnnotation,typescriptAssign
-  \ contained skipwhite skipempty skipnl
+  \ nextgroup=typescriptEnum,@typescriptVariableDeclarations
+  \ skipwhite skipempty
 
 syntax region typescriptEnum matchgroup=typescriptEnumKeyword start=/enum / end=/\ze{/
   \ nextgroup=typescriptBlock
@@ -100,5 +98,3 @@ syntax cluster typescriptAmbients contains=
   \ typescriptAbstract,
   \ typescriptEnumKeyword,typescriptEnum,
   \ typescriptModule
-
-endif

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'tmux') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'tmux', 'ftplugin/tmux.vim')
+  finish
+endif
 
 " Vim filetype plugin file
 " Language: tmux(1) configuration file
@@ -11,6 +13,7 @@ if exists("b:did_ftplugin")
 endif
 let b:did_ftplugin = 1
 
-setlocal commentstring=#\ %s
+let b:undo_ftplugin = "setlocal comments< commentstring<"
 
-endif
+setlocal comments=:#
+setlocal commentstring=#\ %s

@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'cql') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'cql', 'syntax/cql.vim')
+  finish
+endif
 
 " Vim syntax file
 " Language:     cql
@@ -131,5 +133,3 @@ endif
 
 let b:current_syntax = "cql"
 
-
-endif

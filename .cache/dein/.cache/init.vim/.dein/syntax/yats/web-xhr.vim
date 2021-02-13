@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'typescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'typescript', 'syntax/yats/web-xhr.vim')
+  finish
+endif
 
 syntax keyword typescriptXHRGlobal containedin=typescriptIdentifierName XMLHttpRequest
 if exists("did_typescript_hilink") | HiLink typescriptXHRGlobal Structure
@@ -13,6 +15,4 @@ syntax keyword typescriptXHRMethod contained abort getAllResponseHeaders getResp
 syntax keyword typescriptXHRMethod contained open overrideMimeType send setRequestHeader nextgroup=typescriptFuncCallArg
 syntax cluster props add=typescriptXHRMethod
 if exists("did_typescript_hilink") | HiLink typescriptXHRMethod Keyword
-endif
-
 endif

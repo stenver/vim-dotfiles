@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'ocaml') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'ocaml', 'syntax/ocamlbuild_tags.vim')
+  finish
+endif
 
 if exists("b:current_syntax")
   finish
@@ -40,5 +42,3 @@ hi! link ocamlbuild_tagsComment Comment
 hi link ocamlbuild_tagsFindlibPkg Identifier
 
 let b:current_syntax = "ocamlbuild_tags"
-
-endif

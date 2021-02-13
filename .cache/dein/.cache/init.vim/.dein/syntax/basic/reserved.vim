@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'typescript') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'typescript', 'syntax/basic/reserved.vim')
+  finish
+endif
 
 syntax cluster typescriptStrings               contains=typescriptProp,typescriptString,typescriptTemplate,@typescriptComments,typescriptDocComment,typescriptRegexpString,typescriptPropertyName
 
@@ -31,5 +33,3 @@ syntax keyword typescriptReserved containedin=ALLBUT,@typescriptNoReserved volat
 syntax keyword typescriptReserved containedin=ALLBUT,@typescriptNoReserved class
 syntax keyword typescriptReserved containedin=ALLBUT,@typescriptNoReserved var
 syntax keyword typescriptReserved containedin=ALLBUT,@typescriptNoReserved function
-
-endif

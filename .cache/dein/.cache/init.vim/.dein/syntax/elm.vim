@@ -1,4 +1,6 @@
-if !exists('g:polyglot_disabled') || index(g:polyglot_disabled, 'elm') == -1
+if polyglot#init#is_disabled(expand('<sfile>:p'), 'elm', 'syntax/elm.vim')
+  finish
+endif
 
 " syntax highlighting for Elm (https://elm-lang.org/)
 
@@ -99,5 +101,3 @@ hi def link elmModule Type
 syn sync minlines=500
 
 let b:current_syntax = 'elm'
-
-endif
