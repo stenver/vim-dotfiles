@@ -200,7 +200,8 @@ if dein#load_state('/Users/stenver/.cache/dein')
   call dein#add('tpope/vim-commentary')
 
   "" Search for files
-  call dein#add('ctrlpvim/ctrlp.vim')
+  " call dein#add('ctrlpvim/ctrlp.vim')
+  call dein#add('junegunn/fzf')
 
   "" Color schemes
   call dein#add('flazz/vim-colorschemes')
@@ -515,17 +516,17 @@ let mapleader = "\<space>"
 "   \ 'dir':  'node_modules',
 "   \ }
 
-if executable('ag')
-  let g:ctrlp_root_markers = ['start', 'package.json']
-  let g:ctrlp_user_command = ['ag %s --files-with-matches -g "" --ignore tmp/*']
-  let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](doc|tmp|node_modules)',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ }
+" if executable('ag')
+"   let g:ctrlp_root_markers = ['start', 'package.json']
+"   let g:ctrlp_user_command = ['ag %s --files-with-matches -g "" --ignore tmp/*']
+"   let g:ctrlp_custom_ignore = {
+"   \ 'dir':  '\v[\/](doc|tmp|node_modules)',
+"   \ 'file': '\v\.(exe|so|dll)$',
+"   \ }
 
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
-endif
+"   " ag is fast enough that CtrlP doesn't need to cache
+"   let g:ctrlp_use_caching = 0
+" endif
 
 nnoremap <C-f> :Ack!<SPACE>
 nnoremap <leader>f :Ack! <C-R><C-W>
@@ -537,12 +538,11 @@ let g:ackprg = 'ag --vimgrep --smart-case'
 let g:ack_lhandler="copen"
 let g:ackhighlight=1
 
-" grep for the word under the cursor
-nnoremap <Leader>w :split <CR> :grep <cword> . <CR>
-
 " CtrlP
-let g:ctrlp_map = "<leader>p"
-let g:ctrlp_root_markers = ['start', 'package.json']
+" let g:ctrlp_map = "<leader>p"
+" let g:ctrlp_root_markers = ['start', 'package.json']
+" Fzf
+nmap <C-P> :FZF<CR>
 
 " Don't make a # force column zero.
 inoremap # X<BS>#
